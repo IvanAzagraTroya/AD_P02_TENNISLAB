@@ -20,6 +20,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:0.40.1")
 
     implementation("com.h2database:h2:2.1.214")
+
+    // gson
+    implementation("com.google.code.gson:gson:2.10")
 }
 
 tasks.test {
