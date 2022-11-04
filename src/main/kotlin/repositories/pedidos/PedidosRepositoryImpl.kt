@@ -12,6 +12,10 @@ class PedidosRepositoryImpl: IPedidosRepository {
         TODO("Not yet implemented")
     }
 
+    override fun getById(id: UUID): Pedido {
+        TODO("Not yet implemented")
+    }
+
     override fun update(entity: Pedido): Pedido {
         TODO("Not yet implemented")
     }
