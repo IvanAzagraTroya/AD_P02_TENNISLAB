@@ -12,10 +12,10 @@ abstract class Maquina(
     open var id: UUID = UUID.randomUUID()
 )
 {
-    private lateinit var modelo: String
-    private lateinit var marca: String
-    private lateinit var fechaAdquisicion: LocalDate
-    private lateinit var numeroSerie: String
+    lateinit var modelo: String
+    lateinit var marca: String
+    lateinit var fechaAdquisicion: LocalDate
+    lateinit var numeroSerie: String
 
     constructor(modelo: String, marca: String, fechaAdquisicion:LocalDate, numeroSerie: String) : this(){
         this.modelo = modelo
@@ -28,7 +28,7 @@ abstract class Maquina(
 object MaquinasTable: UUIDTable("Maquinas") {
     val modelo = varchar("modelo", 255)
     val marca = varchar("marca", 255)
-    val fechaAdquisicion: String? = date("fecha_adquisicion")
+    val fechaAdquisicion = date("fecha_adquisicion")
     val numeroSerie = varchar("numero_serie", 255)
 }
 
@@ -37,6 +37,6 @@ class MaquinasDao(id: EntityID<UUID>): UUIDEntity(id) {
 
     var modelo by MaquinasTable.modelo
     var marca by MaquinasTable.marca
-//    var fechaAdquisicion by MaquinasTable.fechaAdquisicion todo da error porque pide un String para la fecha :)
+    var fechaAdquisicion by MaquinasTable.fechaAdquisicion // todo da error porque pide un String para la fecha :)
     var numeroSerie by MaquinasTable.numeroSerie
 }

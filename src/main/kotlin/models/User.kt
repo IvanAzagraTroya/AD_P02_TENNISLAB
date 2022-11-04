@@ -6,17 +6,18 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.UUID
 
-abstract class User(
-    open val id:UUID = UUID.randomUUID()
+open class User(
+    open var id:UUID = UUID.randomUUID()
 ) {
-    private lateinit var nombre: String
-    private lateinit var apellido: String
-    private lateinit var telefono: String
-    private lateinit var email: String
-    private lateinit var contraseña: String
+    lateinit var nombre: String
+    lateinit var apellido: String
+    lateinit var telefono: String
+    lateinit var email: String
+    lateinit var contraseña: String
 
-    constructor(nombre: String, apellido: String,
+    constructor(id:UUID, nombre: String, apellido: String,
                 telefono: String, email: String, contraseña: String) : this(){
+        this.id = id
         this.nombre = nombre
         this.apellido = apellido
         this.telefono = telefono
@@ -30,7 +31,7 @@ object UserTable: UUIDTable("Users") {
     val apellido = varchar("apellido", 255)
     val telefono = varchar("telefono", 255)
     val email = varchar("email", 255)
-//    val contraseña = varchar("contrasenia", 255) todo codificación sha512
+    val contraseña = varchar("contrasenia", 255) //todo codificación sha512
 }
 
 class UsersDao(id: EntityID<UUID>): UUIDEntity(id) {
@@ -39,5 +40,5 @@ class UsersDao(id: EntityID<UUID>): UUIDEntity(id) {
     var apellido: String by UserTable.apellido
     var telefono: String by UserTable.telefono
     var email: String by UserTable.email
-//    var contraseña: String by UserTable.contraseña
+    var contraseña: String by UserTable.contraseña
 }
