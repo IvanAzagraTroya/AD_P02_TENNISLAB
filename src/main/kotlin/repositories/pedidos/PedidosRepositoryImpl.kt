@@ -1,6 +1,7 @@
 package repositories.pedidos
 
 import models.Pedido
+import org.jetbrains.exposed.dao.UUIDEntityClass
 import java.util.*
 
 class PedidosRepositoryImpl: IPedidosRepository {
@@ -20,7 +21,7 @@ class PedidosRepositoryImpl: IPedidosRepository {
         TODO("Not yet implemented")
     }
 
-    override fun delete(id: UUID): Boolean {
+    override fun delete(entity: Pedido): Boolean {
         TODO("Not yet implemented")
     }
 }
