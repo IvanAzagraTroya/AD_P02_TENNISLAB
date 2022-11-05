@@ -13,7 +13,7 @@ class PedidosRepositoryImpl: IPedidosRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getById(id: UUID): Pedido {
+    override fun findById(id: UUID): Pedido? {
         TODO("Not yet implemented")
     }
 
