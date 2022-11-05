@@ -7,7 +7,7 @@ import java.util.*
  * Clase abstracta de la entidad tarea con un identificador
  * y el producto que se pasará
  */
-
+// TODO revisar el funcionamiento de esta clase
 abstract class Tarea(
     open var id: UUID = UUID.randomUUID(),
     ){

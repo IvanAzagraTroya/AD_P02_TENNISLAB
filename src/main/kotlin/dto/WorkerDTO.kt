@@ -3,7 +3,7 @@ package dto
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import models.Maquina
-import models.Profile
+import models.enums.Profile
 import java.util.*
 
 class WorkerDTO() {

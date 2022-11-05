@@ -1,8 +1,8 @@
 package repositories.clientes
 
+import entities.UsersDao
 import mappers.fromUsersDaoToUser
 import models.User
-import models.UsersDao
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*

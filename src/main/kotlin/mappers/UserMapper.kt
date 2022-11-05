@@ -1,5 +1,7 @@
 package mappers
 
+import entities.UsersDao
+import entities.WorkerDao
 import models.User
 import models.UsersDao
 import models.Worker
@@ -18,7 +20,8 @@ fun UsersDao.fromUsersDaoToUser(): User {
         apellido =apellido,
         telefono = telefono,
         email = email,
-        contraseña = contraseña
+        contraseña = contraseña,
+        perfil = perfil
     )
 }
 

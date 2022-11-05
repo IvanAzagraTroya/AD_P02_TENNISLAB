@@ -13,16 +13,3 @@ data class Encordadora(
     val maxTension: Double,
     val minTension: Double
     ):Maquina(id)
-
-object EncordadoraTable: UUIDTable("Encordadora") {
-    val isManual= bool("is_manual")
-    val maxTension = double("max_tension")
-    val minTension = double("min_tension")
-}
-
-class EncordadoraDao(id: EntityID<UUID>): UUIDEntity(id) {
-    companion object : UUIDEntityClass<EncordadoraDao>(EncordadoraTable)
-    var isManual by EncordadoraTable.isManual
-    var maxTension by EncordadoraTable.maxTension
-    var minTension by EncordadoraTable.minTension
-}

@@ -1,5 +1,8 @@
 package mappers
 
+import entities.EncordadoraDao
+import entities.MaquinasDao
+import entities.PersonalizadoraDao
 import models.*
 
 /**
