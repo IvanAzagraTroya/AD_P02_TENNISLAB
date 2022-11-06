@@ -11,7 +11,7 @@ open class User(
     lateinit var telefono: String
     lateinit var email: String
     lateinit var contraseña: String
-    lateinit var  perfil: String
+    lateinit var perfil: String
 
     constructor(id:UUID, nombre: String, apellido: String,
                 telefono: String, email: String, contraseña: String, perfil: String
