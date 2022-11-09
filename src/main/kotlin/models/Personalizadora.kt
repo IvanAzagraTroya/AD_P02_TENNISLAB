@@ -8,8 +8,16 @@ import java.util.*
 import javax.swing.text.html.parser.Entity
 
 data class Personalizadora(
-    override var id: UUID,
-    val measuresManeuverability: Boolean,
-    val measuresBalance: Boolean,
-    val measuresRigidity: Boolean
-    ):Maquina(id)
+    override var id: UUID = UUID.randomUUID()
+    ):Maquina(id) {
+    var measuresManeuverability: Boolean = false
+    var measuresBalance: Boolean = false
+    var measuresRigidity: Boolean = false
+        constructor(measuresRigidity: Boolean, measuresManeuverability: Boolean, measuresBalance: Boolean
+        ): this() {
+            this.measuresRigidity = measuresRigidity
+            this.measuresBalance = measuresBalance
+            this.measuresManeuverability = measuresManeuverability
+
+        }
+    }

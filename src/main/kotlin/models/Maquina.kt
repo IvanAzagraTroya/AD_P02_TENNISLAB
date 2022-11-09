@@ -18,6 +18,7 @@ abstract class Maquina(
     lateinit var numeroSerie: String
 
     constructor(modelo: String, marca: String, fechaAdquisicion:LocalDate, numeroSerie: String) : this(){
+        this.id
         this.modelo = modelo
         this.marca = marca
         this.fechaAdquisicion = fechaAdquisicion

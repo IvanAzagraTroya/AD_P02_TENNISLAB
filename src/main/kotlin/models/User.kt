@@ -1,6 +1,5 @@
 package models
 
-import models.enums.Profile
 import java.util.UUID
 
 open class User(
@@ -13,10 +12,10 @@ open class User(
     lateinit var contraseña: String
     lateinit var  perfil: String
 
-    constructor(id:UUID, nombre: String, apellido: String,
+    constructor(nombre: String, apellido: String,
                 telefono: String, email: String, contraseña: String, perfil: String
     ) : this(){
-        this.id = id
+        this.id
         this.nombre = nombre
         this.apellido = apellido
         this.telefono = telefono

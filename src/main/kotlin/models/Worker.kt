@@ -8,9 +8,13 @@ import java.util.*
  */
 
 data class Worker(
-    override var id: UUID,
-    val maquina: Maquina,
-    val horaInicio: Int,
-    val horaFin: Int,
-    var numPedidos: Int = 0 // relación 0..2, por defecto hay 0 pedidos
-    ) :User(id)
+    override var id: UUID = UUID.randomUUID(),
+    ) :User(id) {
+    var maquina: Maquina()
+    var horaInicio: Int = 0
+    var horaFin: Int = 0
+    var numPedidos: Int = 0 // todo relación 0..2, por defecto hay 0 pedidos
+    constructor(maquina: Maquina, numPedidos: Int) :this() {
+
+    }
+}

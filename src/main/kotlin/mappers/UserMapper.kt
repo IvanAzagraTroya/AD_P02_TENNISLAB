@@ -3,9 +3,7 @@ package mappers
 import entities.UsersDao
 import entities.WorkerDao
 import models.User
-import models.UsersDao
 import models.Worker
-import models.WorkerDao
 
 /**
  * @author Iván Azagra Troya
