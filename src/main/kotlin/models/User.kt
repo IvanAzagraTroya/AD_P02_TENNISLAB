@@ -2,9 +2,8 @@ package models
 
 import java.util.UUID
 
-open class User(
-    open var id:UUID = UUID.randomUUID()
-) {
+class User() {
+    lateinit var id:UUID
     lateinit var nombre: String
     lateinit var apellido: String
     lateinit var telefono: String
@@ -12,10 +11,16 @@ open class User(
     lateinit var contraseña: String
     lateinit var perfil: String
 
-    constructor(nombre: String, apellido: String,
-                telefono: String, email: String, contraseña: String, perfil: String
+    constructor(
+        id: UUID?,
+        nombre: String,
+        apellido: String,
+        telefono: String,
+        email: String,
+        contraseña: String,
+        perfil: String
     ) : this(){
-        this.id
+        this.id = id ?: UUID.randomUUID()
         this.nombre = nombre
         this.apellido = apellido
         this.telefono = telefono

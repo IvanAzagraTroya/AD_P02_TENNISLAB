@@ -8,13 +8,29 @@ import java.util.*
  * y el producto que se pasará
  */
 // TODO revisar el funcionamiento de esta clase
-abstract class Tarea(
-    open var id: UUID = UUID.randomUUID(),
-    ){
+open class Tarea(){
+    open lateinit var id: UUID
+    lateinit var raqueta: Producto
+    open var precio: Double = 0.0
+    lateinit var user: User
+
+    constructor(
+        id: UUID?,
+        raqueta: Producto,
+        precio: Double?,
+        user: User
+    ) : this () {
+        this.id = id ?: UUID.randomUUID()
+        this.raqueta = raqueta
+        this.precio = precio ?: 0.0
+        this.user = user
+    }
+    /*
 //    lateinit var producto: Producto
     private lateinit var producto: List<Producto> // Creo que si la relación es 0..N
 //    puede haber entre 0 y varios, por lo que debería ser una lista de productos y no uno solo
     constructor(producto: List<Producto>) : this(){
         this.producto = producto
     }
+     */
 }

@@ -2,12 +2,49 @@ package models
 
 import java.util.*
 
-data class Encordado(
-    override var id: UUID,
-    val tensionHorizontal: Double,
-    val cordajeHorizontal: Producto,
-    val tensionVertical: Double,
-    val cordajeVertical: Producto,
-    val dosNudos: Boolean,
-    val precio: Double = 15.0
-):Tarea(id)
+class Encordado():Tarea() {
+    override var id: UUID = super.id
+    var tensionHorizontal: Double = 0.0
+    lateinit var cordajeHorizontal: Producto
+    var tensionVertical: Double = 0.0
+    lateinit var cordajeVertical: Producto
+    var dosNudos: Boolean = false
+
+    constructor(
+        id: UUID?,
+        raqueta: Producto,
+        user: User,
+        tensionHorizontal: Double,
+        cordajeHorizontal: Producto,
+        tensionVertical: Double,
+        cordajeVertical: Producto,
+        dosNudos: Boolean
+    ) : this() {
+        this.id = id ?: UUID.randomUUID()
+        this.raqueta = raqueta
+        this.user = user
+        this.tensionHorizontal = tensionHorizontal
+        this.tensionVertical = tensionVertical
+        this.cordajeHorizontal = cordajeHorizontal
+        this.cordajeVertical = cordajeVertical
+        this.dosNudos = dosNudos
+        this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
+    }
+
+    constructor(
+        id: UUID?,
+        tensionHorizontal: Double,
+        cordajeHorizontal: Producto,
+        tensionVertical: Double,
+        cordajeVertical: Producto,
+        dosNudos: Boolean
+    ) : this() {
+        this.id = id ?: UUID.randomUUID()
+        this.tensionHorizontal = tensionHorizontal
+        this.tensionVertical = tensionVertical
+        this.cordajeHorizontal = cordajeHorizontal
+        this.cordajeVertical = cordajeVertical
+        this.dosNudos = dosNudos
+        this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
+    }
+}

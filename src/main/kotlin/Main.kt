@@ -8,4 +8,5 @@ fun main(args: Array<String>) {
 //    Por algún motivo solo deja llamar al Database desde main
     Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver")
 
+    //TODO: REHACER LOS DTOS Y MODIFICAR SERVICIOS Y CONTROLADORES
 }
