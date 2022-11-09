@@ -2,10 +2,39 @@ package models
 
 import java.util.*
 
-data class Personalizacion(
-    override var id: UUID,
-    val peso: Double,
-    val balance: Double,
-    val rigidez: Double,
-    val precio: Double = 60.0
-): Tarea(id)
+class Personalizacion(): Tarea() {
+    override var id: UUID = super.id
+    var peso: Int = 0
+    var balance: Double = 0.0
+    var rigidez: Int = 0
+
+    constructor(
+        id: UUID?,
+        raqueta: Producto,
+        user: User,
+        peso: Int,
+        balance: Double,
+        rigidez: Int
+    ) : this() {
+        this.id = id ?: UUID.randomUUID()
+        this.raqueta = raqueta
+        this.user = user
+        this.peso = peso
+        this.balance = balance
+        this.rigidez = rigidez
+        this.precio = 60.0
+    }
+
+    constructor(
+        id: UUID?,
+        peso: Int,
+        balance: Double,
+        rigidez: Int
+    ) : this() {
+        this.id = id ?: UUID.randomUUID()
+        this.peso = peso
+        this.balance = balance
+        this.rigidez = rigidez
+        this.precio = 60.0
+    }
+}

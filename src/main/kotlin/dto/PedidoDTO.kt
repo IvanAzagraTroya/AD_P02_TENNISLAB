@@ -2,10 +2,10 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import models.Estado
 import models.Maquina
 import models.Tarea
 import models.User
+import models.enums.PedidoEstado
 import java.time.LocalDate
 import java.util.UUID
 
@@ -14,7 +14,7 @@ class PedidoDTO() {
     lateinit var tareas: List<Tarea>
     lateinit var client: User
     lateinit var worker: User
-    lateinit var state: Estado
+    lateinit var state: PedidoEstado
     lateinit var maquina: Maquina
     lateinit var fechaEntrada: LocalDate
     lateinit var fechaProgramada: LocalDate
@@ -27,7 +27,7 @@ class PedidoDTO() {
         tareas: List<Tarea>?,
         client: User,
         worker: User,
-        state: Estado,
+        state: PedidoEstado,
         maquina: Maquina,
         fechaEntrada: LocalDate?,
         fechaProgramada: LocalDate,

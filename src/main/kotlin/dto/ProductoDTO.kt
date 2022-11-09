@@ -2,7 +2,7 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import models.TipoProducto
+import models.enums.TipoProducto
 import java.util.UUID
 
 class ProductoDTO() {

@@ -1,23 +1,42 @@
 package models
 
-import org.jetbrains.exposed.dao.UUIDEntity
-import org.jetbrains.exposed.dao.UUIDEntityClass
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.UUIDTable
-import java.util.*
-import javax.swing.text.html.parser.Entity
+import java.time.LocalDate
+import java.util.UUID
 
-data class Personalizadora(
-    override var id: UUID = UUID.randomUUID()
-    ):Maquina(id) {
+class Personalizadora(): Maquina() {
+    override var id = super.id
     var measuresManeuverability: Boolean = false
     var measuresBalance: Boolean = false
     var measuresRigidity: Boolean = false
-        constructor(measuresRigidity: Boolean, measuresManeuverability: Boolean, measuresBalance: Boolean
-        ): this() {
-            this.measuresRigidity = measuresRigidity
-            this.measuresBalance = measuresBalance
-            this.measuresManeuverability = measuresManeuverability
-
-        }
+    constructor(
+        id: UUID?,
+        modelo: String,
+        marca: String,
+        fechaAdquisicion: LocalDate?,
+        numeroSerie: String,
+        measuresRigidity: Boolean,
+        measuresManeuverability: Boolean,
+        measuresBalance: Boolean
+    ): this() {
+        this.id = id ?: UUID.randomUUID()
+        this.modelo = modelo
+        this.marca = marca
+        this.fechaAdquisicion = fechaAdquisicion ?: LocalDate.now()
+        this.numeroSerie = numeroSerie
+        this.measuresRigidity = measuresRigidity
+        this.measuresBalance = measuresBalance
+        this.measuresManeuverability = measuresManeuverability
     }
+
+    constructor(
+        id: UUID?,
+        measuresRigidity: Boolean,
+        measuresManeuverability: Boolean,
+        measuresBalance: Boolean
+    ) : this() {
+        this.id = id ?: UUID.randomUUID()
+        this.measuresRigidity = measuresRigidity
+        this.measuresBalance = measuresBalance
+        this.measuresManeuverability = measuresManeuverability
+    }
+}

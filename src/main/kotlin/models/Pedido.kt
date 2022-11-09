@@ -4,30 +4,39 @@ import models.enums.PedidoEstado
 import java.time.LocalDate
 import java.util.*
 
-data class Pedido(
-    val id: UUID = UUID.randomUUID(),
-) {
+class Pedido() {
+    lateinit var id: UUID
     lateinit var tareas: List<Tarea>
     lateinit var client: User
+    lateinit var turnos: List<Turno>
     lateinit var state: PedidoEstado
-    lateinit var maquina: Maquina
     lateinit var fechaEntrada: LocalDate
     lateinit var fechaProgramada: LocalDate
     lateinit var fechaSalida: LocalDate
-    var fechaEntrega: LocalDate = fechaSalida // todo Pone que en principio tendrán que ser la misma fecha y que más adelante se actualizará a la que termine siendo
+    lateinit var fechaEntrega: LocalDate // todo Pone que en principio tendrán que ser la misma fecha y que más adelante se actualizará a la que termine siendo
     var precio: Double = 0.0
 
-    constructor(tareas: List<Tarea>, client: User, state: PedidoEstado, maquina: Maquina, fechaEntrada: LocalDate, fechaProgramada: LocalDate, fechaSalida: LocalDate, fechaEntrega: LocalDate = fechaSalida, precio: Double
+    constructor(
+        id: UUID?,
+        tareas: List<Tarea>,
+        client: User,
+        turnos: List<Turno>,
+        state: PedidoEstado,
+        fechaEntrada: LocalDate?,
+        fechaProgramada: LocalDate,
+        fechaSalida: LocalDate,
+        fechaEntrega: LocalDate?,
+        precio: Double
     ): this() {
-        this.id
+        this.id = id ?: UUID.randomUUID()
         this.tareas = tareas
         this.client = client
+        this.turnos = turnos
         this.state = state
-        this.maquina = maquina
-        this.fechaEntrada = fechaEntrada
+        this.fechaEntrada = fechaEntrada ?: LocalDate.now()
         this.fechaProgramada = fechaProgramada
         this.fechaSalida = fechaSalida
-        this.fechaEntrega = fechaEntrega
+        this.fechaEntrega = fechaEntrega ?: fechaSalida
         this.precio = precio
     }
 }
