@@ -4,18 +4,20 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import models.Maquina
 import models.Tarea
+import models.Turno
 import models.User
 import models.enums.PedidoEstado
+import util.toLocalDate
+import util.toLocalMoney
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 class PedidoDTO() {
     lateinit var id: UUID
     lateinit var tareas: List<Tarea>
     lateinit var client: User
-    lateinit var worker: User
+    lateinit var turnos: List<Turno>
     lateinit var state: PedidoEstado
-    lateinit var maquina: Maquina
     lateinit var fechaEntrada: LocalDate
     lateinit var fechaProgramada: LocalDate
     lateinit var fechaSalida: LocalDate
@@ -26,26 +28,23 @@ class PedidoDTO() {
         id: UUID?,
         tareas: List<Tarea>?,
         client: User,
-        worker: User,
+        turnos: List<Turno>?,
         state: PedidoEstado,
-        maquina: Maquina,
         fechaEntrada: LocalDate?,
         fechaProgramada: LocalDate,
         fechaSalida: LocalDate,
-        fechaEntrega: LocalDate?,
-        precio: Double
+        fechaEntrega: LocalDate?
     ) : this() {
         this.id = id ?: UUID.randomUUID()
         this.tareas = tareas ?: listOf()
         this.client = client
-        this.worker = worker
+        this.turnos = turnos ?: listOf()
         this.state = state
-        this.maquina = maquina
         this.fechaEntrada = fechaEntrada ?: LocalDate.now()
         this.fechaProgramada = fechaProgramada
         this.fechaSalida = fechaSalida
         this.fechaEntrega = fechaEntrega ?: fechaSalida
-        this.precio = precio
+        this.precio = this.tareas.sumOf { it.precio }
     }
 
     fun fromJSON(json: String): PedidoDTO? {
@@ -54,5 +53,18 @@ class PedidoDTO() {
 
     fun toJSON(): String {
         return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    }
+
+    override fun toString(): String {
+        return "Pedido(id=$id, " +
+                "tareas=$tareas, " +
+                "client=$client, " +
+                "turnos=$turnos, " +
+                "state=$state, " +
+                "fechaEntrada=${fechaEntrada.toLocalDate(Locale("es", "ES"))}, " +
+                "fechaProgramada=${fechaProgramada.toLocalDate(Locale("es", "ES"))}, " +
+                "fechaSalida=${fechaSalida.toLocalDate(Locale("es", "ES"))}, " +
+                "fechaEntrega=${fechaEntrega.toLocalDate(Locale("es", "ES"))}, " +
+                "precio=${precio.toLocalMoney(Locale("es", "ES"))})"
     }
 }

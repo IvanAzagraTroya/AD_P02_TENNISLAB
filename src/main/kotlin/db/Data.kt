@@ -4,10 +4,12 @@ import models.*
 import models.enums.PedidoEstado
 import models.enums.TipoProducto
 import java.time.LocalDate
+import java.util.*
 
 
 fun getUsers() = listOf(
     User(
+        id = UUID.randomUUID(),
         nombre = "Luis",
         apellido = "Martinez",
         telefono = "632950281",
@@ -16,6 +18,7 @@ fun getUsers() = listOf(
         perfil = "WORKER"
     ),
     User(
+        id = UUID.randomUUID(),
         nombre = "Maria",
         apellido = "Martinez",
         telefono = "632120281",
@@ -24,6 +27,7 @@ fun getUsers() = listOf(
         perfil = "CLIENT"
     ),
     User(
+        id = UUID.randomUUID(),
         nombre = "Admin",
         apellido = "Administrador",
         telefono = "000000000",
@@ -32,6 +36,7 @@ fun getUsers() = listOf(
         perfil = "ADMIN"
     )
 )
+/*
 // todo hasta que no esté hecho lo de los horarios no puedo hacer esto
 fun getWorkers() = listOf(
     Worker(
@@ -40,8 +45,11 @@ fun getWorkers() = listOf(
     )
 )
 
+ */
+
 fun getProducts() = listOf(
     Producto(
+        id = UUID.randomUUID(),
         tipoProducto = TipoProducto.RAQUETAS,
         marca = "unaMarcaDePrueba",
         modelo = "unModeloDePrueba",
@@ -49,6 +57,7 @@ fun getProducts() = listOf(
         stock = 5
     ),
     Producto(
+        id = UUID.randomUUID(),
         tipoProducto = TipoProducto.ANTIVIBRADORES,
         marca = "antivibradorBranding",
         modelo = "antivibradorModel",
@@ -56,6 +65,7 @@ fun getProducts() = listOf(
         stock = 23
     ),
     Producto(
+        id = UUID.randomUUID(),
         tipoProducto = TipoProducto.FUNDAS,
         marca = "fundaBrand",
         modelo = "fundaModel",
@@ -66,16 +76,19 @@ fun getProducts() = listOf(
 
 fun getPersonalizadora() = listOf(
     Personalizadora(
+        id = UUID.randomUUID(),
         measuresManeuverability = false,
         measuresBalance = true,
         measuresRigidity = true
     ),
     Personalizadora(
+        id = UUID.randomUUID(),
         measuresManeuverability = true,
         measuresBalance = false,
         measuresRigidity = true
     ),
     Personalizadora(
+        id = UUID.randomUUID(),
         measuresManeuverability = false,
         measuresBalance = true,
         measuresRigidity = false
@@ -84,37 +97,43 @@ fun getPersonalizadora() = listOf(
 
 fun getMaquina() = listOf(
     Maquina(
+        id = UUID.randomUUID(),
         modelo = "unModelitoMaquinon",
         marca = "unaMarcaMaquinona",
-        fecha = LocalDate.now(),
+        fechaAdquisicion = LocalDate.now(),
         numeroSerie = "1123abc45de"
     ),
     Maquina(
+        id = UUID.randomUUID(),
         modelo = "unModelitoMaquinon2",
         marca = "unaMarcaMaquinona2",
-        fecha = LocalDate.now(),
+        fechaAdquisicion = LocalDate.now(),
         numeroSerie = "2123abc45de2"
     ),
     Maquina(
+        id = UUID.randomUUID(),
         modelo = "unModelitoMaquinon3",
         marca = "unaMarcaMaquinona3",
-        fecha = LocalDate.now(),
+        fechaAdquisicion = LocalDate.now(),
         numeroSerie = "3123abc45de3"
     )
 )
 
 fun getEncordadora() = listOf(
     Encordadora(
+        id = UUID.randomUUID(),
         isManual = false,
         maxTension = 12.7,
         minTension = 7.3
     ),
     Encordadora(
+        id = UUID.randomUUID(),
         isManual = true,
         maxTension = 20.0,
         minTension = 10.0
     ),
     Encordadora(
+        id = UUID.randomUUID(),
         isManual = true,
         maxTension = 15.2,
         minTension = 5.2
@@ -123,14 +142,14 @@ fun getEncordadora() = listOf(
 
 fun getPedidos() = listOf(
     Pedido(
+        id = UUID.randomUUID(),
         tareas = listOf<Tarea>(),
         client = User(),
+        turnos = listOf<Turno>(),
         state = PedidoEstado.PROCESO,
-        maquina = Maquina(),
         fechaEntrada = LocalDate.now(),
         fechaProgramada = LocalDate.of(2023, 3, 10),
         fechaSalida = LocalDate.of(2023, 3, 1),
-        fechaEntrega = LocalDate.of(2023, 4, 1),
-        precio = 200.5
+        fechaEntrega = LocalDate.of(2023, 4, 1)
     )
 )

@@ -39,4 +39,12 @@ class UserDTO() {
     fun toJSON(): String {
         return GsonBuilder().setPrettyPrinting().create().toJson(this)
     }
+
+    override fun toString(): String {
+        return "User(id=$id, " +
+                "nombre=$nombre, " +
+                "apellido=$apellido, " +
+                "email=$email, " +
+                "perfil=$perfil)"
+    }
 }

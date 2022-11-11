@@ -2,8 +2,9 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import util.toLocalDate
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 class EncordadoraDTO() {
     lateinit var id: UUID
@@ -41,5 +42,17 @@ class EncordadoraDTO() {
 
     fun toJSON(): String {
         return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    }
+
+    override fun toString(): String {
+        return "Maquina(id=$id, " +
+                "tipo=Encordadora, " +
+                "modelo=$modelo, " +
+                "marca=$marca, " +
+                "fechaAdquisicion=${fechaAdquisicion.toLocalDate(Locale("es", "ES"))}, " +
+                "numeroSerie=$numeroSerie, " +
+                "isManual=$isManual, " +
+                "maxTension=$maxTension Kg, " +
+                "minTension=$minTension Kg)"
     }
 }

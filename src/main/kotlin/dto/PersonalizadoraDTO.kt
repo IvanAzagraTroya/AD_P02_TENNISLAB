@@ -2,8 +2,9 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import util.toLocalDate
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 class PersonalizadoraDTO() {
     lateinit var id: UUID
@@ -41,5 +42,17 @@ class PersonalizadoraDTO() {
 
     fun toJSON(): String {
         return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    }
+
+    override fun toString(): String {
+        return "Maquina(id=$id, " +
+                "tipo=Personalizadora, " +
+                "modelo=$modelo, " +
+                "marca=$marca, " +
+                "fechaAdquisicion=${fechaAdquisicion.toLocalDate(Locale("es", "ES"))}, " +
+                "numeroSerie=$numeroSerie, " +
+                "measuresManeuverability=$measuresManeuverability, " +
+                "measuresBalance=$measuresBalance, " +
+                "measuresRigidity=$measuresRigidity)"
     }
 }

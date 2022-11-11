@@ -1,5 +1,6 @@
 package repositories.clientes
 
+/*
 import entities.UsersDao
 import mappers.fromUsersDaoToUser
 import models.User
@@ -62,3 +63,5 @@ class ClientesRepositoryImpl(
         true
     }
 }
+
+ */
