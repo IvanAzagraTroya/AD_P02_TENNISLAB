@@ -1,5 +1,6 @@
 package mappers
 
+/*
 import entities.UsersDao
 import entities.WorkerDao
 import models.User
@@ -34,3 +35,5 @@ fun WorkerDao.fromWorkerDaoToWorker(): Worker {
 
     )
 }
+
+ */

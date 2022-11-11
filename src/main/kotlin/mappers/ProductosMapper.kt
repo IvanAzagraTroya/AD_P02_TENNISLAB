@@ -1,5 +1,5 @@
 package mappers
-
+/*
 import models.Producto
 import models.ProductoDao
 import models.TipoProducto
@@ -14,3 +14,5 @@ fun ProductoDao.fromProductoDaoToProducto(): Producto{
         stock = stock
     )
 }
+
+ */

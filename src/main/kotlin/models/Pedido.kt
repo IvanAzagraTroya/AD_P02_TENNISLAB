@@ -25,8 +25,7 @@ class Pedido() {
         fechaEntrada: LocalDate?,
         fechaProgramada: LocalDate,
         fechaSalida: LocalDate,
-        fechaEntrega: LocalDate?,
-        precio: Double
+        fechaEntrega: LocalDate?
     ): this() {
         this.id = id ?: UUID.randomUUID()
         this.tareas = tareas
@@ -37,6 +36,6 @@ class Pedido() {
         this.fechaProgramada = fechaProgramada
         this.fechaSalida = fechaSalida
         this.fechaEntrega = fechaEntrega ?: fechaSalida
-        this.precio = precio
+        this.precio = tareas.sumOf { it.precio }
     }
 }

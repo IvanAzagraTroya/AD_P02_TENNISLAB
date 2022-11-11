@@ -3,7 +3,8 @@ package dto
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import models.enums.TipoProducto
-import java.util.UUID
+import util.toLocalMoney
+import java.util.*
 
 class ProductoDTO() {
     lateinit var id: UUID
@@ -35,5 +36,14 @@ class ProductoDTO() {
 
     fun toJSON(): String {
         return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    }
+
+    override fun toString(): String {
+        return "Producto(id=$id, " +
+                "tipo=$tipoProducto, " +
+                "marca=$marca, " +
+                "modelo=$modelo, " +
+                "precio=${precio.toLocalMoney(Locale("es", "ES"))}, " +
+                "stock=$stock)"
     }
 }
