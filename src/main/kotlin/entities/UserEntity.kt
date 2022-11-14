@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
-object UserTable: UUIDTable("Users") {
+object UserTable: UUIDTable("USERS") {
     val nombre = varchar("nombre", 255)
     val apellido = varchar("apellido", 255)
     val telefono = varchar("telefono", 255)

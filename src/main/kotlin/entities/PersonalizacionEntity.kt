@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
-object PersonalizacionTable: UUIDTable("Personalizaciones") {
+object PersonalizacionTable: UUIDTable("PERSONALIZACIONES") {
     val peso = integer("peso")
     val balance = double("balance")
     val rigidez = integer("rigidez")
