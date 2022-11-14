@@ -7,18 +7,18 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.date
 import java.util.*
 
-object MaquinasTable: UUIDTable("MAQUINAS") {
+object MaquinaTable: UUIDTable("MAQUINAS") {
     val modelo = varchar("modelo", 255)
     val marca = varchar("marca", 255)
     val fechaAdquisicion = date("fecha_adquisicion")
     val numeroSerie = varchar("numero_serie", 255)
 }
 
-class MaquinasDao(id: EntityID<UUID>): UUIDEntity(id) {
-    companion object : UUIDEntityClass<MaquinasDao>(MaquinasTable)
+class MaquinaDao(id: EntityID<UUID>): UUIDEntity(id) {
+    companion object : UUIDEntityClass<MaquinaDao>(MaquinaTable)
 
-    var modelo by MaquinasTable.modelo
-    var marca by MaquinasTable.marca
-    var fechaAdquisicion by MaquinasTable.fechaAdquisicion
-    var numeroSerie by MaquinasTable.numeroSerie
+    var modelo by MaquinaTable.modelo
+    var marca by MaquinaTable.marca
+    var fechaAdquisicion by MaquinaTable.fechaAdquisicion
+    var numeroSerie by MaquinaTable.numeroSerie
 }

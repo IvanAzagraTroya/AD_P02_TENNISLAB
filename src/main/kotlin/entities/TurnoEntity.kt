@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.util.*
 
-object TurnoTable: UUIDTable("Turnos") {
+object TurnoTable: UUIDTable("TURNOS") {
     val worker = reference("user_id", UserTable)
     val maquina = reference("maquina_id", MaquinaTable)
     val horaInicio = datetime("hora_inicio")
