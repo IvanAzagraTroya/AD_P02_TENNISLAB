@@ -7,9 +7,9 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
 object PersonalizadoraTable: UUIDTable("PERSONALIZADORAS") {
-    val measuresManeuverability = bool("mide_aniobrabilidad")
-    val measuresBalance = bool("mide_alance")
-    val measuresRigidity = bool("mide_igidez")
+    val measuresManeuverability = bool("mide_maniobrabilidad")
+    val measuresBalance = bool("mide_balance")
+    val measuresRigidity = bool("mide_rigidez")
 }
 
 class PersonalizadoraDao(id: EntityID<UUID>): UUIDEntity(id) {
