@@ -24,6 +24,9 @@ dependencies {
 
     // gson
     implementation("com.google.code.gson:gson:2.10")
+
+    //encriptar
+    implementation("org.abstractj.kalium:kalium:0.8.0")
 }
 
 tasks.test {
