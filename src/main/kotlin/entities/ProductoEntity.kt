@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
-object ProductoTable: UUIDTable("Productos") {
+object ProductoTable: UUIDTable("PRODUCTOS") {
     val tipoProducto = varchar("tipo_producto", 255)
     val marca = varchar("marca", 255)
     val modelo = varchar("modelo", 255)
