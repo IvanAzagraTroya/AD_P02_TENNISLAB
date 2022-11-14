@@ -8,7 +8,7 @@ class User() {
     lateinit var apellido: String
     lateinit var telefono: String
     lateinit var email: String
-    lateinit var contraseña: String
+    lateinit var password: String
     lateinit var perfil: String
 
     constructor(
@@ -17,7 +17,7 @@ class User() {
         apellido: String,
         telefono: String,
         email: String,
-        contraseña: String,
+        password: String,
         perfil: String
     ) : this(){
         this.id = id ?: UUID.randomUUID()
@@ -25,7 +25,7 @@ class User() {
         this.apellido = apellido
         this.telefono = telefono
         this.email = email
-        this.contraseña = contraseña
+        this.password = password
         this.perfil = perfil
     }
 }

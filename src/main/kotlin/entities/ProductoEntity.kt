@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
-object ProductoTable: UUIDTable() {
+object ProductoTable: UUIDTable("Productos") {
     val tipoProducto = varchar("tipo_producto", 255)
     val marca = varchar("marca", 255)
     val modelo = varchar("modelo", 255)
@@ -16,7 +16,6 @@ object ProductoTable: UUIDTable() {
 
 class ProductoDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object: UUIDEntityClass<ProductoDao>(ProductoTable)
-
     var tipoProducto by ProductoTable.tipoProducto
     var marca by ProductoTable.marca
     var modelo by ProductoTable.modelo
