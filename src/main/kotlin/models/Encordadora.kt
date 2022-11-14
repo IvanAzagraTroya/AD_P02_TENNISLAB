@@ -5,9 +5,9 @@ import java.util.*
 
 class Encordadora():Maquina() {
     override var id = super.id
-    var isManual: Boolean = false
-    var maxTension: Double = 0.0
-    var minTension: Double = 0.0
+    private var isManual: Boolean = false
+    private var maxTension: Double = 0.0
+    private var minTension: Double = 0.0
     constructor(
         id: UUID?,
         modelo: String,

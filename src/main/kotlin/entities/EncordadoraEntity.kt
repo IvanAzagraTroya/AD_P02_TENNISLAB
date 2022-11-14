@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
-object EncordadoraTable: UUIDTable("Encordadora") {
+object EncordadoraTable: UUIDTable("ENCORDADORAS") {
     val isManual= bool("is_manual")
     val maxTension = double("max_tension")
     val minTension = double("min_tension")
