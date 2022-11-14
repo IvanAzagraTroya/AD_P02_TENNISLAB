@@ -1,10 +1,10 @@
 package mappers
 
-/*
-import entities.UsersDao
-import entities.WorkerDao
+import dto.UserDTO
+import entities.UserDao
 import models.User
-import models.Worker
+import models.enums.Profile
+import util.encode
 
 /**
  * @author Iván Azagra Troya
@@ -12,28 +12,40 @@ import models.Worker
  * para devolver la entidades de la clase User
  */
 
-fun UsersDao.fromUsersDaoToUser(): User {
+fun UserDao.fromUserDaoToUser(): User {
     return User(
         id = id.value,
         nombre = nombre,
         apellido =apellido,
         telefono = telefono,
         email = email,
-        contraseña = contraseña,
+        password = password,
         perfil = perfil
     )
 }
 
-// todo frommaquinadao devuelve unit y no sé por qué!!!!!!!!
-fun WorkerDao.fromWorkerDaoToWorker(): Worker {
-    return Worker(
-        id = id.value,
-        maquina = maquina.fromMaquinasDaoToMaquinas(),
-        horaInicio = horaInicio,
-        horaFin = horaFin,
-        numPedidos = numPedidos
+class UserMapper: BaseMapper<User, UserDTO>() {
+    override fun fromDTO(item: UserDTO): User {
+        return User(
+            id = item.id,
+            nombre = item.nombre,
+            apellido = item.apellido,
+            telefono = item.telefono,
+            email = item.email,
+            password = encode(item.password),
+            perfil = item.perfil.name
+        )
+    }
 
-    )
+    override fun toDTO(item: User): UserDTO {
+        return UserDTO(
+            id = item.id,
+            nombre = item.nombre,
+            apellido = item.apellido,
+            telefono = item.telefono,
+            email = item.email,
+            password = item.password,
+            perfil = Profile.parseProfile(item.perfil)
+        )
+    }
 }
-
- */
