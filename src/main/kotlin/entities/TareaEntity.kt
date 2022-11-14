@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
 object TareaTable: UUIDTable("TAREAS") {
-    val raqueta = reference("producto_id", ProductoTable)
+    val raqueta = reference("raqueta_id", ProductoTable)
     val precio = double("precio")
     val user = reference("user_id", UserTable)
 }
