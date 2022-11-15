@@ -14,6 +14,6 @@ object AdquisicionTable: UUIDTable("ADQUISICIONES") {
 class AdquisicionDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<AdquisicionDao>(AdquisicionTable)
 
-    var productoAdquirido by AdquisicionTable.productoAdquirido
+    var productoAdquirido by ProductoDao referencedOn AdquisicionTable.productoAdquirido
     var precio by AdquisicionTable.precio
 }

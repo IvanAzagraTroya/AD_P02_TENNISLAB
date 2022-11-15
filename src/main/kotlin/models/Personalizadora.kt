@@ -1,5 +1,6 @@
 package models
 
+import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.UUID
 
@@ -26,6 +27,7 @@ class Personalizadora(): Maquina() {
         this.measuresRigidity = measuresRigidity
         this.measuresBalance = measuresBalance
         this.measuresManeuverability = measuresManeuverability
+        this.tipoMaquina = TipoMaquina.PERSONALIZADORA
     }
 
     constructor(
@@ -38,5 +40,6 @@ class Personalizadora(): Maquina() {
         this.measuresRigidity = measuresRigidity
         this.measuresBalance = measuresBalance
         this.measuresManeuverability = measuresManeuverability
+        this.tipoMaquina = TipoMaquina.PERSONALIZADORA
     }
 }

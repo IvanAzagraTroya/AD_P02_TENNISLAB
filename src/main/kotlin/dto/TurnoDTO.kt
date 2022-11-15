@@ -21,6 +21,7 @@ class TurnoDTO() {
         worker: User,
         maquina: Maquina,
         horaInicio: LocalDateTime,
+        horaFin: LocalDateTime?,
         tarea1: Tarea?,
         tarea2: Tarea?
     ) : this() {
@@ -28,8 +29,7 @@ class TurnoDTO() {
         this.worker = worker
         this.maquina = maquina
         this.horaInicio = horaInicio
-        // Asi los turnos duran 4 horas siempre.
-        this.horaFin = this.horaInicio.plusHours(4L)
+        this.horaFin = horaFin ?: this.horaInicio.plusHours(4L)
         this.tarea1 = tarea1
         this.tarea2 = tarea2
 

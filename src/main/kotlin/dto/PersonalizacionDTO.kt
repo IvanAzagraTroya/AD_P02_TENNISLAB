@@ -7,22 +7,22 @@ import models.User
 import util.toLocalMoney
 import java.util.*
 
-class PersonalizacionDTO() {
+class PersonalizacionDTO(): TareaDTO {
     lateinit var id: UUID
     lateinit var raqueta: Producto
     lateinit var user: User
-    var peso: Double = 0.0
+    var peso: Int = 0
     var balance: Double = 0.0
-    var rigidez: Double = 0.0
+    var rigidez: Int = 0
     val precio: Double = 60.0
 
     constructor(
         id: UUID?,
         raqueta: Producto,
         user: User,
-        peso: Double,
+        peso: Int,
         balance: Double,
-        rigidez: Double
+        rigidez: Int
     ) : this() {
         this.id = id ?: UUID.randomUUID()
         this.raqueta = raqueta

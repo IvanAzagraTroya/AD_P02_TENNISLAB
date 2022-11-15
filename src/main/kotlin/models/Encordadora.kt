@@ -1,13 +1,14 @@
 package models
 
+import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.*
 
 class Encordadora():Maquina() {
     override var id = super.id
-    private var isManual: Boolean = false
-    private var maxTension: Double = 0.0
-    private var minTension: Double = 0.0
+    var isManual: Boolean = false
+    var maxTension: Double = 0.0
+    var minTension: Double = 0.0
     constructor(
         id: UUID?,
         modelo: String,
@@ -26,6 +27,7 @@ class Encordadora():Maquina() {
         this.isManual = isManual
         this.maxTension = maxTension
         this.minTension = minTension
+        this.tipoMaquina = TipoMaquina.ENCORDADORA
     }
 
     constructor(
@@ -38,5 +40,6 @@ class Encordadora():Maquina() {
         this.isManual = isManual
         this.maxTension = maxTension
         this.minTension = minTension
+        this.tipoMaquina = TipoMaquina.ENCORDADORA
     }
 }

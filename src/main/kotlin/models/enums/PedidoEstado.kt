@@ -11,12 +11,12 @@ enum class PedidoEstado(value: String){
     TERMINADO("TERMINADO");
 
     companion object {
-        fun parseTipoProducto(value: String): PedidoEstado {
+        fun parseTipoEstado(value: String): PedidoEstado {
             return when (value) {
                 "RECIBIDO" -> RECIBIDO
                 "PROCESO" -> PROCESO
                 "TERMINADO" -> TERMINADO
-                else -> throw IllegalArgumentException("Ese tipo de producto no existe")
+                else -> throw IllegalArgumentException("Unknown status: $value")
             }
         }
     }
