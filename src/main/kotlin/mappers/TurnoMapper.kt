@@ -14,9 +14,8 @@ fun TurnoDao.fromTurnoDaoToTurno(): Turno {
         maquina = maquina.fromMaquinaDaoToMaquina(),
         horaInicio = horaInicio,
         horaFin = horaFin,
-        numPedidosActivos = numPedidosActivos,
-        tarea1 = if (tarea1==null) null else tareaRepo.getById(tarea1),
-        tarea2 = if (tarea2==null) null else tareaRepo.getById(tarea2)
+        tarea1 = if (tarea1!=null) tareaRepo.findById(tarea1!!.value) else null,
+        tarea2 = if (tarea2!=null) tareaRepo.findById(tarea2!!.value) else null
     )
 }
 
