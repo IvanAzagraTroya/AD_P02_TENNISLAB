@@ -1,8 +1,7 @@
 package mappers
-/*
+import entities.ProductoDao
 import models.Producto
-import models.ProductoDao
-import models.TipoProducto
+import models.enums.TipoProducto
 
 fun ProductoDao.fromProductoDaoToProducto(): Producto{
     return Producto(
@@ -15,4 +14,3 @@ fun ProductoDao.fromProductoDaoToProducto(): Producto{
     )
 }
 
- */

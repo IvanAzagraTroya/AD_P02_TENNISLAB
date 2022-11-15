@@ -1,7 +1,7 @@
 package mappers
 
 import entities.EncordadoraDao
-import entities.MaquinasDao
+import entities.MaquinaDao
 import entities.PersonalizadoraDao
 import models.*
 
@@ -11,11 +11,9 @@ import models.*
  * de las diferentes máquinas para devolver la clase Maquina POKO
  */
 
-// No se puede hacer un fromMaquinasDaoToMaquinas porque la clase
-// Maquina es abstracta, por lo que no puede instanciar un objeto de la misma
-
-fun MaquinasDao.fromMaquinasDaoToMaquinas(fromMaquinasDao: Maquina) {
-    if(fromMaquinasDao is Encordadora){
+// TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
+fun MaquinaDao.fromMaquinaDaoToMaquina(fromMaquinaDao: Maquina) {
+    if(fromMaquinaDao is Encordadora){
         fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
             return Encordadora(
                 id = id.value,
@@ -25,7 +23,7 @@ fun MaquinasDao.fromMaquinasDaoToMaquinas(fromMaquinasDao: Maquina) {
             )
         }
     }
-    else if(fromMaquinasDao is Personalizadora){
+    else if(fromMaquinaDao is Personalizadora){
         fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(): Personalizadora{
             return Personalizadora(
                 id = id.value,
@@ -37,7 +35,7 @@ fun MaquinasDao.fromMaquinasDaoToMaquinas(fromMaquinasDao: Maquina) {
     }
 }
 
-fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
+/*fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
     return Encordadora(
         id = id.value,
         isManual = isManual,
@@ -53,4 +51,4 @@ fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(): Personalizador
         measuresBalance = measuresBalance,
         measuresRigidity = measuresRigidity
     )
-}
+}*/
