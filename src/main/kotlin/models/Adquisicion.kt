@@ -1,5 +1,6 @@
 package models
 
+import models.enums.TipoTarea
 import java.util.*
 
 class Adquisicion(): Tarea() {
@@ -18,6 +19,7 @@ class Adquisicion(): Tarea() {
         this.user = user
         this.productoAdquirido = productoAdquirido
         this.precio = precio
+        this.tipoTarea = TipoTarea.ADQUISICION
     }
 
     constructor(
@@ -28,5 +30,6 @@ class Adquisicion(): Tarea() {
         this.id = id ?: UUID.randomUUID()
         this.productoAdquirido = productoAdquirido
         this.precio = precio
+        this.tipoTarea = TipoTarea.ADQUISICION
     }
 }

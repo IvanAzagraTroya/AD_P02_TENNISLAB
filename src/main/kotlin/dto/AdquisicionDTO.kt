@@ -7,7 +7,7 @@ import models.User
 import util.toLocalMoney
 import java.util.*
 
-class AdquisicionDTO() {
+class AdquisicionDTO(): TareaDTO {
     lateinit var id: UUID
     lateinit var raqueta: Producto
     lateinit var user: User

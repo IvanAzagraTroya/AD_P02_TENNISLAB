@@ -12,6 +12,7 @@ object MaquinaTable: UUIDTable("MAQUINAS") {
     val marca = varchar("marca", 255)
     val fechaAdquisicion = date("fecha_adquisicion")
     val numeroSerie = varchar("numero_serie", 255)
+    val tipoMaquina = varchar("tipo_maquina", 255)
 }
 
 class MaquinaDao(id: EntityID<UUID>): UUIDEntity(id) {
@@ -21,4 +22,5 @@ class MaquinaDao(id: EntityID<UUID>): UUIDEntity(id) {
     var marca by MaquinaTable.marca
     var fechaAdquisicion by MaquinaTable.fechaAdquisicion
     var numeroSerie by MaquinaTable.numeroSerie
+    var tipoMaquina by MaquinaTable.tipoMaquina
 }

@@ -58,7 +58,7 @@ class PedidoDTO() {
     override fun toString(): String {
         return "Pedido(id=$id, " +
                 "tareas=$tareas, " +
-                "client=$client, " +
+                "client=${client.nombre}, " +
                 "turnos=$turnos, " +
                 "state=$state, " +
                 "fechaEntrada=${fechaEntrada.toLocalDate(Locale("es", "ES"))}, " +

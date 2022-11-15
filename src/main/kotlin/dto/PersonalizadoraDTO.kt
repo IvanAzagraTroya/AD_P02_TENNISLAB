@@ -6,7 +6,7 @@ import util.toLocalDate
 import java.time.LocalDate
 import java.util.*
 
-class PersonalizadoraDTO() {
+class PersonalizadoraDTO(): MaquinaDTO {
     lateinit var id: UUID
     lateinit var modelo: String
     lateinit var marca: String

@@ -18,6 +18,7 @@ class Turno() {
         worker: User,
         maquina: Maquina,
         horaInicio: LocalDateTime,
+        horaFin: LocalDateTime?,
         tarea1: Tarea?,
         tarea2: Tarea?
     ) : this() {
@@ -25,33 +26,7 @@ class Turno() {
         this.worker = worker
         this.maquina = maquina
         this.horaInicio = horaInicio
-        // Asi los turnos duran 4 horas siempre.
-        this.horaFin = this.horaInicio.plusHours(4L)
-        this.tarea1 = tarea1
-        this.tarea2 = tarea2
-
-        if (this.tarea1 != null) {
-            numPedidosActivos++
-        }
-        if (this.tarea2 != null) {
-            numPedidosActivos++
-        }
-    }
-
-    constructor(
-        id: UUID?,
-        worker: User,
-        maquina: Maquina,
-        horaInicio: LocalDateTime,
-        horaFin: LocalDateTime,
-        tarea1: Tarea?,
-        tarea2: Tarea?
-    ) : this() {
-        this.id = id ?: UUID.randomUUID()
-        this.worker = worker
-        this.maquina = maquina
-        this.horaInicio = horaInicio
-        this.horaFin = horaFin
+        this.horaFin = horaFin ?: this.horaInicio.plusHours(4L)
         this.tarea1 = tarea1
         this.tarea2 = tarea2
 

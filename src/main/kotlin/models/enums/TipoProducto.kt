@@ -23,7 +23,7 @@ enum class TipoProducto(value: String){
                 "GRIPS" -> GRIPS
                 "ANTIVIBRADORES" -> ANTIVIBRADORES
                 "FUNDAS" -> FUNDAS
-                else -> throw IllegalArgumentException("Ese tipo de producto no existe")
+                else -> throw IllegalArgumentException("Unknown product type: $value")
             }
         }
     }

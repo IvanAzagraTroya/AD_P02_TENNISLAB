@@ -10,6 +10,7 @@ object TareaTable: UUIDTable("TAREAS") {
     val raqueta = reference("raqueta_id", ProductoTable)
     val precio = double("precio")
     val user = reference("user_id", UserTable)
+    val tipoTarea = varchar("tipo_tarea", 255)
 }
 
 class TareaDao(id: EntityID<UUID>): UUIDEntity(id) {
@@ -17,4 +18,5 @@ class TareaDao(id: EntityID<UUID>): UUIDEntity(id) {
     var raqueta by ProductoDao referencedOn TareaTable.raqueta
     var precio by TareaTable.precio
     var user by UserDao referencedOn TareaTable.user
+    var tipoTarea by TareaTable.tipoTarea
 }

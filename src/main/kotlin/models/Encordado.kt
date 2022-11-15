@@ -1,5 +1,6 @@
 package models
 
+import models.enums.TipoTarea
 import java.util.*
 
 class Encordado():Tarea() {
@@ -29,6 +30,7 @@ class Encordado():Tarea() {
         this.cordajeVertical = cordajeVertical
         this.dosNudos = dosNudos
         this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
+        this.tipoTarea = TipoTarea.ENCORDADO
     }
 
     constructor(
@@ -46,5 +48,6 @@ class Encordado():Tarea() {
         this.cordajeVertical = cordajeVertical
         this.dosNudos = dosNudos
         this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
+        this.tipoTarea = TipoTarea.ENCORDADO
     }
 }

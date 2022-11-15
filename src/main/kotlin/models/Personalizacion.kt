@@ -1,5 +1,6 @@
 package models
 
+import models.enums.TipoTarea
 import java.util.*
 
 class Personalizacion(): Tarea() {
@@ -23,6 +24,7 @@ class Personalizacion(): Tarea() {
         this.balance = balance
         this.rigidez = rigidez
         this.precio = 60.0
+        this.tipoTarea = TipoTarea.PERSONALIZACION
     }
 
     constructor(
@@ -36,5 +38,6 @@ class Personalizacion(): Tarea() {
         this.balance = balance
         this.rigidez = rigidez
         this.precio = 60.0
+        this.tipoTarea = TipoTarea.PERSONALIZACION
     }
 }
