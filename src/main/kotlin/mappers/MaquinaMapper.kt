@@ -8,7 +8,7 @@ import entities.MaquinaDao
 import entities.PersonalizadoraDao
 import models.*
 import models.enums.TipoMaquina
-import repositories.maquina.IMaquinaRepository
+import repositories.maquina.MaquinaRepositoryImpl
 
 /**
  * @author Iván Azagra Troya
@@ -27,7 +27,8 @@ fun MaquinaDao.fromMaquinaDaoToMaquina(): Maquina {
 }
 
 fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
-    val maquina: Maquina = IMaquinaRepository.findById(id)
+    val repo = MaquinaRepositoryImpl()
+    val maquina: Maquina = repo.findById(id.value)
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,
@@ -41,7 +42,8 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
 }
 
 fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(): Personalizadora{
-    val maquina: Maquina = IMaquinaRepository.findById(id)
+    val repo = MaquinaRepositoryImpl()
+    val maquina: Maquina = repo.findById(id.value)
     return Personalizadora(
         id = id.value,
         modelo = maquina.modelo,

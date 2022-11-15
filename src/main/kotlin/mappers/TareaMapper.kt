@@ -10,7 +10,7 @@ import models.Encordado
 import models.Personalizacion
 import models.Tarea
 import models.enums.TipoTarea
-import repositories.tarea.ITareaRepository
+import repositories.tarea.TareaRepositoryImpl
 
 fun TareaDao.fromTareaDaoToTarea(): Tarea {
     return when (TipoTarea.parseTipoTarea(tipoTarea)) {
@@ -21,7 +21,8 @@ fun TareaDao.fromTareaDaoToTarea(): Tarea {
 }
 
 fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacion {
-    val tarea: Tarea = ITareaRepository.findById(id)
+    val repo = TareaRepositoryImpl()
+    val tarea: Tarea = repo.findById(id.value)
     return Personalizacion(
         id = id.value,
         raqueta = tarea.raqueta,
@@ -33,7 +34,8 @@ fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacio
 }
 
 fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
-    val tarea: Tarea = ITareaRepository.findById(id)
+    val repo = TareaRepositoryImpl()
+    val tarea: Tarea = repo.findById(id.value)
     return Encordado(
         id = id.value,
         raqueta = tarea.raqueta,
@@ -47,7 +49,8 @@ fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
 }
 
 fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(): Adquisicion {
-    val tarea: Tarea = ITareaRepository.findById(id)
+    val repo = TareaRepositoryImpl()
+    val tarea: Tarea = repo.findById(id.value)
     return Adquisicion(
         id = id.value,
         raqueta =  tarea.raqueta,
