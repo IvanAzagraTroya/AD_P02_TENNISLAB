@@ -108,5 +108,4 @@ class MaquinaMapper: BaseMapper<Maquina,MaquinaDTO>() {
             else -> throw Exception()
         }
     }
-
 }
