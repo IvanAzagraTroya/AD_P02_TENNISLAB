@@ -29,12 +29,4 @@ open class Tarea(){
         this.user = user
         this.tipoTarea = tipoTarea
     }
-    /*
-//    lateinit var producto: Producto
-    private lateinit var producto: List<Producto> // Creo que si la relación es 0..N
-//    puede haber entre 0 y varios, por lo que debería ser una lista de productos y no uno solo
-    constructor(producto: List<Producto>) : this(){
-        this.producto = producto
-    }
-     */
 }

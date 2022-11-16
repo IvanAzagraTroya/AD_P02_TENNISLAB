@@ -17,35 +17,31 @@ import models.Tarea
  */
 
 // TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
-fun TareaDao.fromTareaDaoToTarea(fromTareaDao: Tarea) {
-    if(fromTareaDao is Encordado) {
-        fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
-            return Encordado(
-                id = id.value,
-                tensionHorizontal = tensionHorizontal,
-                cordajeHorizontal = cordajeHorizontal.fromProductoDaoToProducto(),
-                tensionVertical = tensionVertical,
-                cordajeVertical = cordajeVertical.fromProductoDaoToProducto(),
-                dosNudos = dosNudos
-            )
-        }
-    }else if(fromTareaDao is Personalizacion){
-        fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacion {
-            return Personalizacion(
-                id = id.value,
-                peso = peso,
-                balance = balance,
-                rigidez = rigidez
-            )
-        }
-    }
-    else if(fromTareaDao is Adquisicion) {
-        fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(): Adquisicion {
-            return Adquisicion(
-                id = id.value,
-                productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
-                precio = precio
-            )
-        }
-    }
+
+fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
+    return Encordado(
+        id = id.value,
+        tensionHorizontal = tensionHorizontal,
+        cordajeHorizontal = cordajeHorizontal.fromProductoDaoToProducto(),
+        tensionVertical = tensionVertical,
+        cordajeVertical = cordajeVertical.fromProductoDaoToProducto(),
+        dosNudos = dosNudos
+    )
+}
+
+fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacion {
+    return Personalizacion(
+        id = id.value,
+        peso = peso,
+        balance = balance,
+        rigidez = rigidez
+    )
+}
+
+fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(): Adquisicion {
+    return Adquisicion(
+        id = id.value,
+        productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
+        precio = precio
+    )
 }
