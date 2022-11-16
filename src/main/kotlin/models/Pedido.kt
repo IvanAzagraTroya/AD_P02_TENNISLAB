@@ -18,9 +18,9 @@ class Pedido() {
 
     constructor(
         id: UUID?,
-        tareas: List<Tarea>,
+        tareas: List<Tarea>, // todo SizedIterable
         client: User,
-        turnos: List<Turno>,
+        turnos: List<Turno>, // todo SizedIterable
         state: PedidoEstado,
         fechaEntrada: LocalDate?,
         fechaProgramada: LocalDate,

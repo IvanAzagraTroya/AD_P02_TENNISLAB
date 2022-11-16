@@ -7,12 +7,9 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
-class ClientesRepositoryImpl(
+class UserRepositoryImpl(
     private val clientesDao: UUIDEntityClass<UserDao>,
 ): IClientesRepository {
-    override fun findAll(): List<User> = transaction {
-        clientesDao.all().map { it.fromUserDaoToUser() }
-    }
 
     override fun findById(id: UUID): User? = transaction {
         clientesDao.findById(id)?.fromUserDaoToUser()

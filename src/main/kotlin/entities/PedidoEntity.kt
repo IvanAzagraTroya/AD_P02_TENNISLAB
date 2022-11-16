@@ -21,9 +21,9 @@ object PedidoTable: UUIDTable("PEDIDOS") {
 
 class PedidoDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<TurnoDao>(TurnoTable)
-    val tareas by TareaDao referrersOn TareaTable.id
+    var tareas by TareaDao referrersOn TareaTable.id
     var client by UserDao referencedOn PedidoTable.client
-    val turnos by TurnoDao referrersOn TurnoTable.id
+    var turnos by TurnoDao referrersOn TurnoTable.id
     var state by PedidoTable.state
     var fechaEntrada by PedidoTable.fechaEntrada
     var fechaProgramada by PedidoTable.fechaProgramada

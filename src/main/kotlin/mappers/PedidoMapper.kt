@@ -9,7 +9,7 @@ import models.enums.PedidoEstado
 
 fun PedidoDao.fromPedidoDaoToPedido(): Pedido {
     val listTareas = mutableListOf<Tarea>()
-    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea()) }
+    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea()) } // TODO necesita el dao de tareas
     val listTurnos = mutableListOf<Turno>()
     turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno()) }
     return Pedido(
