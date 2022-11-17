@@ -15,7 +15,7 @@ class PedidoRepositoryImpl(
     private val tareaDao: UUIDEntityClass<TareaDao>,
     private val userDao: UUIDEntityClass<UserDao>,
     private val turnoDao: UUIDEntityClass<TurnoDao>
-): IPedidosRepository {
+): IPedidoRepository {
     override fun create(entity: Pedido): Pedido = transaction{
         val existe = pedidoDao.findById(entity.id)
         existe?.let {
