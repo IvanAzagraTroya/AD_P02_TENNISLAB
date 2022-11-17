@@ -1,45 +1,57 @@
 package repositories.tarea
 
+import entities.ProductoDao
 import entities.TareaDao
+import entities.UserDao
+import mappers.fromTareaDaoToTarea
 import models.Tarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class TareaRepositoryImpl(
-    private val tareaDao: UUIDEntityClass<TareaDao>
+    private val tareaDao: UUIDEntityClass<TareaDao>,
+    private val productoDao: UUIDEntityClass<ProductoDao>,
+    private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
-    override fun create(entity: Tarea): Tarea = transaction{
+    override fun readAll(): List<Tarea> = transaction {
+        tareaDao.all().map { it.fromTareaDaoToTarea() }
+    }
+
+    override fun findById(id: UUID): Tarea? = transaction {
+        tareaDao.findById(id)?.fromTareaDaoToTarea()
+    }
+
+    override fun create(entity: Tarea): Tarea = transaction {
         val existe = tareaDao.findById(entity.id)
         existe?.let {
             update(entity, existe)
-        } ?: kotlin.run {
+        } ?: run {
             insert(entity)
         }
     }
 
-    private fun insert(entity: Tarea): Tarea{
-        return tareaDao.new {
-            raqueta = entity.raqueta,
-            precio = entity.precio,
-            user = entity.user,
-            tipoTarea = entity.tipoTarea
-        }
+    private fun update(entity: Tarea, existe: TareaDao): Tarea {
+        return existe.apply {
+            raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
+            precio = entity.precio
+            user = userDao.findById(entity.user.id) ?: throw Exception()
+            tipoTarea = entity.tipoTarea.toString()
+        }.fromTareaDaoToTarea()
     }
 
-    override fun readAll(): List<Tarea> {
-        TODO("Not yet implemented")
+    private fun insert(entity: Tarea): Tarea {
+        return tareaDao.new(entity.id) {
+            raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
+            precio = entity.precio
+            user = userDao.findById(entity.user.id) ?: throw Exception()
+            tipoTarea = entity.tipoTarea.toString()
+        }.fromTareaDaoToTarea()
     }
 
-    override fun findById(id: UUID): Tarea {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(entity: Tarea): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(entity: Tarea): Tarea {
-        TODO("Not yet implemented")
+    override fun delete(entity: Tarea): Boolean = transaction {
+        val existe = tareaDao.findById(entity.id) ?: return@transaction false
+        existe.delete()
+        true
     }
 }

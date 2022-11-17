@@ -24,10 +24,6 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun update(entity: User): User {
-        TODO("Not yet implemented")
-    }
-
     private fun insert(entity: User): User{
         return clientesDao.new {
             nombre = entity.nombre
