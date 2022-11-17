@@ -9,7 +9,7 @@ import java.util.*
 
 class UserRepositoryImpl(
     private val clientesDao: UUIDEntityClass<UserDao>,
-): IClientesRepository {
+): IUserRepository {
 
     override fun findById(id: UUID): User? = transaction {
         clientesDao.findById(id)?.fromUserDaoToUser()
