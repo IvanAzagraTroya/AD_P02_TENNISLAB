@@ -12,11 +12,11 @@ class MaquinaRepositoryImpl(
     private val maquinaDao: UUIDEntityClass<MaquinaDao>
 ): IMaquinaRepository {
     override fun readAll(): List<Maquina> = transaction {
-        maquinaDao.all().map { it.fromMaquinaDaoToMaquina() }
+        maquinaDao.all().map { it.fromMaquinaDaoToMaquina(maquinaDao) }
     }
 
     override fun findById(id: UUID): Maquina? = transaction {
-        maquinaDao.findById(id)?.fromMaquinaDaoToMaquina()
+        maquinaDao.findById(id)?.fromMaquinaDaoToMaquina(maquinaDao)
     }
 
     override fun create(entity: Maquina): Maquina = transaction {
@@ -32,17 +32,17 @@ class MaquinaRepositoryImpl(
             fechaAdquisicion = entity.fechaAdquisicion
             numeroSerie = entity.numeroSerie
             tipoMaquina = entity.tipoMaquina.toString()
-        }.fromMaquinaDaoToMaquina()
+        }.fromMaquinaDaoToMaquina(maquinaDao)
     }
 
     private fun insert(entity: Maquina): Maquina {
-        return maquinaDao.new {
+        return maquinaDao.new(entity.id) {
             modelo = entity.modelo
             marca = entity.marca
             fechaAdquisicion = entity.fechaAdquisicion
             numeroSerie = entity.numeroSerie
             tipoMaquina = entity.tipoMaquina.toString()
-        }.fromMaquinaDaoToMaquina()
+        }.fromMaquinaDaoToMaquina(maquinaDao)
     }
 
     override fun delete(entity: Maquina): Boolean = transaction {

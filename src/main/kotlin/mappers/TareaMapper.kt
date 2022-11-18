@@ -10,6 +10,7 @@ import models.Encordado
 import models.Personalizacion
 import models.Tarea
 import models.enums.TipoTarea
+import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.tarea.TareaRepositoryImpl
 
 
@@ -21,16 +22,20 @@ import repositories.tarea.TareaRepositoryImpl
 
 // TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
 
-fun TareaDao.fromTareaDaoToTarea(): Tarea {
+fun TareaDao.fromTareaDaoToTarea(tareaDao: UUIDEntityClass<TareaDao>,
+                                 productoDao: UUIDEntityClass<ProductoDao>,
+                                 userDao: UUIDEntityClass<UserDao>): Tarea {
     return when (TipoTarea.parseTipoTarea(tipoTarea)) {
-        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(this)
-        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado()
-        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion()
+        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(tareaDao, productoDao, userDao)
+        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(tareaDao, productoDao, userDao)
+        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao)
     }
 }
 
-fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacion {
-    val repo = TareaRepositoryImpl()
+fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(tareaDao: UUIDEntityClass<TareaDao>,
+                                                               productoDao: UUIDEntityClass<ProductoDao>,
+                                                               userDao: UUIDEntityClass<UserDao>): Personalizacion {
+    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Personalizacion(
         id = id.value,
@@ -42,8 +47,10 @@ fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacio
     )
 }
 
-fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
-    val repo = TareaRepositoryImpl()
+fun EncordadoDao.fromEncordadoDaoToEncordado(tareaDao: UUIDEntityClass<TareaDao>,
+                                             productoDao: UUIDEntityClass<ProductoDao>,
+                                             userDao: UUIDEntityClass<UserDao>): Encordado {
+    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Encordado(
         id = id.value,
@@ -57,8 +64,10 @@ fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
     )
 }
 
-fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(): Adquisicion {
-    val repo = TareaRepositoryImpl()
+fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(tareaDao: UUIDEntityClass<TareaDao>,
+                                                   productoDao: UUIDEntityClass<ProductoDao>,
+                                                   userDao: UUIDEntityClass<UserDao>): Adquisicion {
+    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Adquisicion(
         id = id.value,

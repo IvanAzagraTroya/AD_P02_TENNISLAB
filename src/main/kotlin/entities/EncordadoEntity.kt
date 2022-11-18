@@ -20,8 +20,8 @@ class EncordadoDao(id: EntityID<UUID>): UUIDEntity(id) {
 
     var tensionHorizontal by EncordadoTable.tensionHorizontal
     var tensionVertical by EncordadoTable.tensionVertical
-    val cordajeHorizontal by ProductoDao referencedOn EncordadoTable.cordajeHorizontal
-    val cordajeVertical by ProductoDao referencedOn EncordadoTable.cordajeVertical
+    var cordajeHorizontal by ProductoDao referencedOn EncordadoTable.cordajeHorizontal
+    var cordajeVertical by ProductoDao referencedOn EncordadoTable.cordajeVertical
     var dosNudos by EncordadoTable.dosNudos
     var precio by EncordadoTable.precio
 }

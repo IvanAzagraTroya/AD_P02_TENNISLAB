@@ -1,17 +1,23 @@
 package mappers
 
 import dto.PedidoDTO
-import entities.PedidoDao
+import entities.*
 import models.Pedido
 import models.Tarea
 import models.Turno
 import models.enums.PedidoEstado
+import org.jetbrains.exposed.dao.UUIDEntityClass
 
-fun PedidoDao.fromPedidoDaoToPedido(): Pedido {
+fun PedidoDao.fromPedidoDaoToPedido(
+    tareaDao: UUIDEntityClass<TareaDao>,
+    productoDao: UUIDEntityClass<ProductoDao>,
+    userDao: UUIDEntityClass<UserDao>,
+    maquinaDao: UUIDEntityClass<MaquinaDao>
+): Pedido {
     val listTareas = mutableListOf<Tarea>()
-    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea()) } // TODO necesita el dao de tareas
+    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea(tareaDao, productoDao, userDao)) }
     val listTurnos = mutableListOf<Turno>()
-    turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno()) }
+    turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao)) }
     return Pedido(
         id = id.value,
         tareas = listTareas.toList(),
