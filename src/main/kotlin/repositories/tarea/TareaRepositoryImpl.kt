@@ -15,11 +15,11 @@ class TareaRepositoryImpl(
     private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
     override fun readAll(): List<Tarea> = transaction {
-        tareaDao.all().map { it.fromTareaDaoToTarea() }
+        tareaDao.all().map { it.fromTareaDaoToTarea(tareaDao, productoDao, userDao) }
     }
 
     override fun findById(id: UUID): Tarea? = transaction {
-        tareaDao.findById(id)?.fromTareaDaoToTarea()
+        tareaDao.findById(id)?.fromTareaDaoToTarea(tareaDao, productoDao, userDao)
     }
 
     override fun create(entity: Tarea): Tarea = transaction {
@@ -37,7 +37,7 @@ class TareaRepositoryImpl(
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
-        }.fromTareaDaoToTarea()
+        }.fromTareaDaoToTarea(tareaDao, productoDao, userDao)
     }
 
     private fun insert(entity: Tarea): Tarea {
@@ -46,7 +46,7 @@ class TareaRepositoryImpl(
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
-        }.fromTareaDaoToTarea()
+        }.fromTareaDaoToTarea(tareaDao, productoDao, userDao)
     }
 
     override fun delete(entity: Tarea): Boolean = transaction {

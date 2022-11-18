@@ -8,6 +8,7 @@ import entities.MaquinaDao
 import entities.PersonalizadoraDao
 import models.*
 import models.enums.TipoMaquina
+import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.maquina.MaquinaRepositoryImpl
 
 /**
@@ -19,16 +20,16 @@ import repositories.maquina.MaquinaRepositoryImpl
 // No se puede hacer un fromMaquinasDaoToMaquinas porque la clase
 // Maquina es abstracta, por lo que no puede instanciar un objeto de la misma
 
-fun MaquinaDao.fromMaquinaDaoToMaquina(): Maquina {
+fun MaquinaDao.fromMaquinaDaoToMaquina(maquinaDao: UUIDEntityClass<MaquinaDao>): Maquina {
     return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
-        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora()
-        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora()
+        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(maquinaDao)
+        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
     }
 }
 
-fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
-    val repo = MaquinaRepositoryImpl()
-    val maquina: Maquina = repo.findById(id.value)
+fun EncordadoraDao.fromEncordadoraDaoToEncordadora(maquinaDao: UUIDEntityClass<MaquinaDao>): Encordadora {
+    val repo = MaquinaRepositoryImpl(maquinaDao)
+    val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,
@@ -41,9 +42,9 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
     )
 }
 
-fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(): Personalizadora{
-    val repo = MaquinaRepositoryImpl()
-    val maquina: Maquina = repo.findById(id.value)
+fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(maquinaDao: UUIDEntityClass<MaquinaDao>): Personalizadora{
+    val repo = MaquinaRepositoryImpl(maquinaDao)
+    val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
     return Personalizadora(
         id = id.value,
         modelo = maquina.modelo,

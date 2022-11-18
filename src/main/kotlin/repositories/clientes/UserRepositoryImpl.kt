@@ -25,7 +25,7 @@ class UserRepositoryImpl(
     }
 
     private fun insert(entity: User): User{
-        return clientesDao.new {
+        return clientesDao.new(entity.id) {
             nombre = entity.nombre
             apellido = entity.apellido
             telefono = entity.telefono

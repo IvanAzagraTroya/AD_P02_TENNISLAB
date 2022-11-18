@@ -24,6 +24,6 @@ class TurnoDao(id: EntityID<UUID>): UUIDEntity(id) {
     var horaInicio by TurnoTable.horaInicio
     var horaFin by TurnoTable.horaFin
     var numPedidosActivos by TurnoTable.numPedidosActivos
-    var tarea1 by TurnoTable.tarea1
-    var tarea2 by TurnoTable.tarea2
+    var tarea1 by TareaDao optionalReferencedOn TurnoTable.tarea1
+    var tarea2 by TareaDao optionalReferencedOn TurnoTable.tarea2
 }
