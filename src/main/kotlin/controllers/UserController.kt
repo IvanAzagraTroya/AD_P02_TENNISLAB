@@ -2,54 +2,67 @@ package controllers
 
 import com.google.gson.GsonBuilder
 import dto.UserDTO
-import java.sql.SQLException
+import models.enums.Profile
+import services.UserService
+import util.generateRespuesta
 import java.util.*
 
 object UserController {
-    /*
     private val service = UserService()
 
-    @Throws(SQLException::class)
     fun findAllUsers(): String {
-        return GsonBuilder().setPrettyPrinting().create()
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllUsers())
-            ?: throw SQLException("Error at UserController.findAllUsers")
+            ?: "Error at UserController.findAllUsers"
+        return generateRespuesta(result, "Error at UserController.findAllUsers")
     }
 
-    @Throws(SQLException::class)
-    private fun getUserById(id: String): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getUserById(UUID.fromString(id)))
-            ?: throw SQLException("User with id $id not found.")
+    fun findAllAdmins(): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllUsers().filter { it.perfil == Profile.ADMIN })
+            ?: "Error at UserController.findAllAdmins"
+        return generateRespuesta(result, "Error at UserController.findAllAdmins")
     }
 
-    @Throws(SQLException::class)
-    private fun getUserById(id: UUID): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun findAllWorkers(): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllUsers().filter { it.perfil == Profile.WORKER })
+            ?: "Error at UserController.findAllWorkers"
+        return generateRespuesta(result, "Error at UserController.findAllWorkers")
+    }
+
+    fun findAllClients(): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllUsers().filter { it.perfil == Profile.CLIENT })
+            ?: "Error at UserController.findAllClients"
+        return generateRespuesta(result, "Error at UserController.findAllClients")
+    }
+
+    fun getUserById(id: UUID): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getUserById(id))
-            ?: throw SQLException("User with id $id not found.")
+            ?: "User with id $id not found."
+        return generateRespuesta(result, "User with id $id not found.")
     }
 
-    @Throws(SQLException::class)
-    private fun insertUser(dto: UserDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun getUserByEmail(email: String): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getUserByMail(email))
+            ?: "User with email $email not found."
+        return generateRespuesta(result, "User with email $email not found.")
+    }
+
+    fun insertUser(dto: UserDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createUser(dto))
-            ?: throw SQLException("Could not insert User with id ${dto.id}")
+            ?: "Could not insert User with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert User with id ${dto.id}")
     }
 
-    @Throws(SQLException::class)
-    private fun updateUser(dto: UserDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.updateUser(dto))
-            ?: throw SQLException("Could not update User with id ${dto.id}")
-    }
-
-    @Throws(SQLException::class)
-    private fun deleteUser(dto: UserDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun deleteUser(dto: UserDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteUser(dto))
-            ?: throw SQLException("Could not delete User with id ${dto.id}")
+            ?: "Could not delete User with id ${dto.id}"
+        return generateRespuesta(result, "Could not delete User with id ${dto.id}")
     }
-
-     */
 }

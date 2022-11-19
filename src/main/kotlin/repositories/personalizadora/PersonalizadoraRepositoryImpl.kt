@@ -4,6 +4,7 @@ import entities.MaquinaDao
 import entities.PersonalizadoraDao
 import mappers.fromPersonalizadoraDaoToPersonalizadora
 import models.Personalizadora
+import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -43,7 +44,13 @@ class PersonalizadoraRepositoryImpl(
 
     override fun delete(entity: Personalizadora): Boolean = transaction {
         val existe = personalizadoraDao.findById(entity.id) ?: return@transaction false
-        existe.delete()
-        true
+        val maquina = maquinaDao.findById(entity.id) ?: return@transaction false
+        if (TipoMaquina.parseTipoMaquina(maquina.tipoMaquina) != TipoMaquina.PERSONALIZADORA)
+            return@transaction false
+        else {
+            maquina.delete()
+            existe.delete()
+            true
+        }
     }
 }

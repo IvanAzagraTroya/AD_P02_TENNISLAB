@@ -2,54 +2,46 @@ package controllers
 
 import com.google.gson.GsonBuilder
 import dto.ProductoDTO
-import java.sql.SQLException
+import models.enums.TipoProducto
+import services.ProductoService
+import util.generateRespuesta
 import java.util.*
 
 object ProductoController {
-    /*
     private val service = ProductoService()
 
-    @Throws(SQLException::class)
     fun findAllProductos(): String {
-        return GsonBuilder().setPrettyPrinting().create()
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllProductos())
-            ?: throw SQLException("Error at ProductoController.findAllProductos")
+            ?: "Error at ProductoController.findAllProductos"
+        return generateRespuesta(result, "Error at ProductoController.findAllProductos")
     }
 
-    @Throws(SQLException::class)
-    private fun getProductoById(id: String): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getProductoById(UUID.fromString(id)))
-            ?: throw SQLException("Producto with id $id not found.")
-    }
-
-    @Throws(SQLException::class)
-    private fun getProductoById(id: UUID): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun getProductoById(id: UUID): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getProductoById(id))
-            ?: throw SQLException("Producto with id $id not found.")
+            ?: "Producto with id $id not found."
+        return generateRespuesta(result, "Producto with id $id not found.")
     }
 
-    @Throws(SQLException::class)
-    private fun insertProducto(dto: ProductoDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun getProductosByTipo(tipo: TipoProducto): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllProductos().filter { it.tipoProducto == tipo })
+            ?: "Error at ProductoController.getProductosByTipo with tipo: $tipo"
+        return generateRespuesta(result, "Error at ProductoController.getProductosByTipo with tipo: $tipo")
+    }
+
+    fun insertProducto(dto: ProductoDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createProducto(dto))
-            ?: throw SQLException("Could not insert Producto with id ${dto.id}")
+            ?: "Could not insert Producto with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Producto with id ${dto.id}")
     }
 
-    @Throws(SQLException::class)
-    private fun updateProducto(dto: ProductoDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.updateProducto(dto))
-            ?: throw SQLException("Could not update Producto with id ${dto.id}")
-    }
-
-    @Throws(SQLException::class)
-    private fun deleteProducto(dto: ProductoDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun deleteProducto(dto: ProductoDTO): String {
+        val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteProducto(dto))
-            ?: throw SQLException("Could not delete Producto with id ${dto.id}")
+            ?: "Could not delete Producto with id ${dto.id}"
+        return generateRespuesta(result, "Could not delete Producto with id ${dto.id}")
     }
-
-     */
 }

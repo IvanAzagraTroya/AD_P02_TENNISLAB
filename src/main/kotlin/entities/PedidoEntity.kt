@@ -20,7 +20,7 @@ object PedidoTable: UUIDTable("PEDIDOS") {
 }
 
 class PedidoDao(id: EntityID<UUID>): UUIDEntity(id) {
-    companion object : UUIDEntityClass<TurnoDao>(TurnoTable)
+    companion object : UUIDEntityClass<PedidoDao>(PedidoTable)
     val tareas by TareaDao referrersOn TareaTable.id
     var client by UserDao referencedOn PedidoTable.client
     val turnos by TurnoDao referrersOn TurnoTable.id

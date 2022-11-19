@@ -4,6 +4,7 @@ import entities.EncordadoraDao
 import entities.MaquinaDao
 import mappers.fromEncordadoraDaoToEncordadora
 import models.Encordadora
+import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -43,7 +44,13 @@ class EncordadoraRepositoryImpl(
 
     override fun delete(entity: Encordadora): Boolean = transaction {
         val existe = encordadoraDao.findById(entity.id) ?: return@transaction false
-        existe.delete()
-        true
+        val maquina = maquinaDao.findById(entity.id) ?: return@transaction false
+        if (TipoMaquina.parseTipoMaquina(maquina.tipoMaquina) != TipoMaquina.ENCORDADORA)
+            return@transaction false
+        else {
+            maquina.delete()
+            existe.delete()
+            true
+        }
     }
 }
