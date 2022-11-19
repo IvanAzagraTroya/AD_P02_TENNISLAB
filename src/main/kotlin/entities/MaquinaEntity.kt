@@ -11,7 +11,7 @@ object MaquinaTable: UUIDTable("MAQUINAS") {
     val modelo = varchar("modelo", 255)
     val marca = varchar("marca", 255)
     val fechaAdquisicion = date("fecha_adquisicion")
-    val numeroSerie = varchar("numero_serie", 255)
+    val numeroSerie = varchar("numero_serie", 255).uniqueIndex()
     val tipoMaquina = varchar("tipo_maquina", 255)
 }
 

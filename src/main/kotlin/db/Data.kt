@@ -2,7 +2,9 @@ package db
 
 import models.*
 import models.enums.PedidoEstado
+import models.enums.Profile
 import models.enums.TipoProducto
+import util.encode
 import java.time.LocalDate
 import java.util.*
 
@@ -14,8 +16,8 @@ fun getUsers() = listOf(
         apellido = "Martinez",
         telefono = "632950281",
         email = "email@email.com",
-        contraseña = "estacontraseñanoestaensha512",
-        perfil = "WORKER"
+        password = encode("estacontraseñanoestaensha512"),
+        perfil = Profile.WORKER.toString()
     ),
     User(
         id = UUID.randomUUID(),
@@ -23,8 +25,8 @@ fun getUsers() = listOf(
         apellido = "Martinez",
         telefono = "632120281",
         email = "email2@email.com",
-        contraseña = "contra",
-        perfil = "CLIENT"
+        password = encode("contra"),
+        perfil = Profile.CLIENT.toString()
     ),
     User(
         id = UUID.randomUUID(),
@@ -32,21 +34,13 @@ fun getUsers() = listOf(
         apellido = "Administrador",
         telefono = "000000000",
         email = "admin@email.com",
-        contraseña = "admin",
-        perfil = "ADMIN"
+        password = encode("admin"),
+        perfil = Profile.ADMIN.toString()
     )
 )
+
 /*
-// todo hasta que no esté hecho lo de los horarios no puedo hacer esto
-fun getWorkers() = listOf(
-    Worker(
-        maquina = Maquina(),
-
-    )
-)
-
- */
-
+TODO: Meter mas usuarios y modificar/meter datos iniciales con las cosas del modelo que corresponden
 fun getProducts() = listOf(
     Producto(
         id = UUID.randomUUID(),
@@ -153,3 +147,5 @@ fun getPedidos() = listOf(
         fechaEntrega = LocalDate.of(2023, 4, 1)
     )
 )
+
+ */

@@ -9,9 +9,9 @@ import java.util.*
 object UserTable: UUIDTable("USERS") {
     val nombre = varchar("nombre", 255)
     val apellido = varchar("apellido", 255)
-    val telefono = varchar("telefono", 255)
-    val email = varchar("email", 255)
-    val password = varchar("password", 255) //todo codificación sha512
+    val telefono = varchar("telefono", 255).uniqueIndex()
+    val email = varchar("email", 255).uniqueIndex()
+    val password = varchar("password", 255)
     val perfil = varchar("perfil", 255)
 }
 

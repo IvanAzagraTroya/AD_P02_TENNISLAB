@@ -13,7 +13,7 @@ object PersonalizacionTable: UUIDTable("PERSONALIZACIONES") {
 }
 
 class PersonalizacionDao(id: EntityID<UUID>): UUIDEntity(id) {
-    companion object: UUIDEntityClass<PersonalizadoraDao>(PersonalizacionTable)
+    companion object: UUIDEntityClass<PersonalizacionDao>(PersonalizacionTable)
     var peso by PersonalizacionTable.peso
     var balance by PersonalizacionTable.balance
     var rigidez by PersonalizacionTable.rigidez

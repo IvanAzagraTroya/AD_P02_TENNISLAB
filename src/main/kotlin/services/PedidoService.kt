@@ -1,30 +1,30 @@
 package services
 
 import dto.PedidoDTO
+import entities.*
+import mappers.PedidoMapper
 import models.Pedido
-import repositories.pedidos.PedidosRepositoryImpl
+import repositories.pedidos.PedidoRepositoryImpl
 import java.util.UUID
 
-class PedidoService : BaseService<Pedido, UUID, PedidosRepositoryImpl>(PedidosRepositoryImpl()) {
-    //private val mapper: PedidoMapper()
+class PedidoService : BaseService<Pedido, UUID, PedidoRepositoryImpl>(PedidoRepositoryImpl(
+    PedidoDao, UserDao, MaquinaDao, ProductoDao, TareaDao
+)) {
+    val mapper = PedidoMapper()
 
     fun getAllPedidos(): List<PedidoDTO> {
-        TODO("HACER EL PedidoMapper")
+        return mapper.toDTO(this.findAll())
     }
 
-    fun getPedidoById(id: UUID): PedidoDTO {
-        TODO("HACER EL PedidoMapper")
+    fun getPedidoById(id: UUID): PedidoDTO? {
+        return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun createPedido(t: PedidoDTO): PedidoDTO {
-        TODO("HACER EL PedidoMapper")
+    fun createPedido(user: PedidoDTO): PedidoDTO {
+        return mapper.toDTO(this.insert(mapper.fromDTO(user)))
     }
 
-    fun updatePedido(t: PedidoDTO): PedidoDTO {
-        TODO("HACER EL PedidoMapper")
-    }
-
-    fun deletePedido(t: PedidoDTO): PedidoDTO {
-        TODO("HACER EL PedidoMapper")
+    fun deletePedido(user: PedidoDTO): Boolean {
+        return this.delete(mapper.fromDTO(user))
     }
 }

@@ -1,14 +1,8 @@
 package mappers
 
-import dto.AdquisicionDTO
-import dto.EncordadoDTO
-import dto.PersonalizacionDTO
-import dto.TareaDTO
+import dto.*
 import entities.*
-import models.Adquisicion
-import models.Encordado
-import models.Personalizacion
-import models.Tarea
+import models.*
 import models.enums.TipoTarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.tarea.TareaRepositoryImpl
@@ -82,62 +76,107 @@ fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(tareaDao: UUIDEntityClass<Tar
 class TareaMapper:BaseMapper<Tarea, TareaDTO>() {
     override fun fromDTO(item: TareaDTO): Tarea {
         return when (item) {
-            is PersonalizacionDTO -> Personalizacion(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                peso = item.peso,
-                balance = item.balance,
-                rigidez = item.rigidez
-            )
-            is EncordadoDTO -> Encordado(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                tensionHorizontal = item.tensionHorizontal,
-                cordajeHorizontal = item.cordajeHorizontal,
-                tensionVertical = item.tensionVertical,
-                cordajeVertical = item.cordajeVertical,
-                dosNudos = item.dosNudos
-            )
-            is AdquisicionDTO -> Adquisicion(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                productoAdquirido = item.productoAdquirido,
-                precio = item.precio
-            )
+            is PersonalizacionDTO -> fromPersonalizacionDTO(item)
+            is EncordadoDTO -> fromEncordadoDTO(item)
+            is AdquisicionDTO -> fromAdquisicionDTO(item)
             else -> throw Exception()
         }
     }
 
+    fun fromAdquisicionDTO(item: AdquisicionDTO): Adquisicion {
+        return Adquisicion(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            productoAdquirido = item.productoAdquirido,
+            precio = item.precio
+        )
+    }
+
+    fun fromEncordadoDTO(item: EncordadoDTO): Encordado {
+        return Encordado(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            tensionHorizontal = item.tensionHorizontal,
+            cordajeHorizontal = item.cordajeHorizontal,
+            tensionVertical = item.tensionVertical,
+            cordajeVertical = item.cordajeVertical,
+            dosNudos = item.dosNudos
+        )
+    }
+
+    fun fromPersonalizacionDTO(item: PersonalizacionDTO): Personalizacion {
+        return Personalizacion(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            peso = item.peso,
+            balance = item.balance,
+            rigidez = item.rigidez
+        )
+    }
+
     override fun toDTO(item: Tarea): TareaDTO {
         return when (item) {
-            is Personalizacion -> PersonalizacionDTO(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                peso = item.peso,
-                balance = item.balance,
-                rigidez = item.rigidez
-            )
-            is Encordado -> EncordadoDTO(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                tensionHorizontal = item.tensionHorizontal,
-                cordajeHorizontal = item.cordajeHorizontal,
-                tensionVertical = item.tensionVertical,
-                cordajeVertical = item.cordajeVertical,
-                dosNudos = item.dosNudos
-            )
-            is Adquisicion -> AdquisicionDTO(
-                id = item.id,
-                raqueta = item.raqueta,
-                user = item.user,
-                productoAdquirido = item.productoAdquirido
-            )
+            is Personalizacion -> toPersonalizacionDTO(item)
+            is Encordado -> toEncordadoDTO(item)
+            is Adquisicion -> toAdquisicionDTO(item)
             else -> throw Exception()
         }
+    }
+
+    fun toAdquisicionDTO(item: Adquisicion): AdquisicionDTO {
+        return AdquisicionDTO(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            productoAdquirido = item.productoAdquirido
+        )
+    }
+
+    fun toEncordadoDTO(item: Encordado): EncordadoDTO {
+        return EncordadoDTO(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            tensionHorizontal = item.tensionHorizontal,
+            cordajeHorizontal = item.cordajeHorizontal,
+            tensionVertical = item.tensionVertical,
+            cordajeVertical = item.cordajeVertical,
+            dosNudos = item.dosNudos
+        )
+    }
+
+    fun toPersonalizacionDTO(item: Personalizacion): PersonalizacionDTO {
+        return PersonalizacionDTO(
+            id = item.id,
+            raqueta = item.raqueta,
+            user = item.user,
+            peso = item.peso,
+            balance = item.balance,
+            rigidez = item.rigidez
+        )
+    }
+
+    fun fromEncordadoDTO(items: List<EncordadoDTO>): List<Encordado> {
+        return items.map { fromEncordadoDTO(it) }
+    }
+    fun toEncordadoDTO(items: List<Encordado>): List<EncordadoDTO> {
+        return items.map { toEncordadoDTO(it) }
+    }
+
+    fun fromPersonalizacionDTO(items: List<PersonalizacionDTO>): List<Personalizacion> {
+        return items.map { fromPersonalizacionDTO(it) }
+    }
+    fun toPersonalizacionDTO(items: List<Personalizacion>): List<PersonalizacionDTO> {
+        return items.map { toPersonalizacionDTO(it) }
+    }
+
+    fun fromAdquisicionDTO(items: List<AdquisicionDTO>): List<Adquisicion> {
+        return items.map { fromAdquisicionDTO(it) }
+    }
+    fun toAdquisicionDTO(items: List<Adquisicion>): List<AdquisicionDTO> {
+        return items.map { toAdquisicionDTO(it) }
     }
 }

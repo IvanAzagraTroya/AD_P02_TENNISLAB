@@ -2,53 +2,39 @@ package controllers
 
 import com.google.gson.GsonBuilder
 import dto.PersonalizadoraDTO
-import java.sql.SQLException
+import services.PersonalizadoraService
+import util.generateRespuesta
 import java.util.*
 
 object PersonalizadoraController {
-    /*
+    //TODO: HAY QUE HACER UN MAQUINACONTROLLER QUE SEA GENERICO, AUNQUE POR DEBAJO LLAME A ESTE CONTROLLER Y AL OTRO
     private val service = PersonalizadoraService()
 
-    @Throws(SQLException::class)
-    fun findAllPersonalizadora(): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getAllPersonalizadora())
-            ?: throw SQLException("Error at PersonalizadoraController.findAllPersonalizadoras")
+    fun findAllPersonalizadoras(): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllPersonalizadoras())
+            ?: "Error at PersonalizadoraController.findAllPersonalizadoras"
+        return generateRespuesta(result, "Error at PersonalizadoraController.findAllPersonalizadoras")
     }
 
-    @Throws(SQLException::class)
-    private fun getPersonalizadoraById(id: String): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getPersonalizadoraById(UUID.fromString(id)))
-            ?: throw SQLException("Personalizadora with id $id not found.")
-    }
-
-    @Throws(SQLException::class)
-    private fun getPersonalizadoraById(id: UUID): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun getPersonalizadoraById(id: UUID): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getPersonalizadoraById(id))
-            ?: throw SQLException("Personalizadora with id $id not found.")
+            ?: "Personalizadora with id $id not found."
+        return generateRespuesta(result, "Personalizadora with id $id not found.")
     }
 
-    @Throws(SQLException::class)
-    private fun insertPersonalizadora(dto: PersonalizadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun insertPersonalizadora(dto: PersonalizadoraDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createPersonalizadora(dto))
-            ?: throw SQLException("Could not insert Personalizadora with id ${dto.id}")
+            ?: "Could not insert Personalizadora with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Personalizadora with id ${dto.id}")
     }
 
-    @Throws(SQLException::class)
-    private fun updatePersonalizadora(dto: PersonalizadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.updatePersonalizadora(dto))
-            ?: throw SQLException("Could not update Personalizadora with id ${dto.id}")
-    }
-
-    @Throws(SQLException::class)
-    private fun deletePersonalizadora(dto: PersonalizadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun deletePersonalizadora(dto: PersonalizadoraDTO): String {
+        val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deletePersonalizadora(dto))
-            ?: throw SQLException("Could not delete Personalizadora with id ${dto.id}")
+            ?: "Could not delete Personalizadora with id ${dto.id}"
+        return generateRespuesta(result, "Could not delete Personalizadora with id ${dto.id}")
     }
-    */
 }
