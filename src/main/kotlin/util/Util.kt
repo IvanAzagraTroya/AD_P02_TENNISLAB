@@ -43,3 +43,8 @@ fun generateRespuesta(result: String, errorMessage: String): String {
     return GsonBuilder().setPrettyPrinting().create()
         .toJson(respuesta)
 }
+
+fun betweenXandY(res: String, x: Int, y: Int): Boolean {
+    val n = res.toIntOrNull() ?: return false
+    return n in x..y
+}

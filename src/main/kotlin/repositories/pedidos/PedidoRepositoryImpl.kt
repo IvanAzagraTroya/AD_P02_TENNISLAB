@@ -24,6 +24,7 @@ class PedidoRepositoryImpl(
         }
     }
 
+    //TODO: QUE SE AGREGUEN TURNOS Y TAREAS https://www.baeldung.com/kotlin/exposed-persistence
     private fun insert(entity: Pedido): Pedido{
         return pedidoDao.new(entity.id) {
             client = userDao.findById(entity.client.id) ?: throw Exception()

@@ -19,12 +19,12 @@ class UserRepositoryImpl(
         clientesDao.findById(id)?.fromUserDaoToUser()
     }
 
-    override fun findByEmail(email: String): User = transaction {
-        clientesDao.find { UserTable.email eq email }.first().fromUserDaoToUser()
+    override fun findByEmail(email: String): User? = transaction {
+        clientesDao.find { UserTable.email eq email }.firstOrNull()?.fromUserDaoToUser()
     }
 
-    override fun findByPhone(phone: String): User = transaction {
-        clientesDao.find { UserTable.email eq phone }.first().fromUserDaoToUser()
+    override fun findByPhone(phone: String): User? = transaction {
+        clientesDao.find { UserTable.email eq phone }.firstOrNull()?.fromUserDaoToUser()
     }
 
     override fun create(entity: User): User = transaction {

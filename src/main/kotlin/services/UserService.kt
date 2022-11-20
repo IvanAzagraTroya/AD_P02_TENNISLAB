@@ -18,12 +18,12 @@ class UserService: BaseService<User, UUID, UserRepositoryImpl>(UserRepositoryImp
         return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun getUserByMail(mail: String): UserDTO {
-        return mapper.toDTO(repository.findByEmail(mail))
+    fun getUserByMail(mail: String): UserDTO? {
+        return repository.findByEmail(mail)?.let { mapper.toDTO(it) }
     }
 
-    fun getUserByPhone(phone: String): UserDTO {
-        return mapper.toDTO(repository.findByPhone(phone))
+    fun getUserByPhone(phone: String): UserDTO? {
+        return repository.findByPhone(phone)?.let { mapper.toDTO(it) }
     }
 
     fun createUser(user: UserDTO): UserDTO {
