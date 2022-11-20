@@ -17,25 +17,11 @@ object UserController {
         return generateRespuesta(result, "Error at UserController.findAllUsers")
     }
 
-    fun findAllAdmins(): String {
+    fun findAllUsersWithRole(role: Profile): String {
         val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getAllUsers().filter { it.perfil == Profile.ADMIN })
-            ?: "Error at UserController.findAllAdmins"
-        return generateRespuesta(result, "Error at UserController.findAllAdmins")
-    }
-
-    fun findAllWorkers(): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getAllUsers().filter { it.perfil == Profile.WORKER })
-            ?: "Error at UserController.findAllWorkers"
-        return generateRespuesta(result, "Error at UserController.findAllWorkers")
-    }
-
-    fun findAllClients(): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getAllUsers().filter { it.perfil == Profile.CLIENT })
-            ?: "Error at UserController.findAllClients"
-        return generateRespuesta(result, "Error at UserController.findAllClients")
+            .toJson(service.getAllUsers().filter { it.perfil == role })
+            ?: "Error at UserController.findAllUsersWithRole $role"
+        return generateRespuesta(result, "Error at UserController.findAllUsersWithRole $role")
     }
 
     fun getUserById(id: UUID): String {
@@ -50,6 +36,21 @@ object UserController {
             .toJson(service.getUserByMail(email))
             ?: "User with email $email not found."
         return generateRespuesta(result, "User with email $email not found.")
+    }
+
+    fun getUserByEmailForLogin(email: String): UserDTO? {
+        return service.getUserByMail(email)
+    }
+
+    fun getUserByPhone(phone: String): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getUserByPhone(phone))
+            ?: "User with phone $phone not found."
+        return generateRespuesta(result, "User with phone $phone not found.")
+    }
+
+    fun getUserByPhoneForLogin(phone: String): UserDTO? {
+        return service.getUserByPhone(phone)
     }
 
     fun insertUser(dto: UserDTO): String {

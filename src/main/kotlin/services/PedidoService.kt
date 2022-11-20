@@ -20,11 +20,11 @@ class PedidoService : BaseService<Pedido, UUID, PedidoRepositoryImpl>(PedidoRepo
         return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun createPedido(user: PedidoDTO): PedidoDTO {
-        return mapper.toDTO(this.insert(mapper.fromDTO(user)))
+    fun createPedido(pedido: PedidoDTO): PedidoDTO {
+        return mapper.toDTO(this.insert(mapper.fromDTO(pedido)))
     }
 
-    fun deletePedido(user: PedidoDTO): Boolean {
-        return this.delete(mapper.fromDTO(user))
+    fun deletePedido(pedido: PedidoDTO): Boolean {
+        return this.delete(mapper.fromDTO(pedido))
     }
 }

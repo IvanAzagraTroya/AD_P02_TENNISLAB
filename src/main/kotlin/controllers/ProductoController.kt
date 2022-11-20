@@ -17,6 +17,13 @@ object ProductoController {
         return generateRespuesta(result, "Error at ProductoController.findAllProductos")
     }
 
+    fun findAllProductosDisponibles(): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllProductos().filter { it.stock > 0 })
+            ?: "Error at ProductoController.findAllProductosDisponibles"
+        return generateRespuesta(result, "Error at ProductoController.findAllProductosDisponibles")
+    }
+
     fun getProductoById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getProductoById(id))
