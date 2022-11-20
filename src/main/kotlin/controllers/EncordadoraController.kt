@@ -2,53 +2,38 @@ package controllers
 
 import com.google.gson.GsonBuilder
 import dto.EncordadoraDTO
-import java.sql.SQLException
+import services.EncordadoraService
+import util.generateRespuesta
 import java.util.*
 
 object EncordadoraController {
-    /*
     private val service = EncordadoraService()
 
-    @Throws(SQLException::class)
     fun findAllEncordadoras(): String {
-        return GsonBuilder().setPrettyPrinting().create()
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllEncordadoras())
-            ?: throw SQLException("Error at EncordadoraController.findAllEncordadoras")
+            ?: "Error at EncordadoraController.findAllEncordadoras"
+        return generateRespuesta(result, "Error at EncordadoraController.findAllEncordadoras")
     }
 
-    @Throws(SQLException::class)
-    private fun getEncordadoraById(id: String): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getEncordadoraById(UUID.fromString(id)))
-            ?: throw SQLException("Encordadora with id $id not found.")
-    }
-
-    @Throws(SQLException::class)
-    private fun getEncordadoraById(id: UUID): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun getEncordadoraById(id: UUID): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getEncordadoraById(id))
-            ?: throw SQLException("Encordadora with id $id not found.")
+            ?: "Encordadora with id $id not found."
+        return generateRespuesta(result, "Encordadora with id $id not found.")
     }
 
-    @Throws(SQLException::class)
-    private fun insertEncordadora(dto: EncordadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun insertEncordadora(dto: EncordadoraDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createEncordadora(dto))
-            ?: throw SQLException("Could not insert Encordadora with id ${dto.id}")
+            ?: "Could not insert Encordadora with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Encordadora with id ${dto.id}")
     }
 
-    @Throws(SQLException::class)
-    private fun updateEncordadora(dto: EncordadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.updateEncordadora(dto))
-            ?: throw SQLException("Could not update Encordadora with id ${dto.id}")
-    }
-
-    @Throws(SQLException::class)
-    private fun deleteEncordadora(dto: EncordadoraDTO): String {
-        return GsonBuilder().setPrettyPrinting().create()
+    fun deleteEncordadora(dto: EncordadoraDTO): String {
+        val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteEncordadora(dto))
-            ?: throw SQLException("Could not delete Encordadora with id ${dto.id}")
+            ?: "Could not delete Encordadora with id ${dto.id}"
+        return generateRespuesta(result, "Could not delete Encordadora with id ${dto.id}")
     }
-    */
 }

@@ -7,7 +7,6 @@ import util.generateRespuesta
 import java.util.*
 
 object PersonalizadoraController {
-    //TODO: HAY QUE HACER UN MAQUINACONTROLLER QUE SEA GENERICO, AUNQUE POR DEBAJO LLAME A ESTE CONTROLLER Y AL OTRO
     private val service = PersonalizadoraService()
 
     fun findAllPersonalizadoras(): String {
@@ -32,7 +31,7 @@ object PersonalizadoraController {
     }
 
     fun deletePersonalizadora(dto: PersonalizadoraDTO): String {
-        val result =GsonBuilder().setPrettyPrinting().create()
+        val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deletePersonalizadora(dto))
             ?: "Could not delete Personalizadora with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Personalizadora with id ${dto.id}")
