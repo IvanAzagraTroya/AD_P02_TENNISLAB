@@ -2,7 +2,6 @@ package repositories.maquina
 
 import entities.MaquinaDao
 import mappers.fromMaquinaDaoToMaquina
-import mappers.fromTareaDaoToTarea
 import models.Maquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction

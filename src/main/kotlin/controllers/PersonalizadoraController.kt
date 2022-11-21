@@ -16,6 +16,27 @@ object PersonalizadoraController {
         return generateRespuesta(result, "Error at PersonalizadoraController.findAllPersonalizadoras")
     }
 
+    fun findAllManeuverability(bool: Boolean): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllPersonalizadoras().filter { it.measuresManeuverability == bool })
+            ?: "Error at PersonalizadoraController.findAllManeuverability"
+        return generateRespuesta(result, "Error at PersonalizadoraController.findAllManeuverability")
+    }
+
+    fun findAllRigidity(bool: Boolean): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllPersonalizadoras().filter { it.measuresRigidity == bool })
+            ?: "Error at PersonalizadoraController.findAllRigidity"
+        return generateRespuesta(result, "Error at PersonalizadoraController.findAllRigidity")
+    }
+
+    fun findAllBalance(bool: Boolean): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllPersonalizadoras().filter { it.measuresBalance == bool })
+            ?: "Error at PersonalizadoraController.findAllBalance"
+        return generateRespuesta(result, "Error at PersonalizadoraController.findAllBalance")
+    }
+
     fun getPersonalizadoraById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getPersonalizadoraById(id))
