@@ -40,7 +40,7 @@ fun menuUsers() {
 }
 
 private fun delete() {
-    println(" - Email of the target user:")
+    println(" - Email of target user:")
     val email = readln()
     val baseUser = UserController.getUserByEmailForLogin(email)
     if (baseUser == null) println("There are no users with email: $email")
@@ -58,7 +58,7 @@ private fun delete() {
 }
 
 private fun update() {
-    println(" - Current email of the target user:")
+    println(" - Current email of target user:")
     val email = readln()
     val baseUser = UserController.getUserByEmailForLogin(email)
     if (baseUser == null) println("There are no users with email: $email")

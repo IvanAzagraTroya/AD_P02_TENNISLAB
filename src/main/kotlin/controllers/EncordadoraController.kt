@@ -16,6 +16,13 @@ object EncordadoraController {
         return generateRespuesta(result, "Error at EncordadoraController.findAllEncordadoras")
     }
 
+    fun findAllManuales(bool: Boolean): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.getAllEncordadoras().filter { it.isManual == bool })
+            ?: "Error at EncordadoraController.findAllManuales"
+        return generateRespuesta(result, "Error at EncordadoraController.findAllManuales")
+    }
+
     fun getEncordadoraById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getEncordadoraById(id))
