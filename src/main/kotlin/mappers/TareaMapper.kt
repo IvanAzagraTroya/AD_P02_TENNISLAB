@@ -16,19 +16,21 @@ import repositories.tarea.TareaRepositoryImpl
 
 // TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
 
-fun TareaDao.fromTareaDaoToTarea(tareaDao: UUIDEntityClass<TareaDao>,
-                                 productoDao: UUIDEntityClass<ProductoDao>,
-                                 userDao: UUIDEntityClass<UserDao>): Tarea {
+fun TareaDao.fromTareaDaoToTarea(
+    raqueta: Producto,
+    user: User
+): Tarea {
     return when (TipoTarea.parseTipoTarea(tipoTarea)) {
-        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(tareaDao, productoDao, userDao)
-        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(tareaDao, productoDao, userDao)
-        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao)
+        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(raqueta, user)
+        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(raqueta, user)
+        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(raqueta, user)
     }
 }
 
-fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(tareaDao: UUIDEntityClass<TareaDao>,
-                                                               productoDao: UUIDEntityClass<ProductoDao>,
-                                                               userDao: UUIDEntityClass<UserDao>): Personalizacion {
+fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
+    tareaDao: UUIDEntityClass<TareaDao>,
+    productoDao: UUIDEntityClass<ProductoDao>,
+    userDao: UUIDEntityClass<UserDao>): Personalizacion {
     val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Personalizacion(
@@ -41,9 +43,25 @@ fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(tareaDao: UUIDEnt
     )
 }
 
-fun EncordadoDao.fromEncordadoDaoToEncordado(tareaDao: UUIDEntityClass<TareaDao>,
-                                             productoDao: UUIDEntityClass<ProductoDao>,
-                                             userDao: UUIDEntityClass<UserDao>): Encordado {
+fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
+    raqueta: Producto,
+    user: User
+): Personalizacion {
+    return Personalizacion(
+        id = id.value,
+        raqueta = raqueta,
+        user = user,
+        peso = peso,
+        balance = balance,
+        rigidez = rigidez
+    )
+}
+
+fun EncordadoDao.fromEncordadoDaoToEncordado(
+    tareaDao: UUIDEntityClass<TareaDao>,
+    productoDao: UUIDEntityClass<ProductoDao>,
+    userDao: UUIDEntityClass<UserDao>
+): Encordado {
     val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Encordado(
@@ -58,15 +76,46 @@ fun EncordadoDao.fromEncordadoDaoToEncordado(tareaDao: UUIDEntityClass<TareaDao>
     )
 }
 
-fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(tareaDao: UUIDEntityClass<TareaDao>,
-                                                   productoDao: UUIDEntityClass<ProductoDao>,
-                                                   userDao: UUIDEntityClass<UserDao>): Adquisicion {
+fun EncordadoDao.fromEncordadoDaoToEncordado(
+    raqueta: Producto,
+    user: User
+): Encordado {
+    return Encordado(
+        id = id.value,
+        raqueta = raqueta,
+        user = user,
+        tensionHorizontal = tensionHorizontal,
+        cordajeHorizontal = cordajeHorizontal.fromProductoDaoToProducto(),
+        tensionVertical = tensionVertical,
+        cordajeVertical = cordajeVertical.fromProductoDaoToProducto(),
+        dosNudos = dosNudos
+    )
+}
+
+fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
+    tareaDao: UUIDEntityClass<TareaDao>,
+    productoDao: UUIDEntityClass<ProductoDao>,
+    userDao: UUIDEntityClass<UserDao>
+): Adquisicion {
     val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
     val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
     return Adquisicion(
         id = id.value,
-        raqueta =  tarea.raqueta,
+        raqueta = tarea.raqueta,
         user = tarea.user,
+        productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
+        precio = precio
+    )
+}
+
+fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
+    raqueta: Producto,
+    user: User
+): Adquisicion {
+    return Adquisicion(
+        id = id.value,
+        raqueta = raqueta,
+        user = user,
         productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
         precio = precio
     )

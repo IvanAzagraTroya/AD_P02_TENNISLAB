@@ -2,8 +2,8 @@ package util
 
 import com.google.gson.GsonBuilder
 import dto.Respuesta
-import org.abstractj.kalium.crypto.Hash
-import org.abstractj.kalium.encoders.Encoder.HEX
+import java.math.BigInteger
+import java.security.MessageDigest
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,9 +27,20 @@ fun Double.toLocalNumber(locale: Locale): String {
 }
 
 fun encode(text: String): String {
+    val md = MessageDigest.getInstance("SHA-512")
+    val messageDigest = md.digest(text.encodeToByteArray())
+    val no = BigInteger(1, messageDigest)
+    var hashText = no.toString(16)
+    while (hashText.length < 32) {
+        hashText = "0$hashText"
+    }
+    return hashText
+    /*
     val hash = Hash()
-    val tb = hash.sha512(text.toByteArray())
+    val tb = hash.blake2(text.toByteArray())
     return HEX.encode(tb)
+
+     */
 }
 
 fun generateRespuesta(result: String, errorMessage: String): String {

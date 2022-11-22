@@ -43,4 +43,17 @@ class EncordadoService: BaseService<Encordado, UUID, EncordadoRepositoryImpl>(
     fun deleteEncordado(encordado: EncordadoDTO): Boolean {
         return this.delete(mapper.fromEncordadoDTO(encordado))
     }
+
+
+    fun createEncordadoInit(encordado: EncordadoDTO): EncordadoDTO {
+        val tarea = Tarea(
+            id = encordado.id,
+            raqueta = encordado.raqueta,
+            precio = encordado.precio,
+            user = encordado.user,
+            tipoTarea = TipoTarea.ENCORDADO
+        )
+        tareaRepo.insert(tarea)
+        return mapper.toEncordadoDTO(repository.insert(mapper.fromEncordadoDTO(encordado)))
+    }
 }

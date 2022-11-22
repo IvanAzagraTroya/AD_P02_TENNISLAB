@@ -12,7 +12,7 @@ class AdquisicionDTO(): TareaDTO {
     lateinit var raqueta: Producto
     lateinit var user: User
     lateinit var productoAdquirido: Producto
-    var precio: Double = productoAdquirido.precio
+    var precio: Double = 0.0
 
     constructor(
         id: UUID?,
@@ -24,6 +24,7 @@ class AdquisicionDTO(): TareaDTO {
         this.raqueta = raqueta
         this.user = user
         this.productoAdquirido = productoAdquirido
+        this.precio = productoAdquirido.precio
     }
 
     fun fromJSON(json: String): AdquisicionDTO? {

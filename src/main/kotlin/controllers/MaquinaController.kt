@@ -135,4 +135,15 @@ object MaquinaController {
             ) }
         }
     }
+
+    fun insertMaquinaInit(dto: MaquinaDTO): String {
+        return when (dto) {
+            is PersonalizadoraDTO -> PersonalizadoraController.insertPersonalizadoraInit(dto)
+            is EncordadoraDTO -> EncordadoraController.insertEncordadoraInit(dto)
+            else -> { generateRespuesta(
+                "Error at MaquinaController.insertMaquina: DTO not supported.",
+                "Error at MaquinaController.insertMaquina: DTO not supported."
+            ) }
+        }
+    }
 }

@@ -33,4 +33,8 @@ class UserService: BaseService<User, UUID, UserRepositoryImpl>(UserRepositoryImp
     fun deleteUser(user: UserDTO): Boolean {
         return this.delete(mapper.fromDTO(user))
     }
+
+    fun createUserInit(user: UserDTO): UserDTO {
+        return mapper.toDTO(repository.insert(mapper.fromDTO(user)))
+    }
 }

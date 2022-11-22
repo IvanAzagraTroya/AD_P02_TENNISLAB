@@ -43,4 +43,11 @@ object EncordadoraController {
             ?: "Could not delete Encordadora with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Encordadora with id ${dto.id}")
     }
+
+    fun insertEncordadoraInit(dto: EncordadoraDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createEncordadoraInit(dto))
+            ?: "Could not insert Encordadora with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Encordadora with id ${dto.id}")
+    }
 }

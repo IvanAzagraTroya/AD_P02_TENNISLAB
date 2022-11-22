@@ -2,25 +2,32 @@ package mappers
 
 import dto.TurnoDTO
 import entities.*
-import models.Tarea
 import models.Turno
 import org.jetbrains.exposed.dao.UUIDEntityClass
-import repositories.tarea.TareaRepositoryImpl
 
 fun TurnoDao.fromTurnoDaoToTurno(
     tareaDao: UUIDEntityClass<TareaDao>,
     productoDao: UUIDEntityClass<ProductoDao>,
     userDao: UUIDEntityClass<UserDao>,
-    maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Turno {
     return Turno(
         id = id.value,
         worker = worker.fromUserDaoToUser(),
-        maquina = maquina.fromMaquinaDaoToMaquina(maquinaDao),
+        maquina = maquina.fromMaquinaDaoToMaquina(
+            maquina.modelo,
+            maquina.marca,
+            maquina.fechaAdquisicion,
+            maquina.numeroSerie
+        ),
         horaInicio = horaInicio,
         horaFin = horaFin,
-        tarea1 = tarea1?.fromTareaDaoToTarea(tareaDao, productoDao, userDao),
-        tarea2 = tarea2?.fromTareaDaoToTarea(tareaDao, productoDao, userDao)
+        tarea1 = tarea1?.fromTareaDaoToTarea(
+            tarea1!!.raqueta.fromProductoDaoToProducto(),
+            tarea1!!.user.fromUserDaoToUser()
+        ),
+        tarea2 = tarea2?.fromTareaDaoToTarea(
+            tarea2!!.raqueta.fromProductoDaoToProducto(),
+            tarea2!!.user.fromUserDaoToUser())
     )
 }
 

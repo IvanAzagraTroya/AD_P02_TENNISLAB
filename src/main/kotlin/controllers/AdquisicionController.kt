@@ -36,4 +36,12 @@ object AdquisicionController {
             ?: "Could not delete Adquisicion with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Adquisicion with id ${dto.id}")
     }
+
+
+    fun insertAdquisicionInit(dto: AdquisicionDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createAdquisicionInit(dto))
+            ?: "Could not insert Adquisicion with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Adquisicion with id ${dto.id}")
+    }
 }

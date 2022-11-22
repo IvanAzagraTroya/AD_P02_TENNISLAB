@@ -41,4 +41,18 @@ class EncordadoraService: BaseService<Encordadora, UUID, EncordadoraRepositoryIm
     fun deleteEncordadora(encordadora: EncordadoraDTO): Boolean {
         return this.delete(mapper.fromEncordadoraDTO(encordadora))
     }
+
+
+    fun createEncordadoraInit(encordadora: EncordadoraDTO): EncordadoraDTO {
+        val maquina = Maquina(
+            id = encordadora.id,
+            modelo = encordadora.modelo,
+            marca = encordadora.marca,
+            fechaAdquisicion = encordadora.fechaAdquisicion,
+            numeroSerie = encordadora.numeroSerie,
+            tipoMaquina = TipoMaquina.ENCORDADORA
+        )
+        maquinaRepo.insert(maquina)
+        return mapper.toEncordadoraDTO(repository.insert(mapper.fromEncordadoraDTO(encordadora)))
+    }
 }

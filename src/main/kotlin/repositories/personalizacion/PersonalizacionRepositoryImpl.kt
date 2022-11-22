@@ -27,26 +27,26 @@ class PersonalizacionRepositoryImpl(
         )
     }
 
-    override fun create(entity: Personalizacion): Personalizacion = transaction {
+    override fun create(entity: Personalizacion): Personalizacion {
         val exists = personalizacionDao.findById(entity.id)
-        exists?.let { update(entity, exists) }
+        return exists?.let { update(entity, exists) }
             ?: run { insert(entity) }
     }
 
-    private fun update(entity: Personalizacion, exists: PersonalizacionDao): Personalizacion {
-        return exists.apply {
+    private fun update(entity: Personalizacion, exists: PersonalizacionDao): Personalizacion = transaction {
+        exists.apply {
             peso = entity.peso
             balance = entity.balance
             rigidez = entity.rigidez
-        }.fromPersonalizacionDaoToPersonalizacion(tareaDao, productoDao, userDao)
+        }.fromPersonalizacionDaoToPersonalizacion(entity.raqueta, entity.user)
     }
 
-    private fun insert(entity: Personalizacion): Personalizacion {
-        return personalizacionDao.new(entity.id) {
+    fun insert(entity: Personalizacion): Personalizacion = transaction {
+        personalizacionDao.new(entity.id) {
             peso = entity.peso
             balance = entity.balance
             rigidez = entity.rigidez
-        }.fromPersonalizacionDaoToPersonalizacion(tareaDao, productoDao, userDao)
+        }.fromPersonalizacionDaoToPersonalizacion(entity.raqueta, entity.user)
     }
 
     override fun delete(entity: Personalizacion): Boolean = transaction {

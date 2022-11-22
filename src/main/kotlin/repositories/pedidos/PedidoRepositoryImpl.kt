@@ -15,9 +15,9 @@ class PedidoRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val tareaDao: UUIDEntityClass<TareaDao>
 ): IPedidoRepository {
-    override fun create(entity: Pedido): Pedido = transaction{
+    override fun create(entity: Pedido): Pedido {
         val existe = pedidoDao.findById(entity.id)
-        existe?.let {
+        return existe?.let {
             update(entity, existe)
         } ?: kotlin.run {
             insert(entity)
@@ -25,8 +25,10 @@ class PedidoRepositoryImpl(
     }
 
     //TODO: QUE SE AGREGUEN TURNOS Y TAREAS https://www.baeldung.com/kotlin/exposed-persistence
-    private fun insert(entity: Pedido): Pedido{
-        return pedidoDao.new(entity.id) {
+    fun insert(entity: Pedido): Pedido  = transaction {
+        // creamos el pedido
+        //como la lista de tareas y turnos esta definida como val, ya que si no no dejaba meter el referrersOn, no la podemos cambiar ahora
+        pedidoDao.new(entity.id) {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada
@@ -36,8 +38,8 @@ class PedidoRepositoryImpl(
         }.fromPedidoDaoToPedido(tareaDao, productoDao, userDao, maquinaDao)
     }
 
-    private fun update(entity: Pedido, existe: PedidoDao): Pedido {
-        return existe.apply {
+    private fun update(entity: Pedido, existe: PedidoDao): Pedido = transaction {
+        existe.apply {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada

@@ -16,27 +16,27 @@ class AdquisicionRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val userDao: UUIDEntityClass<UserDao>
 ): IAdquisicionRepository {
-    override fun create(entity: Adquisicion): Adquisicion = transaction {
+    override fun create(entity: Adquisicion): Adquisicion {
         val existe = adquisicionDao.findById(entity.id)
-        existe?.let {
+        return existe?.let {
             update(entity, existe)
         } ?: run {
             insert(entity)
         }
     }
 
-    private fun insert(entity: Adquisicion): Adquisicion {
-        return adquisicionDao.new(entity.id) {
+    fun insert(entity: Adquisicion): Adquisicion = transaction {
+        adquisicionDao.new(entity.id) {
             productoAdquirido = productoDao.findById(entity.productoAdquirido.id) ?: throw Exception()
             precio = entity.precio
-        }.fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao)
+        }.fromAdquisicionDaoToAdquisicion(entity.raqueta, entity.user)
     }
 
-    private fun update(entity: Adquisicion, existe: AdquisicionDao): Adquisicion {
-        return existe.apply {
+    private fun update(entity: Adquisicion, existe: AdquisicionDao): Adquisicion = transaction {
+        existe.apply {
             productoAdquirido = productoDao.findById(entity.productoAdquirido.id) ?: throw Exception()
             precio = entity.precio
-        }.fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao)
+        }.fromAdquisicionDaoToAdquisicion(entity.raqueta, entity.user)
     }
 
     override fun readAll(): List<Adquisicion> = transaction {

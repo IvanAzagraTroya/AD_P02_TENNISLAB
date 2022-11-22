@@ -4,7 +4,6 @@ import java.sql.*
 
 /**
  * Manejador de Bases de Datos Relacionales
- * @author Jose Luis González Sánchez
  * @version 1.0
  */
 

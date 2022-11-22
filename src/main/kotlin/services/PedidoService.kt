@@ -27,4 +27,9 @@ class PedidoService : BaseService<Pedido, UUID, PedidoRepositoryImpl>(PedidoRepo
     fun deletePedido(pedido: PedidoDTO): Boolean {
         return this.delete(mapper.fromDTO(pedido))
     }
+
+
+    fun createPedidoInit(pedido: PedidoDTO): PedidoDTO {
+        return mapper.toDTO(repository.insert(mapper.fromDTO(pedido)))
+    }
 }

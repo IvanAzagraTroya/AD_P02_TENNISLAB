@@ -43,4 +43,17 @@ class AdquisicionService: BaseService<Adquisicion, UUID, AdquisicionRepositoryIm
     fun deleteAdquisicion(adquisicion: AdquisicionDTO): Boolean {
         return this.delete(mapper.fromAdquisicionDTO(adquisicion))
     }
+
+
+    fun createAdquisicionInit(adquisicion: AdquisicionDTO): AdquisicionDTO {
+        val tarea = Tarea(
+            id = adquisicion.id,
+            raqueta = adquisicion.raqueta,
+            precio = adquisicion.precio,
+            user = adquisicion.user,
+            tipoTarea = TipoTarea.ADQUISICION
+        )
+        tareaRepo.insert(tarea)
+        return mapper.toAdquisicionDTO(repository.insert(mapper.fromAdquisicionDTO(adquisicion)))
+    }
 }

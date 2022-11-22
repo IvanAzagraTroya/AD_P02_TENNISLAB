@@ -18,14 +18,14 @@ class ProductoRepositoryImpl(
         productoDao.findById(id)?.fromProductoDaoToProducto()
     }
 
-    override fun create(entity: Producto): Producto = transaction {
+    override fun create(entity: Producto): Producto {
         val existe = productoDao.findById(entity.id)
-        existe?.let { update(entity, existe) }
+        return existe?.let { update(entity, existe) }
             ?: run { insert(entity) }
     }
 
-    private fun insert(entity: Producto) : Producto {
-        return productoDao.new(entity.id) {
+    fun insert(entity: Producto) : Producto = transaction {
+        productoDao.new(entity.id) {
             tipoProducto = entity.tipoProducto.toString()
             marca = entity.marca
             modelo = entity.modelo
@@ -34,8 +34,8 @@ class ProductoRepositoryImpl(
         }.fromProductoDaoToProducto()
     }
 
-    private fun update(entity: Producto, existe: ProductoDao): Producto {
-        return existe.apply {
+    private fun update(entity: Producto, existe: ProductoDao): Producto = transaction {
+        existe.apply {
             tipoProducto = entity.tipoProducto.toString()
             marca = entity.marca
             modelo = entity.modelo

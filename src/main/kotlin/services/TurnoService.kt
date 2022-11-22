@@ -28,4 +28,9 @@ class TurnoService: BaseService<Turno, UUID, TurnoRepositoryImpl>(
     fun deleteTurno(turno: TurnoDTO): Boolean {
         return this.delete(mapper.fromDTO(turno))
     }
+
+
+    fun createTurnoInit(turno: TurnoDTO): TurnoDTO {
+        return mapper.toDTO(repository.insert(mapper.fromDTO(turno)))
+    }
 }

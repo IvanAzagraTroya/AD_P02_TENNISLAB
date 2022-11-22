@@ -13,7 +13,7 @@ class Pedido() {
     lateinit var fechaEntrada: LocalDate
     lateinit var fechaProgramada: LocalDate
     lateinit var fechaSalida: LocalDate
-    lateinit var fechaEntrega: LocalDate // todo Pone que en principio tendrán que ser la misma fecha y que más adelante se actualizará a la que termine siendo
+    lateinit var fechaEntrega: LocalDate
     var precio: Double = 0.0
 
     constructor(

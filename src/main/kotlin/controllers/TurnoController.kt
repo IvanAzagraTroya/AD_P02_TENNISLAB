@@ -44,4 +44,11 @@ object TurnoController {
             ?: "Could not delete Turno with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Turno with id ${dto.id}")
     }
+
+    fun insertTurnoInit(dto: TurnoDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createTurnoInit(dto))
+            ?: "Could not insert Turno with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Turno with id ${dto.id}")
+    }
 }

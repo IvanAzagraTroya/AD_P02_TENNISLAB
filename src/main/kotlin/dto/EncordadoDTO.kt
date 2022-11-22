@@ -16,7 +16,7 @@ class EncordadoDTO(): TareaDTO {
     var tensionVertical: Double = 0.0
     lateinit var cordajeVertical: Producto
     var dosNudos: Boolean = true
-    val precio: Double = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
+    var precio: Double = 0.0
 
     constructor(
         id: UUID?,
@@ -36,6 +36,7 @@ class EncordadoDTO(): TareaDTO {
         this.tensionVertical = tensionVertical
         this.cordajeVertical = cordajeVertical
         this.dosNudos = dosNudos
+        this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
     }
 
     fun fromJSON(json: String): EncordadoDTO? {
