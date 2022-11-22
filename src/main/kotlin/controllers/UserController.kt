@@ -66,4 +66,11 @@ object UserController {
             ?: "Could not delete User with id ${dto.id}"
         return generateRespuesta(result, "Could not delete User with id ${dto.id}")
     }
+
+    fun insertUserInit(dto: UserDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createUserInit(dto))
+            ?: "Could not insert User with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert User with id ${dto.id}")
+    }
 }

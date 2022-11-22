@@ -24,31 +24,31 @@ class EncordadoRepositoryImpl(
         encordadoDao.findById(id)?.fromEncordadoDaoToEncordado(tareaDao, productoDao, userDao)
     }
 
-    override fun create(entity: Encordado): Encordado = transaction {
+    override fun create(entity: Encordado): Encordado {
         val existe = encordadoDao.findById(entity.id)
-        existe?.let { update(entity, it) } ?: run { insert(entity) }
+        return existe?.let { update(entity, it) } ?: run { insert(entity) }
     }
 
-    private fun insert(entity: Encordado): Encordado {
-        return encordadoDao.new(entity.id) {
+    fun insert(entity: Encordado): Encordado = transaction {
+        encordadoDao.new(entity.id) {
             tensionHorizontal = entity.tensionHorizontal
             tensionVertical = entity.tensionVertical
             cordajeHorizontal = productoDao.findById(entity.cordajeHorizontal.id) ?: throw Exception()
             cordajeVertical = productoDao.findById(entity.cordajeVertical.id) ?: throw Exception()
             dosNudos = entity.dosNudos
             precio = entity.precio
-        }.fromEncordadoDaoToEncordado(tareaDao, productoDao, userDao)
+        }.fromEncordadoDaoToEncordado(entity.raqueta, entity.user)
     }
 
-    private fun update(entity: Encordado, existe: EncordadoDao): Encordado {
-        return existe.apply {
+    private fun update(entity: Encordado, existe: EncordadoDao): Encordado = transaction {
+        existe.apply {
             tensionHorizontal = entity.tensionHorizontal
             tensionVertical = entity.tensionVertical
             cordajeHorizontal = productoDao.findById(entity.cordajeHorizontal.id) ?: throw Exception()
             cordajeVertical = productoDao.findById(entity.cordajeVertical.id) ?: throw Exception()
             dosNudos = entity.dosNudos
             precio = entity.precio
-        }.fromEncordadoDaoToEncordado(tareaDao, productoDao, userDao)
+        }.fromEncordadoDaoToEncordado(entity.raqueta, entity.user)
     }
 
     override fun delete(entity: Encordado): Boolean = transaction {

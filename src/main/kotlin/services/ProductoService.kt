@@ -25,4 +25,8 @@ class ProductoService: BaseService<Producto, UUID, ProductoRepositoryImpl>(Produ
     fun deleteProducto(user: ProductoDTO): Boolean {
         return this.delete(mapper.fromDTO(user))
     }
+
+    fun createProductoInit(user: ProductoDTO): ProductoDTO {
+        return mapper.toDTO(repository.insert(mapper.fromDTO(user)))
+    }
 }

@@ -27,17 +27,17 @@ class UserRepositoryImpl(
         clientesDao.find { UserTable.email eq phone }.firstOrNull()?.fromUserDaoToUser()
     }
 
-    override fun create(entity: User): User = transaction {
+    override fun create(entity: User): User {
         val existe = clientesDao.findById(entity.id)
-        existe?.let {
+        return existe?.let {
             update(entity, existe)
         } ?: kotlin.run {
             insert(entity)
         }
     }
 
-    private fun insert(entity: User): User{
-        return clientesDao.new(entity.id) {
+    fun insert(entity: User): User = transaction {
+        clientesDao.new(entity.id) {
             nombre = entity.nombre
             apellido = entity.apellido
             telefono = entity.telefono
@@ -46,8 +46,8 @@ class UserRepositoryImpl(
         }.fromUserDaoToUser()
     }
 
-    private fun update(entity: User, existe: UserDao): User {
-        return existe.apply {
+    private fun update(entity: User, existe: UserDao): User = transaction {
+        existe.apply {
             nombre = entity.nombre
             apellido = entity.apellido
             telefono = entity.telefono

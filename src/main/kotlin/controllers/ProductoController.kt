@@ -51,4 +51,11 @@ object ProductoController {
             ?: "Could not delete Producto with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Producto with id ${dto.id}")
     }
+
+    fun insertProductoInit(dto: ProductoDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createProductoInit(dto))
+            ?: "Could not insert Producto with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Producto with id ${dto.id}")
+    }
 }

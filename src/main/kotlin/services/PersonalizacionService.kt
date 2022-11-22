@@ -44,4 +44,17 @@ class PersonalizacionService: BaseService<Personalizacion, UUID, Personalizacion
     fun deletePersonalizacion(personalizacion: PersonalizacionDTO): Boolean {
         return this.delete(mapper.fromPersonalizacionDTO(personalizacion))
     }
+
+
+    fun createPersonalizacionInit(personalizacion: PersonalizacionDTO): PersonalizacionDTO {
+        val tarea = Tarea(
+            id = personalizacion.id,
+            raqueta = personalizacion.raqueta,
+            precio = personalizacion.precio,
+            user = personalizacion.user,
+            tipoTarea = TipoTarea.PERSONALIZACION
+        )
+        tareaRepo.insert(tarea)
+        return mapper.toPersonalizacionDTO(repository.insert(mapper.fromPersonalizacionDTO(personalizacion)))
+    }
 }

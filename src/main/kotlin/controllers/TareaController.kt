@@ -78,4 +78,17 @@ object TareaController {
             ) }
         }
     }
+
+
+    fun insertTareaInit(dto: TareaDTO): String {
+        return when (dto) {
+            is AdquisicionDTO -> AdquisicionController.insertAdquisicionInit(dto)
+            is EncordadoDTO -> EncordadoController.insertEncordadoInit(dto)
+            is PersonalizacionDTO -> PersonalizacionController.insertPersonalizacionInit(dto)
+            else -> { generateRespuesta(
+                "Error at TareaController.insertTarea: DTO not supported.",
+                "Error at TareaController.insertTarea: DTO not supported."
+            ) }
+        }
+    }
 }

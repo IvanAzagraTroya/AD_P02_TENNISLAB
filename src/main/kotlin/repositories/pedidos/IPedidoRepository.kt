@@ -5,5 +5,4 @@ import repositories.ICRUDRepository
 import java.util.UUID
 
 interface IPedidoRepository : ICRUDRepository<Pedido, UUID> {
-    fun findById(id: UUID): Pedido?
 }

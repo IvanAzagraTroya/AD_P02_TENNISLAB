@@ -18,28 +18,27 @@ class EncordadoraRepositoryImpl(
     }
 
     override fun findById(id: UUID): Encordadora? = transaction {
-        encordadoraDao.findById(id)?.fromEncordadoraDaoToEncordadora(maquinaDao)
-    }
+        encordadoraDao.findById(id)?.fromEncordadoraDaoToEncordadora(maquinaDao)}
 
-    override fun create(entity: Encordadora): Encordadora = transaction {
+    override fun create(entity: Encordadora): Encordadora {
         val existe = encordadoraDao.findById(entity.id)
-        existe?.let { update(entity, it) } ?: run { insert(entity) }
+        return existe?.let { update(entity, it) } ?: run { insert(entity) }
     }
 
-    private fun insert(entity: Encordadora): Encordadora {
-        return encordadoraDao.new(entity.id) {
+    fun insert(entity: Encordadora): Encordadora = transaction {
+        encordadoraDao.new(entity.id) {
             isManual = entity.isManual
             maxTension = entity.maxTension
             minTension = entity.minTension
-        }.fromEncordadoraDaoToEncordadora(maquinaDao)
+        }.fromEncordadoraDaoToEncordadora(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
-    private fun update(entity: Encordadora, existe: EncordadoraDao): Encordadora {
-        return existe.apply {
+    private fun update(entity: Encordadora, existe: EncordadoraDao): Encordadora = transaction {
+        existe.apply {
             isManual = entity.isManual
             maxTension = entity.maxTension
             minTension = entity.minTension
-        }.fromEncordadoraDaoToEncordadora(maquinaDao)
+        }.fromEncordadoraDaoToEncordadora(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
     override fun delete(entity: Encordadora): Boolean = transaction {

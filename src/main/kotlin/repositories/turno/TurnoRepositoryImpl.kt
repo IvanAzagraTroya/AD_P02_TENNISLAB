@@ -15,21 +15,21 @@ class TurnoRepositoryImpl(
     private val tareaDao: UUIDEntityClass<TareaDao>
 ): ITurnoRepository {
     override fun readAll(): List<Turno> = transaction {
-        turnoDao.all().map { it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao) }
+        turnoDao.all().map { it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao) }
     }
 
     override fun findById(id: UUID): Turno? = transaction {
-        turnoDao.findById(id)?.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao)
+        turnoDao.findById(id)?.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
-    override fun create(entity: Turno): Turno = transaction {
+    override fun create(entity: Turno): Turno {
         val existe = turnoDao.findById(entity.id)
-        existe?.let { update(entity, existe) }
+        return existe?.let { update(entity, existe) }
             ?: run { insert(entity) }
     }
 
-    private fun update(entity: Turno, existe: TurnoDao): Turno {
-        return existe.apply {
+    private fun update(entity: Turno, existe: TurnoDao): Turno = transaction {
+        existe.apply {
             worker = userDao.findById(entity.worker.id) ?: throw Exception()
             maquina = maquinaDao.findById(entity.maquina.id) ?: throw Exception()
             horaInicio = entity.horaInicio
@@ -37,11 +37,11 @@ class TurnoRepositoryImpl(
             numPedidosActivos = entity.numPedidosActivos
             tarea1 = entity.tarea1?.id?.let { tareaDao.findById(it) }
             tarea2 = entity.tarea2?.id?.let { tareaDao.findById(it) }
-        }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao)
+        }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
-    private fun insert(entity: Turno): Turno {
-        return turnoDao.new(entity.id) {
+    fun insert(entity: Turno): Turno = transaction {
+        turnoDao.new(entity.id) {
             worker = userDao.findById(entity.worker.id) ?: throw Exception()
             maquina = maquinaDao.findById(entity.maquina.id) ?: throw Exception()
             horaInicio = entity.horaInicio
@@ -49,7 +49,7 @@ class TurnoRepositoryImpl(
             numPedidosActivos = entity.numPedidosActivos
             tarea1 = entity.tarea1?.id?.let { tareaDao.findById(it) }
             tarea2 = entity.tarea2?.id?.let { tareaDao.findById(it) }
-        }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao)
+        }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
     override fun delete(entity: Turno): Boolean = transaction {

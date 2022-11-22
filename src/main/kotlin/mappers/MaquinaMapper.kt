@@ -10,6 +10,7 @@ import models.*
 import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.maquina.MaquinaRepositoryImpl
+import java.time.LocalDate
 
 /**
  * @author Iván Azagra Troya
@@ -20,14 +21,39 @@ import repositories.maquina.MaquinaRepositoryImpl
 // No se puede hacer un fromMaquinasDaoToMaquinas porque la clase
 // Maquina es abstracta, por lo que no puede instanciar un objeto de la misma
 
-fun MaquinaDao.fromMaquinaDaoToMaquina(maquinaDao: UUIDEntityClass<MaquinaDao>): Maquina {
+fun MaquinaDao.fromMaquinaDaoToMaquina(
+    modelo: String,
+    marca: String,
+    fechaAdquisicion: LocalDate,
+    numeroSerie: String
+): Maquina {
     return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
-        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(maquinaDao)
-        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
+        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(modelo, marca, fechaAdquisicion, numeroSerie)
+        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(modelo, marca, fechaAdquisicion, numeroSerie)
     }
 }
 
-fun EncordadoraDao.fromEncordadoraDaoToEncordadora(maquinaDao: UUIDEntityClass<MaquinaDao>): Encordadora {
+fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
+    modelo: String,
+    marca: String,
+    fechaAdquisicion: LocalDate,
+    numeroSerie: String
+): Encordadora {
+    return Encordadora(
+        id = id.value,
+        modelo = modelo,
+        marca = marca,
+        fechaAdquisicion = fechaAdquisicion,
+        numeroSerie = numeroSerie,
+        isManual = isManual,
+        maxTension = maxTension,
+        minTension = minTension
+    )
+}
+
+fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
+    maquinaDao: UUIDEntityClass<MaquinaDao>
+): Encordadora {
     val repo = MaquinaRepositoryImpl(maquinaDao)
     val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
     return Encordadora(
@@ -42,7 +68,27 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(maquinaDao: UUIDEntityClass<M
     )
 }
 
-fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(maquinaDao: UUIDEntityClass<MaquinaDao>): Personalizadora{
+fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
+    modelo: String,
+    marca: String,
+    fechaAdquisicion: LocalDate,
+    numeroSerie: String
+): Personalizadora{
+    return Personalizadora(
+        id = id.value,
+        modelo = modelo,
+        marca = marca,
+        fechaAdquisicion = fechaAdquisicion,
+        numeroSerie = numeroSerie,
+        measuresManeuverability = measuresManeuverability,
+        measuresBalance = measuresBalance,
+        measuresRigidity = measuresRigidity
+    )
+}
+
+fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
+    maquinaDao: UUIDEntityClass<MaquinaDao>
+): Personalizadora{
     val repo = MaquinaRepositoryImpl(maquinaDao)
     val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
     return Personalizadora(

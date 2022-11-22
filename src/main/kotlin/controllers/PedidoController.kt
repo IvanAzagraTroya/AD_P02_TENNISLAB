@@ -52,4 +52,12 @@ object PedidoController {
             ?: "Could not delete Pedido with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Pedido with id ${dto.id}")
     }
+
+
+    fun insertPedidoInit(dto: PedidoDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createPedidoInit(dto))
+            ?: "Could not insert Pedido with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Pedido with id ${dto.id}")
+    }
 }

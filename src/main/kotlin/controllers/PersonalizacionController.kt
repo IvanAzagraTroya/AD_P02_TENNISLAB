@@ -36,4 +36,12 @@ object PersonalizacionController {
             ?: "Could not delete Personalizacion with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Personalizacion with id ${dto.id}")
     }
+
+
+    fun insertPersonalizacionInit(dto: PersonalizacionDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createPersonalizacionInit(dto))
+            ?: "Could not insert Personalizacion with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Personalizacion with id ${dto.id}")
+    }
 }

@@ -21,25 +21,25 @@ class PersonalizadoraRepositoryImpl(
         personalizadoraDao.findById(id)?.fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
     }
 
-    override fun create(entity: Personalizadora): Personalizadora = transaction {
+    override fun create(entity: Personalizadora): Personalizadora {
         val existe = personalizadoraDao.findById(entity.id)
-        existe?.let { update(entity, it) } ?: run { insert(entity) }
+        return existe?.let { update(entity, it) } ?: run { insert(entity) }
     }
 
-    private fun insert(entity: Personalizadora): Personalizadora {
-        return personalizadoraDao.new(entity.id) {
+    fun insert(entity: Personalizadora): Personalizadora = transaction {
+        personalizadoraDao.new(entity.id) {
             measuresManeuverability = entity.measuresManeuverability
             measuresBalance = entity.measuresBalance
             measuresRigidity = entity.measuresRigidity
-        }.fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
+        }.fromPersonalizadoraDaoToPersonalizadora(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
-    private fun update(entity: Personalizadora, existe: PersonalizadoraDao): Personalizadora {
-        return existe.apply {
+    private fun update(entity: Personalizadora, existe: PersonalizadoraDao): Personalizadora = transaction {
+        existe.apply {
             measuresManeuverability = entity.measuresManeuverability
             measuresBalance = entity.measuresBalance
             measuresRigidity = entity.measuresRigidity
-        }.fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
+        }.fromPersonalizadoraDaoToPersonalizadora(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
     override fun delete(entity: Personalizadora): Boolean = transaction {

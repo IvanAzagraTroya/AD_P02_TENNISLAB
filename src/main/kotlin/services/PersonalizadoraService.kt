@@ -42,4 +42,18 @@ class PersonalizadoraService: BaseService<Personalizadora, UUID, Personalizadora
     fun deletePersonalizadora(personalizadora: PersonalizadoraDTO): Boolean {
         return this.delete(mapper.fromPersonalizadoraDTO(personalizadora))
     }
+
+
+    fun createPersonalizadoraInit(personalizadora: PersonalizadoraDTO): PersonalizadoraDTO {
+        val maquina = Maquina(
+            id = personalizadora.id,
+            modelo = personalizadora.modelo,
+            marca = personalizadora.marca,
+            fechaAdquisicion = personalizadora.fechaAdquisicion,
+            numeroSerie = personalizadora.numeroSerie,
+            tipoMaquina = TipoMaquina.PERSONALIZADORA
+        )
+        maquinaRepo.insert(maquina)
+        return mapper.toPersonalizadoraDTO(repository.insert(mapper.fromPersonalizadoraDTO(personalizadora)))
+    }
 }

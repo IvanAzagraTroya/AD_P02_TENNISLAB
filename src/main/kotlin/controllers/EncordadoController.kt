@@ -36,4 +36,12 @@ object EncordadoController {
             ?: "Could not delete Encordado with id ${dto.id}"
         return generateRespuesta(result, "Could not delete Encordado with id ${dto.id}")
     }
+
+
+    fun insertEncordadoInit(dto: EncordadoDTO): String {
+        val result = GsonBuilder().setPrettyPrinting().create()
+            .toJson(service.createEncordadoInit(dto))
+            ?: "Could not insert Encordado with id ${dto.id}"
+        return generateRespuesta(result, "Could not insert Encordado with id ${dto.id}")
+    }
 }

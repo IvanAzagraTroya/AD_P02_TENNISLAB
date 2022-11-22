@@ -15,9 +15,13 @@ fun PedidoDao.fromPedidoDaoToPedido(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Pedido {
     val listTareas = mutableListOf<Tarea>()
-    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea(tareaDao, productoDao, userDao)) }
+    tareas.forEach { listTareas.add(it.fromTareaDaoToTarea(
+        it.raqueta.fromProductoDaoToProducto(),
+        it.user.fromUserDaoToUser()
+    ))
+    }
     val listTurnos = mutableListOf<Turno>()
-    turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao, maquinaDao)) }
+    turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)) }
     return Pedido(
         id = id.value,
         tareas = listTareas.toList(),
