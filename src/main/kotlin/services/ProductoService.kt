@@ -10,23 +10,19 @@ import java.util.*
 class ProductoService: BaseService<Producto, UUID, ProductoRepositoryImpl>(ProductoRepositoryImpl(ProductoDao)) {
     val mapper = ProductoMapper()
 
-    fun getAllProductos(): List<ProductoDTO> {
+    suspend fun getAllProductos(): List<ProductoDTO> {
         return mapper.toDTO(this.findAll())
     }
 
-    fun getProductoById(id: UUID): ProductoDTO? {
+    suspend fun getProductoById(id: UUID): ProductoDTO? {
         return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun createProducto(user: ProductoDTO): ProductoDTO {
+    suspend fun createProducto(user: ProductoDTO): ProductoDTO {
         return mapper.toDTO(this.insert(mapper.fromDTO(user)))
     }
 
-    fun deleteProducto(user: ProductoDTO): Boolean {
+    suspend fun deleteProducto(user: ProductoDTO): Boolean {
         return this.delete(mapper.fromDTO(user))
-    }
-
-    fun createProductoInit(user: ProductoDTO): ProductoDTO {
-        return mapper.toDTO(repository.insert(mapper.fromDTO(user)))
     }
 }

@@ -6,6 +6,7 @@ import dto.PersonalizadoraDTO
 import entities.EncordadoraDao
 import entities.MaquinaDao
 import entities.PersonalizadoraDao
+import exceptions.MapperException
 import models.*
 import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -51,11 +52,11 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     )
 }
 
-fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
+suspend fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Encordadora {
     val repo = MaquinaRepositoryImpl(maquinaDao)
-    val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
+    val maquina: Maquina = repo.findById(id.value) ?: throw MapperException()
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,
@@ -86,7 +87,7 @@ fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
     )
 }
 
-fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
+suspend fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Personalizadora{
     val repo = MaquinaRepositoryImpl(maquinaDao)

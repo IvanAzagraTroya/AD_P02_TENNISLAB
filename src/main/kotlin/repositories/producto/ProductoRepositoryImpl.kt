@@ -1,31 +1,33 @@
 package repositories.producto
 
 import entities.ProductoDao
+import kotlinx.coroutines.Dispatchers
 import mappers.fromProductoDaoToProducto
 import models.Producto
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class ProductoRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>
 ): IProductoRepository {
-    override fun readAll(): List<Producto> = transaction {
+    override suspend fun readAll(): List<Producto> = newSuspendedTransaction(Dispatchers.IO) {
         productoDao.all().map { it.fromProductoDaoToProducto() }
     }
 
-    override fun findById(id: UUID): Producto? = transaction {
+    override suspend fun findById(id: UUID): Producto? = newSuspendedTransaction(Dispatchers.IO) {
         productoDao.findById(id)?.fromProductoDaoToProducto()
     }
 
-    override fun create(entity: Producto): Producto {
+    override suspend fun create(entity: Producto): Producto = newSuspendedTransaction(Dispatchers.IO) {
         val existe = productoDao.findById(entity.id)
-        return existe?.let { update(entity, existe) }
+        existe?.let { update(entity, existe) }
             ?: run { insert(entity) }
     }
 
-    fun insert(entity: Producto) : Producto = transaction {
-        productoDao.new(entity.id) {
+    fun insert(entity: Producto) : Producto {
+        return productoDao.new(entity.id) {
             tipoProducto = entity.tipoProducto.toString()
             marca = entity.marca
             modelo = entity.modelo
@@ -34,8 +36,8 @@ class ProductoRepositoryImpl(
         }.fromProductoDaoToProducto()
     }
 
-    private fun update(entity: Producto, existe: ProductoDao): Producto = transaction {
-        existe.apply {
+    private fun update(entity: Producto, existe: ProductoDao): Producto {
+        return existe.apply {
             tipoProducto = entity.tipoProducto.toString()
             marca = entity.marca
             modelo = entity.modelo
@@ -44,8 +46,8 @@ class ProductoRepositoryImpl(
         }.fromProductoDaoToProducto()
     }
 
-    override fun delete(entity: Producto): Boolean = transaction {
-        val existe = productoDao.findById(entity.id) ?: return@transaction false
+    override suspend fun delete(entity: Producto): Boolean = newSuspendedTransaction(Dispatchers.IO) {
+        val existe = productoDao.findById(entity.id) ?: return@newSuspendedTransaction false
         existe.delete()
         true
     }

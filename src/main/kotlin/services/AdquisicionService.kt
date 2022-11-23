@@ -20,15 +20,15 @@ class AdquisicionService: BaseService<Adquisicion, UUID, AdquisicionRepositoryIm
     val tareaRepo = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
     val mapper = TareaMapper()
 
-    fun getAllAdquisiciones(): List<AdquisicionDTO> {
+    suspend fun getAllAdquisiciones(): List<AdquisicionDTO> {
         return mapper.toAdquisicionDTO(this.findAll())
     }
 
-    fun getAdquisicionById(id: UUID): AdquisicionDTO? {
+    suspend fun getAdquisicionById(id: UUID): AdquisicionDTO? {
         return this.findById(id)?.let { mapper.toAdquisicionDTO(it) }
     }
 
-    fun createAdquisicion(adquisicion: AdquisicionDTO): AdquisicionDTO {
+    suspend fun createAdquisicion(adquisicion: AdquisicionDTO): AdquisicionDTO {
         val tarea = Tarea(
             id = adquisicion.id,
             raqueta = adquisicion.raqueta,
@@ -40,20 +40,7 @@ class AdquisicionService: BaseService<Adquisicion, UUID, AdquisicionRepositoryIm
         return mapper.toAdquisicionDTO(this.insert(mapper.fromAdquisicionDTO(adquisicion)))
     }
 
-    fun deleteAdquisicion(adquisicion: AdquisicionDTO): Boolean {
+    suspend fun deleteAdquisicion(adquisicion: AdquisicionDTO): Boolean {
         return this.delete(mapper.fromAdquisicionDTO(adquisicion))
-    }
-
-
-    fun createAdquisicionInit(adquisicion: AdquisicionDTO): AdquisicionDTO {
-        val tarea = Tarea(
-            id = adquisicion.id,
-            raqueta = adquisicion.raqueta,
-            precio = adquisicion.precio,
-            user = adquisicion.user,
-            tipoTarea = TipoTarea.ADQUISICION
-        )
-        tareaRepo.insert(tarea)
-        return mapper.toAdquisicionDTO(repository.insert(mapper.fromAdquisicionDTO(adquisicion)))
     }
 }

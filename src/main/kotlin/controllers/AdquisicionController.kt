@@ -9,39 +9,28 @@ import java.util.*
 object AdquisicionController {
     private val service = AdquisicionService()
 
-    fun findAllAdquisiciones(): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.getAllAdquisiciones())
-            ?: "Error at AdquisicionController.findAllAdquisiciones"
-        return generateRespuesta(result, "Error at AdquisicionController.findAllAdquisiciones")
+    suspend fun findAllAdquisiciones(): String {
+        return "prueba"//generateRespuesta(service.getAllAdquisiciones())
     }
 
-    fun getAdquisicionById(id: UUID): String {
+    suspend fun getAdquisicionById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAdquisicionById(id))
             ?: "Adquisicion with id $id not found."
-        return generateRespuesta(result, "Adquisicion with id $id not found.")
+        return "prueba"//generateRespuesta(result, "Adquisicion with id $id not found.")
     }
 
-    fun insertAdquisicion(dto: AdquisicionDTO): String {
+    suspend fun insertAdquisicion(dto: AdquisicionDTO): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createAdquisicion(dto))
             ?: "Could not insert Adquisicion with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Adquisicion with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not insert Adquisicion with id ${dto.id}")
     }
 
-    fun deleteAdquisicion(dto: AdquisicionDTO): String {
+    suspend fun deleteAdquisicion(dto: AdquisicionDTO): String {
         val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteAdquisicion(dto))
             ?: "Could not delete Adquisicion with id ${dto.id}"
-        return generateRespuesta(result, "Could not delete Adquisicion with id ${dto.id}")
-    }
-
-
-    fun insertAdquisicionInit(dto: AdquisicionDTO): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.createAdquisicionInit(dto))
-            ?: "Could not insert Adquisicion with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Adquisicion with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not delete Adquisicion with id ${dto.id}")
     }
 }

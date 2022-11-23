@@ -9,39 +9,31 @@ import java.util.*
 object EncordadoController {
     private val service = EncordadoService()
 
-    fun findAllEncordados(): String {
+    suspend fun findAllEncordados(): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllEncordados())
             ?: "Error at EncordadoController.findAllEncordados"
-        return generateRespuesta(result, "Error at EncordadoController.findAllEncordados")
+        return "prueba"//generateRespuesta(result, "Error at EncordadoController.findAllEncordados")
     }
 
-    fun getEncordadoById(id: UUID): String {
+    suspend fun getEncordadoById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getEncordadoById(id))
             ?: "Encordado with id $id not found."
-        return generateRespuesta(result, "Encordado with id $id not found.")
+        return "prueba"//generateRespuesta(result, "Encordado with id $id not found.")
     }
 
-    fun insertEncordado(dto: EncordadoDTO): String {
+    suspend fun insertEncordado(dto: EncordadoDTO): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createEncordado(dto))
             ?: "Could not insert Encordado with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Encordado with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not insert Encordado with id ${dto.id}")
     }
 
-    fun deleteEncordado(dto: EncordadoDTO): String {
+    suspend fun deleteEncordado(dto: EncordadoDTO): String {
         val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteEncordado(dto))
             ?: "Could not delete Encordado with id ${dto.id}"
-        return generateRespuesta(result, "Could not delete Encordado with id ${dto.id}")
-    }
-
-
-    fun insertEncordadoInit(dto: EncordadoDTO): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.createEncordadoInit(dto))
-            ?: "Could not insert Encordado with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Encordado with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not delete Encordado with id ${dto.id}")
     }
 }

@@ -13,24 +13,19 @@ class TurnoService: BaseService<Turno, UUID, TurnoRepositoryImpl>(
 )) {
     val mapper = TurnoMapper()
 
-    fun getAllTurnos(): List<TurnoDTO> {
+    suspend fun getAllTurnos(): List<TurnoDTO> {
         return mapper.toDTO(this.findAll())
     }
 
-    fun getTurnoById(id: UUID): TurnoDTO? {
+    suspend fun getTurnoById(id: UUID): TurnoDTO? {
         return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun createTurno(turno: TurnoDTO): TurnoDTO {
+    suspend fun createTurno(turno: TurnoDTO): TurnoDTO {
         return mapper.toDTO(this.insert(mapper.fromDTO(turno)))
     }
 
-    fun deleteTurno(turno: TurnoDTO): Boolean {
+    suspend fun deleteTurno(turno: TurnoDTO): Boolean {
         return this.delete(mapper.fromDTO(turno))
-    }
-
-
-    fun createTurnoInit(turno: TurnoDTO): TurnoDTO {
-        return mapper.toDTO(repository.insert(mapper.fromDTO(turno)))
     }
 }

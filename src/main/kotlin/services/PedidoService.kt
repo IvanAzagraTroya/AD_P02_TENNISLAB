@@ -12,24 +12,19 @@ class PedidoService : BaseService<Pedido, UUID, PedidoRepositoryImpl>(PedidoRepo
 )) {
     val mapper = PedidoMapper()
 
-    fun getAllPedidos(): List<PedidoDTO> {
+    suspend fun getAllPedidos(): List<PedidoDTO> {
         return mapper.toDTO(this.findAll())
     }
 
-    fun getPedidoById(id: UUID): PedidoDTO? {
+    suspend fun getPedidoById(id: UUID): PedidoDTO? {
         return this.findById(id)?.let { mapper.toDTO(it) }
     }
 
-    fun createPedido(pedido: PedidoDTO): PedidoDTO {
+    suspend fun createPedido(pedido: PedidoDTO): PedidoDTO {
         return mapper.toDTO(this.insert(mapper.fromDTO(pedido)))
     }
 
-    fun deletePedido(pedido: PedidoDTO): Boolean {
+    suspend fun deletePedido(pedido: PedidoDTO): Boolean {
         return this.delete(mapper.fromDTO(pedido))
-    }
-
-
-    fun createPedidoInit(pedido: PedidoDTO): PedidoDTO {
-        return mapper.toDTO(repository.insert(mapper.fromDTO(pedido)))
     }
 }

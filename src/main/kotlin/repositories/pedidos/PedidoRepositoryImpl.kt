@@ -1,10 +1,12 @@
 package repositories.pedidos
 
 import entities.*
+import kotlinx.coroutines.Dispatchers
 import mappers.fromPedidoDaoToPedido
 import models.Pedido
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.SizedCollection
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -15,20 +17,19 @@ class PedidoRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val tareaDao: UUIDEntityClass<TareaDao>
 ): IPedidoRepository {
-    override fun create(entity: Pedido): Pedido {
+    override suspend fun create(entity: Pedido): Pedido = newSuspendedTransaction(Dispatchers.IO) {
         val existe = pedidoDao.findById(entity.id)
-        return existe?.let {
+        existe?.let {
             update(entity, existe)
-        } ?: kotlin.run {
+        } ?: run {
             insert(entity)
         }
     }
 
-    //TODO: QUE SE AGREGUEN TURNOS Y TAREAS https://www.baeldung.com/kotlin/exposed-persistence
-    fun insert(entity: Pedido): Pedido  = transaction {
+    fun insert(entity: Pedido): Pedido {
         // creamos el pedido
         //como la lista de tareas y turnos esta definida como val, ya que si no no dejaba meter el referrersOn, no la podemos cambiar ahora
-        pedidoDao.new(entity.id) {
+        return pedidoDao.new(entity.id) {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada
@@ -38,8 +39,8 @@ class PedidoRepositoryImpl(
         }.fromPedidoDaoToPedido(tareaDao, productoDao, userDao, maquinaDao)
     }
 
-    private fun update(entity: Pedido, existe: PedidoDao): Pedido = transaction {
-        existe.apply {
+    private fun update(entity: Pedido, existe: PedidoDao): Pedido {
+        return existe.apply {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada
@@ -49,16 +50,16 @@ class PedidoRepositoryImpl(
         }.fromPedidoDaoToPedido(tareaDao, productoDao, userDao, maquinaDao)
     }
 
-    override fun readAll(): List<Pedido> = transaction {
+    override suspend fun readAll(): List<Pedido> = newSuspendedTransaction(Dispatchers.IO) {
         pedidoDao.all().map { it.fromPedidoDaoToPedido(tareaDao, productoDao, userDao, maquinaDao) }
     }
 
-    override fun findById(id: UUID): Pedido? = transaction {
+    override suspend fun findById(id: UUID): Pedido? = newSuspendedTransaction(Dispatchers.IO) {
         pedidoDao.findById(id)?.fromPedidoDaoToPedido(tareaDao, productoDao, userDao, maquinaDao)
     }
 
-    override fun delete(entity: Pedido): Boolean = transaction{
-        val existe = pedidoDao.findById(entity.id) ?: return@transaction false
+    override suspend fun delete(entity: Pedido): Boolean = newSuspendedTransaction(Dispatchers.IO){
+        val existe = pedidoDao.findById(entity.id) ?: return@newSuspendedTransaction false
         existe.delete()
         true
     }

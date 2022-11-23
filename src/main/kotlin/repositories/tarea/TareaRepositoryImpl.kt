@@ -3,11 +3,13 @@ package repositories.tarea
 import entities.ProductoDao
 import entities.TareaDao
 import entities.UserDao
+import kotlinx.coroutines.Dispatchers
 import mappers.fromProductoDaoToProducto
 import mappers.fromTareaDaoToTarea
 import mappers.fromUserDaoToUser
 import models.Tarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -16,14 +18,14 @@ class TareaRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
-    override fun readAll(): List<Tarea> = transaction {
+    override suspend fun readAll(): List<Tarea> = newSuspendedTransaction(Dispatchers.IO) {
         tareaDao.all().map { it.fromTareaDaoToTarea(
             it.raqueta.fromProductoDaoToProducto(),
             it.user.fromUserDaoToUser())
         }
     }
 
-    override fun findById(id: UUID): Tarea? = transaction {
+    override suspend fun findById(id: UUID): Tarea? = newSuspendedTransaction(Dispatchers.IO) {
         val tdao = tareaDao.findById(id)
         tdao?.fromTareaDaoToTarea(
             tdao.raqueta.fromProductoDaoToProducto(),
@@ -31,17 +33,17 @@ class TareaRepositoryImpl(
         )
     }
 
-    override fun create(entity: Tarea): Tarea {
+    override suspend fun create(entity: Tarea): Tarea = newSuspendedTransaction(Dispatchers.IO) {
         val existe = tareaDao.findById(entity.id)
-        return existe?.let {
+        existe?.let {
             update(entity, existe)
         } ?: run {
             insert(entity)
         }
     }
 
-    private fun update(entity: Tarea, existe: TareaDao): Tarea = transaction {
-        existe.apply {
+    private fun update(entity: Tarea, existe: TareaDao): Tarea {
+        return existe.apply {
             raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
@@ -49,8 +51,8 @@ class TareaRepositoryImpl(
         }.fromTareaDaoToTarea(entity.raqueta, entity.user)
     }
 
-    fun insert(entity: Tarea): Tarea = transaction {
-        tareaDao.new(entity.id) {
+    fun insert(entity: Tarea): Tarea {
+        return tareaDao.new(entity.id) {
             raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
@@ -58,8 +60,8 @@ class TareaRepositoryImpl(
         }.fromTareaDaoToTarea(entity.raqueta, entity.user)
     }
 
-    override fun delete(entity: Tarea): Boolean = transaction {
-        val existe = tareaDao.findById(entity.id) ?: return@transaction false
+    override suspend fun delete(entity: Tarea): Boolean = newSuspendedTransaction(Dispatchers.IO) {
+        val existe = tareaDao.findById(entity.id) ?: return@newSuspendedTransaction false
         existe.delete()
         true
     }

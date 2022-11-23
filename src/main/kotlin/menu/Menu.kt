@@ -4,7 +4,7 @@ import dto.UserDTO
 import models.enums.Profile
 import util.betweenXandY
 
-fun menu(user: UserDTO) {
+suspend fun menu(user: UserDTO) {
     var back = false
     while (!back) {
         println(" - Please select one of the following actions.")

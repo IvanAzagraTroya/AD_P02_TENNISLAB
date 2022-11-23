@@ -21,15 +21,15 @@ class PersonalizacionService: BaseService<Personalizacion, UUID, Personalizacion
     val tareaRepo = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
     val mapper = TareaMapper()
 
-    fun getAllPersonalizaciones(): List<PersonalizacionDTO> {
+    suspend fun getAllPersonalizaciones(): List<PersonalizacionDTO> {
         return mapper.toPersonalizacionDTO(this.findAll())
     }
 
-    fun getPersonalizacionById(id: UUID): PersonalizacionDTO? {
+    suspend fun getPersonalizacionById(id: UUID): PersonalizacionDTO? {
         return this.findById(id)?.let { mapper.toPersonalizacionDTO(it) }
     }
 
-    fun createPersonalizacion(personalizacion: PersonalizacionDTO): PersonalizacionDTO {
+    suspend fun createPersonalizacion(personalizacion: PersonalizacionDTO): PersonalizacionDTO {
         val tarea = Tarea(
             id = personalizacion.id,
             raqueta = personalizacion.raqueta,
@@ -41,20 +41,7 @@ class PersonalizacionService: BaseService<Personalizacion, UUID, Personalizacion
         return mapper.toPersonalizacionDTO(this.insert(mapper.fromPersonalizacionDTO(personalizacion)))
     }
 
-    fun deletePersonalizacion(personalizacion: PersonalizacionDTO): Boolean {
+    suspend fun deletePersonalizacion(personalizacion: PersonalizacionDTO): Boolean {
         return this.delete(mapper.fromPersonalizacionDTO(personalizacion))
-    }
-
-
-    fun createPersonalizacionInit(personalizacion: PersonalizacionDTO): PersonalizacionDTO {
-        val tarea = Tarea(
-            id = personalizacion.id,
-            raqueta = personalizacion.raqueta,
-            precio = personalizacion.precio,
-            user = personalizacion.user,
-            tipoTarea = TipoTarea.PERSONALIZACION
-        )
-        tareaRepo.insert(tarea)
-        return mapper.toPersonalizacionDTO(repository.insert(mapper.fromPersonalizacionDTO(personalizacion)))
     }
 }

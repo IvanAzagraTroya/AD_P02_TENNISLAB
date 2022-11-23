@@ -1,16 +1,18 @@
 package repositories.maquina
 
 import entities.MaquinaDao
+import kotlinx.coroutines.Dispatchers
 import mappers.fromMaquinaDaoToMaquina
 import models.Maquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class MaquinaRepositoryImpl(
     private val maquinaDao: UUIDEntityClass<MaquinaDao>
 ): IMaquinaRepository {
-    override fun readAll(): List<Maquina> = transaction {
+    override suspend fun readAll(): List<Maquina> = newSuspendedTransaction(Dispatchers.IO) {
         maquinaDao.all().map { it.fromMaquinaDaoToMaquina(
             it.modelo,
             it.marca,
@@ -19,7 +21,7 @@ class MaquinaRepositoryImpl(
         ) }
     }
 
-    override fun findById(id: UUID): Maquina? = transaction {
+    override suspend fun findById(id: UUID): Maquina? = newSuspendedTransaction(Dispatchers.IO) {
         val mdao = maquinaDao.findById(id)
         mdao?.fromMaquinaDaoToMaquina(
             mdao.modelo,
@@ -29,14 +31,14 @@ class MaquinaRepositoryImpl(
         )
     }
 
-    override fun create(entity: Maquina): Maquina {
+    override suspend fun create(entity: Maquina): Maquina = newSuspendedTransaction(Dispatchers.IO) {
         val exists = maquinaDao.findById(entity.id)
-        return exists?.let { update(entity, exists) }
+        exists?.let { update(entity, exists) }
             ?: run { insert(entity) }
     }
 
-    private fun update(entity: Maquina, exists: MaquinaDao): Maquina = transaction {
-        exists.apply {
+    private fun update(entity: Maquina, exists: MaquinaDao): Maquina {
+        return exists.apply {
             modelo = entity.modelo
             marca = entity.marca
             fechaAdquisicion = entity.fechaAdquisicion
@@ -45,8 +47,8 @@ class MaquinaRepositoryImpl(
         }.fromMaquinaDaoToMaquina(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
-    fun insert(entity: Maquina): Maquina = transaction {
-        maquinaDao.new(entity.id) {
+    fun insert(entity: Maquina): Maquina {
+        return maquinaDao.new(entity.id) {
             modelo = entity.modelo
             marca = entity.marca
             fechaAdquisicion = entity.fechaAdquisicion
@@ -55,8 +57,8 @@ class MaquinaRepositoryImpl(
         }.fromMaquinaDaoToMaquina(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
-    override fun delete(entity: Maquina): Boolean = transaction {
-        val existe = maquinaDao.findById(entity.id) ?: return@transaction false
+    override suspend fun delete(entity: Maquina): Boolean = newSuspendedTransaction(Dispatchers.IO) {
+        val existe = maquinaDao.findById(entity.id) ?: return@newSuspendedTransaction false
         existe.delete()
         true
     }

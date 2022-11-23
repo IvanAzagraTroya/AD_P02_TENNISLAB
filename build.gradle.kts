@@ -26,8 +26,13 @@ dependencies {
     // gson
     implementation("com.google.code.gson:gson:2.10")
 
-    //encriptar
-    implementation("org.abstractj.kalium:kalium:0.8.0")
+    //encriptar - AL FINAL NO LO HEMOS USADO PORQUE DABA PROBLEMAS
+    //implementation("org.abstractj.kalium:kalium:0.8.0")
+
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    // Para hacer el logging
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
+    implementation("ch.qos.logback:logback-classic:1.4.1")
 }
 
 tasks.test {

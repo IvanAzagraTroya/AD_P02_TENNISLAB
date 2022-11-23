@@ -2,20 +2,24 @@ package login
 
 import controllers.UserController
 import dto.UserDTO
+import kotlinx.coroutines.Dispatchers
 import models.enums.Profile
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import util.encode
+import util.waitingText
 import java.util.*
 import kotlin.system.exitProcess
 
-fun login(): UserDTO {
+suspend fun login(): UserDTO {
     while (true) {
         println(" --- Login --- ")
         println(" - Email: ")
         val email = readln()
+        val u = suspendedTransactionAsync(Dispatchers.IO) { UserController.getUserByEmailForLogin(email) }
         println(" - Password: ")
         val pwd = readln()
-        val user = UserController.getUserByEmailForLogin(email)
         var res = ""
+        val user = u.await()
         if(user == null) {
             println(" - Incorrect credentials. Do you want to exit? [y/n]")
             while (!res.contentEquals("y") && !res.contentEquals("n")) res = readln()
@@ -36,7 +40,7 @@ fun login(): UserDTO {
     }
 }
 
-fun register(): UserDTO {
+suspend fun register(): UserDTO {
     while (true) {
         println(" --- Register --- ")
         println(" - Name: ")
@@ -45,14 +49,16 @@ fun register(): UserDTO {
         val famName = readln()
         println(" - Phone number: ")
         val number = readln()
+        val u2 = suspendedTransactionAsync(Dispatchers.IO) { UserController.getUserByPhoneForLogin(number) }
         println(" - Email: ")
         val mail = readln()
+        val u1 = suspendedTransactionAsync(Dispatchers.IO) { UserController.getUserByEmailForLogin(mail) }
         println(" - Password: ")
         val pwd = readln()
         println(" - Repeat password: ")
         val rpwd = readln()
-        val user1 = UserController.getUserByEmailForLogin(mail)
-        val user2 = UserController.getUserByPhoneForLogin(number)
+        val user1 = u1.await()
+        val user2 = u2.await()
         if (pwd.contentEquals(rpwd) && user1 == null && user2 == null) {
             val newUser = UserDTO(
                 id = UUID.randomUUID(),
@@ -63,12 +69,13 @@ fun register(): UserDTO {
                 password = pwd,
                 perfil = Profile.CLIENT
             )
-            val result = UserController.insertUser(newUser)
+            val result = suspendedTransactionAsync(Dispatchers.IO) { UserController.insertUser(newUser) }
+            waitingText(result)
             println("""
                 Registering $name $famName...
                 -------------------------------------
                 
-                $result
+                ${result.await()}
                 
                 -------------------------------------
             """.trimIndent())

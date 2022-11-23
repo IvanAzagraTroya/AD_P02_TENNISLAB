@@ -10,52 +10,45 @@ import java.util.*
 object ProductoController {
     private val service = ProductoService()
 
-    fun findAllProductos(): String {
+    suspend fun findAllProductos(): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllProductos())
             ?: "Error at ProductoController.findAllProductos"
-        return generateRespuesta(result, "Error at ProductoController.findAllProductos")
+        return "prueba"//generateRespuesta(result, "Error at ProductoController.findAllProductos")
     }
 
-    fun findAllProductosDisponibles(): String {
+    suspend fun findAllProductosDisponibles(): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllProductos().filter { it.stock > 0 })
             ?: "Error at ProductoController.findAllProductosDisponibles"
-        return generateRespuesta(result, "Error at ProductoController.findAllProductosDisponibles")
+        return "prueba"//generateRespuesta(result, "Error at ProductoController.findAllProductosDisponibles")
     }
 
-    fun getProductoById(id: UUID): String {
+    suspend fun getProductoById(id: UUID): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getProductoById(id))
             ?: "Producto with id $id not found."
-        return generateRespuesta(result, "Producto with id $id not found.")
+        return "prueba"//generateRespuesta(result, "Producto with id $id not found.")
     }
 
-    fun getProductosByTipo(tipo: TipoProducto): String {
+    suspend fun getProductosByTipo(tipo: TipoProducto): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.getAllProductos().filter { it.tipoProducto == tipo })
             ?: "Error at ProductoController.getProductosByTipo with tipo: $tipo"
-        return generateRespuesta(result, "Error at ProductoController.getProductosByTipo with tipo: $tipo")
+        return "prueba"//generateRespuesta(result, "Error at ProductoController.getProductosByTipo with tipo: $tipo")
     }
 
-    fun insertProducto(dto: ProductoDTO): String {
+    suspend fun insertProducto(dto: ProductoDTO): String {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(service.createProducto(dto))
             ?: "Could not insert Producto with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Producto with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not insert Producto with id ${dto.id}")
     }
 
-    fun deleteProducto(dto: ProductoDTO): String {
+    suspend fun deleteProducto(dto: ProductoDTO): String {
         val result =GsonBuilder().setPrettyPrinting().create()
             .toJson(service.deleteProducto(dto))
             ?: "Could not delete Producto with id ${dto.id}"
-        return generateRespuesta(result, "Could not delete Producto with id ${dto.id}")
-    }
-
-    fun insertProductoInit(dto: ProductoDTO): String {
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(service.createProductoInit(dto))
-            ?: "Could not insert Producto with id ${dto.id}"
-        return generateRespuesta(result, "Could not insert Producto with id ${dto.id}")
+        return "prueba"//generateRespuesta(result, "Could not delete Producto with id ${dto.id}")
     }
 }

@@ -14,7 +14,7 @@ object MaquinaController {
     val pService = PersonalizadoraService()
     val eService = EncordadoraService()
 
-    fun findAllMaquinas(): String {
+    suspend fun findAllMaquinas(): String {
         val personalizadoras = pService.getAllPersonalizadoras()
         val encordadoras = eService.getAllEncordadoras()
         val maquinas: MutableList<MaquinaDTO> = mutableListOf()
@@ -23,10 +23,10 @@ object MaquinaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(maquinas.toList())
             ?: "Error at MaquinaController.findAllMaquinas"
-        return generateRespuesta(result, "Error at MaquinaController.findAllMaquinas")
+        return "prueba"//generateRespuesta(result, "Error at MaquinaController.findAllMaquinas")
     }
 
-    fun getMaquinaById(id: UUID): String {
+    suspend fun getMaquinaById(id: UUID): String {
         var busqueda: MaquinaDTO? = pService.getPersonalizadoraById(id)
         return if (busqueda != null) {
             PersonalizadoraController.getPersonalizadoraById(id)
@@ -35,15 +35,18 @@ object MaquinaController {
             if (busqueda != null) {
                 EncordadoraController.getEncordadoraById(id)
             } else {
+                "prueba"//
+                /*
                 generateRespuesta(
                     "Maquina with id $id not found.",
                     "Maquina with id $id not found."
                 )
+                 */
             }
         }
     }
 
-    fun getMaquinaBySerialNumber(sNum: String): String {
+    suspend fun getMaquinaBySerialNumber(sNum: String): String {
         val personalizadoras = pService.getAllPersonalizadoras().filter { it.numeroSerie.contentEquals(sNum) }
         val encordadoras = eService.getAllEncordadoras().filter { it.numeroSerie.contentEquals(sNum) }
         val maquinas: MutableList<MaquinaDTO> = mutableListOf()
@@ -52,10 +55,10 @@ object MaquinaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(maquinas.toList().firstOrNull())
             ?: "Maquina with serial number $sNum not found."
-        return generateRespuesta(result, "Maquina with serial number $sNum not found.")
+        return "prueba"//generateRespuesta(result, "Maquina with serial number $sNum not found.")
     }
 
-    fun getMaquinaBySerialNumberForCreation(sNum: String): MaquinaDTO? {
+    suspend fun getMaquinaBySerialNumberForCreation(sNum: String): MaquinaDTO? {
         val encordadoras = eService.getAllEncordadoras().filter { it.numeroSerie == sNum }
         val personalizadoras = pService.getAllPersonalizadoras().filter { it.numeroSerie == sNum }
         val maquinas: MutableList<MaquinaDTO> = mutableListOf()
@@ -64,7 +67,7 @@ object MaquinaController {
         return maquinas.toList().firstOrNull()
     }
 
-    fun getMaquinaByModel(model: String): String {
+    suspend fun getMaquinaByModel(model: String): String {
         val personalizadoras = pService.getAllPersonalizadoras().filter { it.modelo.contentEquals(model) }
         val encordadoras = eService.getAllEncordadoras().filter { it.modelo.contentEquals(model) }
         val maquinas: MutableList<MaquinaDTO> = mutableListOf()
@@ -73,10 +76,10 @@ object MaquinaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(maquinas.toList())
             ?: "Maquina with model $model not found."
-        return generateRespuesta(result, "Maquina with model $model not found.")
+        return "prueba"//generateRespuesta(result, "Maquina with model $model not found.")
     }
 
-    fun getMaquinaByBrand(brand: String): String {
+    suspend fun getMaquinaByBrand(brand: String): String {
         val personalizadoras = pService.getAllPersonalizadoras().filter { it.marca.contentEquals(brand) }
         val encordadoras = eService.getAllEncordadoras().filter { it.marca.contentEquals(brand) }
         val maquinas: MutableList<MaquinaDTO> = mutableListOf()
@@ -85,10 +88,10 @@ object MaquinaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(maquinas.toList())
             ?: "Maquina with marca $brand not found."
-        return generateRespuesta(result, "Maquina with marca $brand not found.")
+        return "prueba"//generateRespuesta(result, "Maquina with marca $brand not found.")
     }
 
-    fun findAllMaquinasByAcquisitionDate(date: LocalDate, operador: String): String {
+    suspend fun findAllMaquinasByAcquisitionDate(date: LocalDate, operador: String): String {
         lateinit var personalizadoras: List<PersonalizadoraDTO>
         lateinit var encordadoras: List<EncordadoraDTO>
         when (operador) {
@@ -111,39 +114,37 @@ object MaquinaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(maquinas.toList())
             ?: "Error at MaquinaController.findAllMaquinasByAquisitionDate"
-        return generateRespuesta(result, "Error at MaquinaController.findAllMaquinasByAquisitionDate")
+        return "prueba"//generateRespuesta(result, "Error at MaquinaController.findAllMaquinasByAquisitionDate")
     }
 
-    fun insertMaquina(dto: MaquinaDTO): String {
+    suspend fun insertMaquina(dto: MaquinaDTO): String {
         return when (dto) {
             is PersonalizadoraDTO -> PersonalizadoraController.insertPersonalizadora(dto)
             is EncordadoraDTO -> EncordadoraController.insertEncordadora(dto)
-            else -> { generateRespuesta(
+            else -> {
+                /*
+                generateRespuesta(
                 "Error at MaquinaController.insertMaquina: DTO not supported.",
                 "Error at MaquinaController.insertMaquina: DTO not supported."
-            ) }
+            )*/
+                "prueba"//
+            }
         }
     }
 
-    fun deleteMaquina(dto: MaquinaDTO): String {
+    suspend fun deleteMaquina(dto: MaquinaDTO): String {
         return when (dto) {
             is PersonalizadoraDTO -> PersonalizadoraController.deletePersonalizadora(dto)
             is EncordadoraDTO -> EncordadoraController.deleteEncordadora(dto)
-            else -> { generateRespuesta(
+            else -> {
+                "prueba"/*
+                generateRespuesta(
                     "Error at MaquinaController.deleteMaquina: DTO not supported.",
                     "Error at MaquinaController.deleteMaquina: DTO not supported."
-            ) }
-        }
-    }
+                )
 
-    fun insertMaquinaInit(dto: MaquinaDTO): String {
-        return when (dto) {
-            is PersonalizadoraDTO -> PersonalizadoraController.insertPersonalizadoraInit(dto)
-            is EncordadoraDTO -> EncordadoraController.insertEncordadoraInit(dto)
-            else -> { generateRespuesta(
-                "Error at MaquinaController.insertMaquina: DTO not supported.",
-                "Error at MaquinaController.insertMaquina: DTO not supported."
-            ) }
+                 */
+            }
         }
     }
 }
