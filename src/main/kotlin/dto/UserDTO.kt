@@ -2,16 +2,21 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.enums.Profile
 import java.util.UUID
 
 class UserDTO() {
     lateinit var id: UUID
+    @Expose
     lateinit var nombre: String
+    @Expose
     lateinit var apellido: String
     lateinit var telefono: String
+    @Expose
     lateinit var email: String
     lateinit var password: String
+    @Expose
     lateinit var perfil: Profile
 
     constructor(
@@ -37,14 +42,10 @@ class UserDTO() {
     }
 
     fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+        return GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create().toJson(this)
     }
 
     override fun toString(): String {
-        return "User(id=$id, " +
-                "nombre=$nombre, " +
-                "apellido=$apellido, " +
-                "email=$email, " +
-                "perfil=$perfil)"
+        return GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create().toJson(this)
     }
 }

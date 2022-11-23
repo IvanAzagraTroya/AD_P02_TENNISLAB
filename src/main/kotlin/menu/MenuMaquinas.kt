@@ -5,12 +5,18 @@ import controllers.MaquinaController
 import controllers.PersonalizadoraController
 import dto.EncordadoraDTO
 import dto.PersonalizadoraDTO
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import models.enums.Profile
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import util.betweenXandY
+import util.waitingText
 import java.time.LocalDate
 import java.util.*
 
-fun menuMaquinas(profile: Profile) {
+suspend fun menuMaquinas(profile: Profile) {
     var back = false
     while (!back) {
         println(" - Please select one of the following actions.")
@@ -32,9 +38,21 @@ fun menuMaquinas(profile: Profile) {
                     res = readln()
                 }
                 when (res.toInt()) {
-                    1 -> println(MaquinaController.findAllMaquinas())
-                    2 -> println(EncordadoraController.findAllEncordadoras())
-                    3 -> println(PersonalizadoraController.findAllPersonalizadoras())
+                    1 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.findAllMaquinas() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
+                    2 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { EncordadoraController.findAllEncordadoras() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
+                    3 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllPersonalizadoras() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
                     4 -> findBySomething()
                     5 -> findAllFromCondition()
                     6 -> create()
@@ -57,9 +75,21 @@ fun menuMaquinas(profile: Profile) {
                     res = readln()
                 }
                 when (res.toInt()) {
-                    1 -> println(MaquinaController.findAllMaquinas())
-                    2 -> println(EncordadoraController.findAllEncordadoras())
-                    3 -> println(PersonalizadoraController.findAllPersonalizadoras())
+                    1 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.findAllMaquinas() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
+                    2 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { EncordadoraController.findAllEncordadoras() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
+                    3 -> {
+                        val maquinas = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllPersonalizadoras() }
+                        waitingText(maquinas)
+                        println(maquinas.await())
+                    }
                     4 -> findBySomething()
                     5 -> findAllFromCondition()
                     6 -> back = true
@@ -70,10 +100,12 @@ fun menuMaquinas(profile: Profile) {
     }
 }
 
-private fun delete() {
+private suspend fun delete() {
     println(" - Serial number of target maquina: ")
     val sNum = readln()
-    val baseMaquina = MaquinaController.getMaquinaBySerialNumberForCreation(sNum)
+    val bm = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaBySerialNumberForCreation(sNum) }
+    waitingText(bm)
+    val baseMaquina = bm.await()
     if (baseMaquina == null) println("There are no maquinas with serial number: $sNum")
     else {
         println("Deleting will be a permanent action. " +
@@ -82,16 +114,20 @@ private fun delete() {
         while (!input.contentEquals("y") && !input.contentEquals("n"))
             input = readln()
         if (input.contentEquals("y")) {
+            val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.deleteMaquina(baseMaquina) }
             println("Deleting maquina...")
-            println(MaquinaController.deleteMaquina(baseMaquina))
+            waitingText(result)
+            println(result)
         }
     }
 }
 
-private fun update() {
+private suspend fun update() {
     println(" - Serial number of target maquina: ")
     val sNum = readln()
-    val baseMaquina = MaquinaController.getMaquinaBySerialNumberForCreation(sNum)
+    val bm = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaBySerialNumberForCreation(sNum) }
+    waitingText(bm)
+    val baseMaquina = bm.await()
     if (baseMaquina == null) println("There are no maquinas with serial number: $sNum")
     else {
         println(" - Input new data: ")
@@ -132,7 +168,9 @@ private fun update() {
                     maxTension = tensionMax,
                     minTension = tensionMin
                 )
-                println(MaquinaController.insertMaquina(newMaquina))
+                val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.insertMaquina(newMaquina) }
+                waitingText(result)
+                println(result.await())
             }
             "p" -> {
                 var maneuv = ""
@@ -175,13 +213,15 @@ private fun update() {
                     measuresBalance = mBalance,
                     measuresRigidity = mRigidity
                 )
-                println(MaquinaController.insertMaquina(newMaquina))
+                val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.insertMaquina(newMaquina) }
+                waitingText(result)
+                println(result.await())
             }
         }
     }
 }
 
-private fun create() {
+private suspend fun create() {
     var goBack = false
     while (!goBack) {
         println(" - Modelo: ")
@@ -190,7 +230,7 @@ private fun create() {
         val marca = readln()
         println(" - Numero de serie: ")
         val numSerie = readln()
-        val maquinaConNumSerie = MaquinaController.getMaquinaBySerialNumberForCreation(numSerie)
+        val maquinaConNumSerie = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaBySerialNumberForCreation(numSerie) }
         var input = ""
         println(" - Encordadora o Personalizadora? [e/p]")
         while (!input.contentEquals("e") &&
@@ -212,7 +252,7 @@ private fun create() {
                 val tensionMax = readln().toDoubleOrNull() ?: 0.0
                 println(" - Tension minima?")
                 val tensionMin = readln().toDoubleOrNull() ?: 0.0
-                if (maquinaConNumSerie == null) {
+                if (maquinaConNumSerie.await() == null) {
                     val newMaquina = EncordadoraDTO(
                         id = UUID.randomUUID(),
                         modelo = modelo,
@@ -223,7 +263,9 @@ private fun create() {
                         maxTension = tensionMax,
                         minTension = tensionMin
                     )
-                    println(MaquinaController.insertMaquina(newMaquina))
+                    val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.insertMaquina(newMaquina) }
+                    waitingText(result)
+                    println(result.await())
                     goBack = true
                 }
                 else {
@@ -264,7 +306,7 @@ private fun create() {
                     "y" -> mRigidity = true
                     "n" -> mRigidity = false
                 }
-                if (maquinaConNumSerie == null) {
+                if (maquinaConNumSerie.await() == null) {
                     val newMaquina = PersonalizadoraDTO(
                         id = UUID.randomUUID(),
                         modelo = modelo,
@@ -275,7 +317,9 @@ private fun create() {
                         measuresBalance = mBalance,
                         measuresRigidity = mRigidity
                     )
-                    println(MaquinaController.insertMaquina(newMaquina))
+                    val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.insertMaquina(newMaquina) }
+                    waitingText(result)
+                    println(result.await())
                     goBack = true
                 }
                 else {
@@ -289,7 +333,7 @@ private fun create() {
     }
 }
 
-fun findAllFromCondition() {
+suspend fun findAllFromCondition() {
     var input = ""
     println("""
         .-----------  Select a field to search by: {comand}_[arguments]  -----------.
@@ -315,7 +359,9 @@ fun findAllFromCondition() {
                         args[1].contentEquals("<"))) {
                 val fecha = LocalDate.parse(args[2]) ?: null
                 if (fecha != null) {
-                    println(MaquinaController.findAllMaquinasByAcquisitionDate(fecha, args[1]))
+                    val result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.findAllMaquinasByAcquisitionDate(fecha, args[1]) }
+                    waitingText(result)
+                    println(result.await())
                 }
                 else println("Incorrect date")
             }
@@ -325,10 +371,13 @@ fun findAllFromCondition() {
             if (args.size == 2 &&
                 (args[1].contentEquals("y") ||
                         args[1].contentEquals("n"))) {
+                lateinit var result: Deferred<String>
                 when (args[1]) {
-                    "y" -> println(EncordadoraController.findAllManuales(true))
-                    "n" -> println(EncordadoraController.findAllManuales(false))
+                    "y" -> result = suspendedTransactionAsync(Dispatchers.IO) { EncordadoraController.findAllManuales(true) }
+                    "n" -> result = suspendedTransactionAsync(Dispatchers.IO) { EncordadoraController.findAllManuales(false) }
                 }
+                waitingText(result)
+                println(result.await())
             }
             else println("incorrect parameters")
         }
@@ -336,10 +385,13 @@ fun findAllFromCondition() {
             if (args.size == 2 &&
                 (args[1].contentEquals("y") ||
                         args[1].contentEquals("n"))) {
+                lateinit var result: Deferred<String>
                 when (args[1]) {
-                    "y" -> println(PersonalizadoraController.findAllManeuverability(true))
-                    "n" -> println(PersonalizadoraController.findAllManeuverability(false))
+                    "y" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllManeuverability(true) }
+                    "n" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllManeuverability(false) }
                 }
+                waitingText(result)
+                println(result.await())
             }
             else println("incorrect parameters")
         }
@@ -347,10 +399,13 @@ fun findAllFromCondition() {
             if (args.size == 2 &&
                 (args[1].contentEquals("y") ||
                         args[1].contentEquals("n"))) {
+                lateinit var result: Deferred<String>
                 when (args[1]) {
-                    "y" -> println(PersonalizadoraController.findAllBalance(true))
-                    "n" -> println(PersonalizadoraController.findAllBalance(false))
+                    "y" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllBalance(true) }
+                    "n" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllBalance(false) }
                 }
+                waitingText(result)
+                println(result.await())
             }
             else println("incorrect parameters")
         }
@@ -358,17 +413,20 @@ fun findAllFromCondition() {
             if (args.size == 2 &&
                 (args[1].contentEquals("y") ||
                         args[1].contentEquals("n"))) {
+                lateinit var result: Deferred<String>
                 when (args[1]) {
-                    "y" -> println(PersonalizadoraController.findAllRigidity(true))
-                    "n" -> println(PersonalizadoraController.findAllRigidity(false))
+                    "y" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllRigidity(true) }
+                    "n" -> result = suspendedTransactionAsync(Dispatchers.IO) { PersonalizadoraController.findAllRigidity(false) }
                 }
+                waitingText(result)
+                println(result.await())
             }
             else println("incorrect parameters")
         }
     }
 }
 
-fun findBySomething() {
+suspend fun findBySomething() {
     var input = ""
     println(" - Select a field to search by: " +
             "[id/model/brand/serial number]")
@@ -377,10 +435,13 @@ fun findBySomething() {
         !input.contentEquals("brand") &&
         !input.contentEquals("serial number"))
         input = readln()
+    lateinit var result: Deferred<String>
     when (input) {
-        "id" -> println(MaquinaController.getMaquinaById(UUID.fromString(input)))
-        "model" -> println(MaquinaController.getMaquinaByModel(input))
-        "brand" -> println(MaquinaController.getMaquinaByBrand(input))
-        "serial number" -> println(MaquinaController.getMaquinaBySerialNumber(input))
+        "id" -> result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaById(UUID.fromString(input)) }
+        "model" -> result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaByModel(input) }
+        "brand" -> result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaByBrand(input) }
+        "serial number" -> result = suspendedTransactionAsync(Dispatchers.IO) { MaquinaController.getMaquinaBySerialNumber(input) }
     }
+    waitingText(result)
+    println(result.await())
 }

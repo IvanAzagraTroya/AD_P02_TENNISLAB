@@ -1,9 +1,11 @@
 package repositories.turno
 
 import entities.*
+import kotlinx.coroutines.Dispatchers
 import mappers.fromTurnoDaoToTurno
 import models.Turno
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -14,22 +16,22 @@ class TurnoRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val tareaDao: UUIDEntityClass<TareaDao>
 ): ITurnoRepository {
-    override fun readAll(): List<Turno> = transaction {
+    override suspend fun readAll(): List<Turno> = newSuspendedTransaction(Dispatchers.IO) {
         turnoDao.all().map { it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao) }
     }
 
-    override fun findById(id: UUID): Turno? = transaction {
+    override suspend fun findById(id: UUID): Turno? = newSuspendedTransaction(Dispatchers.IO) {
         turnoDao.findById(id)?.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
-    override fun create(entity: Turno): Turno {
+    override suspend fun create(entity: Turno): Turno = newSuspendedTransaction(Dispatchers.IO) {
         val existe = turnoDao.findById(entity.id)
-        return existe?.let { update(entity, existe) }
+        existe?.let { update(entity, existe) }
             ?: run { insert(entity) }
     }
 
-    private fun update(entity: Turno, existe: TurnoDao): Turno = transaction {
-        existe.apply {
+    private fun update(entity: Turno, existe: TurnoDao): Turno {
+        return existe.apply {
             worker = userDao.findById(entity.worker.id) ?: throw Exception()
             maquina = maquinaDao.findById(entity.maquina.id) ?: throw Exception()
             horaInicio = entity.horaInicio
@@ -40,8 +42,8 @@ class TurnoRepositoryImpl(
         }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
-    fun insert(entity: Turno): Turno = transaction {
-        turnoDao.new(entity.id) {
+    fun insert(entity: Turno): Turno {
+        return turnoDao.new(entity.id) {
             worker = userDao.findById(entity.worker.id) ?: throw Exception()
             maquina = maquinaDao.findById(entity.maquina.id) ?: throw Exception()
             horaInicio = entity.horaInicio
@@ -52,8 +54,8 @@ class TurnoRepositoryImpl(
         }.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)
     }
 
-    override fun delete(entity: Turno): Boolean = transaction {
-        val existe = turnoDao.findById(entity.id) ?: return@transaction false
+    override suspend fun delete(entity: Turno): Boolean = newSuspendedTransaction(Dispatchers.IO) {
+        val existe = turnoDao.findById(entity.id) ?: return@newSuspendedTransaction false
         existe.delete()
         true
     }

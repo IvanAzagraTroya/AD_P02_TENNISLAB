@@ -16,7 +16,7 @@ object TareaController {
     val eService = EncordadoService()
     val pService = PersonalizacionService()
 
-    fun findAllTareas(): String {
+    suspend fun findAllTareas(): String {
         val adquisiciones = aService.getAllAdquisiciones()
         val encordados = eService.getAllEncordados()
         val personalizaciones = pService.getAllPersonalizaciones()
@@ -27,10 +27,10 @@ object TareaController {
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(tareas.toList())
             ?: "Error at TareaController.findAllTareas"
-        return generateRespuesta(result, "Error at TareaController.findAllTareas")
+        return "prueba"//generateRespuesta(result, "Error at TareaController.findAllTareas")
     }
 
-    fun getTareaById(id: UUID): String {
+    suspend fun getTareaById(id: UUID): String {
         var busqueda: TareaDTO? = aService.getAdquisicionById(id)
         return if (busqueda != null) {
             AdquisicionController.getAdquisicionById(id)
@@ -46,49 +46,44 @@ object TareaController {
                     PersonalizacionController.getPersonalizacionById(id)
                 }
                 else {
+                    "prueba"/*
                     generateRespuesta(
                         "Tarea with id $id not found.",
                         "Tarea with id $id not found."
                     )
+                    */
                 }
             }
         }
     }
 
-    fun insertTarea(dto: TareaDTO): String {
+    suspend fun insertTarea(dto: TareaDTO): String {
         return when (dto) {
             is AdquisicionDTO -> AdquisicionController.insertAdquisicion(dto)
             is EncordadoDTO -> EncordadoController.insertEncordado(dto)
             is PersonalizacionDTO -> PersonalizacionController.insertPersonalizacion(dto)
-            else -> { generateRespuesta(
+            else -> {
+                "prueba"/*generateRespuesta(
                 "Error at TareaController.insertTarea: DTO not supported.",
                 "Error at TareaController.insertTarea: DTO not supported."
-            ) }
+            )
+            */
+            }
         }
     }
 
-    fun deleteTarea(dto: TareaDTO): String {
+    suspend fun deleteTarea(dto: TareaDTO): String {
         return when (dto) {
             is AdquisicionDTO -> AdquisicionController.deleteAdquisicion(dto)
             is EncordadoDTO -> EncordadoController.deleteEncordado(dto)
             is PersonalizacionDTO -> PersonalizacionController.deletePersonalizacion(dto)
-            else -> { generateRespuesta(
+            else -> {
+                "prueba"/*generateRespuesta(
                 "Error at TareaController.deleteTarea: DTO not supported.",
                 "Error at TareaController.deleteTarea: DTO not supported."
-            ) }
-        }
-    }
-
-
-    fun insertTareaInit(dto: TareaDTO): String {
-        return when (dto) {
-            is AdquisicionDTO -> AdquisicionController.insertAdquisicionInit(dto)
-            is EncordadoDTO -> EncordadoController.insertEncordadoInit(dto)
-            is PersonalizacionDTO -> PersonalizacionController.insertPersonalizacionInit(dto)
-            else -> { generateRespuesta(
-                "Error at TareaController.insertTarea: DTO not supported.",
-                "Error at TareaController.insertTarea: DTO not supported."
-            ) }
+            )
+            */
+            }
         }
     }
 }

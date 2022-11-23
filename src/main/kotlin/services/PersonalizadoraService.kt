@@ -18,15 +18,15 @@ class PersonalizadoraService: BaseService<Personalizadora, UUID, Personalizadora
     val maquinaRepo = MaquinaRepositoryImpl(MaquinaDao)
     val mapper = MaquinaMapper()
 
-    fun getAllPersonalizadoras(): List<PersonalizadoraDTO> {
+    suspend fun getAllPersonalizadoras(): List<PersonalizadoraDTO> {
         return mapper.toPersonalizadoraDTO(this.findAll())
     }
 
-    fun getPersonalizadoraById(id: UUID): PersonalizadoraDTO? {
+    suspend fun getPersonalizadoraById(id: UUID): PersonalizadoraDTO? {
         return this.findById(id)?.let { mapper.toPersonalizadoraDTO(it) }
     }
 
-    fun createPersonalizadora(personalizadora: PersonalizadoraDTO): PersonalizadoraDTO {
+    suspend fun createPersonalizadora(personalizadora: PersonalizadoraDTO): PersonalizadoraDTO {
         val maquina = Maquina(
             id = personalizadora.id,
             modelo = personalizadora.modelo,
@@ -39,21 +39,7 @@ class PersonalizadoraService: BaseService<Personalizadora, UUID, Personalizadora
         return mapper.toPersonalizadoraDTO(this.insert(mapper.fromPersonalizadoraDTO(personalizadora)))
     }
 
-    fun deletePersonalizadora(personalizadora: PersonalizadoraDTO): Boolean {
+    suspend fun deletePersonalizadora(personalizadora: PersonalizadoraDTO): Boolean {
         return this.delete(mapper.fromPersonalizadoraDTO(personalizadora))
-    }
-
-
-    fun createPersonalizadoraInit(personalizadora: PersonalizadoraDTO): PersonalizadoraDTO {
-        val maquina = Maquina(
-            id = personalizadora.id,
-            modelo = personalizadora.modelo,
-            marca = personalizadora.marca,
-            fechaAdquisicion = personalizadora.fechaAdquisicion,
-            numeroSerie = personalizadora.numeroSerie,
-            tipoMaquina = TipoMaquina.PERSONALIZADORA
-        )
-        maquinaRepo.insert(maquina)
-        return mapper.toPersonalizadoraDTO(repository.insert(mapper.fromPersonalizadoraDTO(personalizadora)))
     }
 }

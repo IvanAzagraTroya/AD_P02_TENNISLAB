@@ -1,11 +1,15 @@
 package util
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dto.Respuesta
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.delay
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.text.NumberFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
@@ -44,6 +48,7 @@ fun encode(text: String): String {
 }
 
 fun generateRespuesta(result: String, errorMessage: String): String {
+    /*
     val respuesta = Respuesta(
         code =
         if (result.contentEquals(errorMessage))
@@ -51,11 +56,36 @@ fun generateRespuesta(result: String, errorMessage: String): String {
         else 0,
         body = result
     )
-    return GsonBuilder().setPrettyPrinting().create()
-        .toJson(respuesta)
+
+     */
+    return ""//respuesta.toJSON()
 }
 
 fun betweenXandY(res: String, x: Int, y: Int): Boolean {
     val n = res.toIntOrNull() ?: return false
     return n in x..y
 }
+
+suspend fun waitingText(deferred: Deferred<Any?>) {
+    while(!deferred.isCompleted) {
+        for (i in 1..3) {
+            print(".")
+            delay(100)
+        }
+        println()
+    }
+}
+
+/*
+fun generateRespuesta(result: List<DTO>): String {
+    val respuesta = Respuesta(
+        code =
+        if (result.isEmpty())
+            1707
+        else 0,
+        body = result
+    )
+    return respuesta.toJSON()
+}
+
+ */

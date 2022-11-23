@@ -27,7 +27,7 @@ fun TareaDao.fromTareaDaoToTarea(
     }
 }
 
-fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
+suspend fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
     tareaDao: UUIDEntityClass<TareaDao>,
     productoDao: UUIDEntityClass<ProductoDao>,
     userDao: UUIDEntityClass<UserDao>): Personalizacion {
@@ -57,7 +57,7 @@ fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
     )
 }
 
-fun EncordadoDao.fromEncordadoDaoToEncordado(
+suspend fun EncordadoDao.fromEncordadoDaoToEncordado(
     tareaDao: UUIDEntityClass<TareaDao>,
     productoDao: UUIDEntityClass<ProductoDao>,
     userDao: UUIDEntityClass<UserDao>
@@ -92,7 +92,7 @@ fun EncordadoDao.fromEncordadoDaoToEncordado(
     )
 }
 
-fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
+suspend fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
     tareaDao: UUIDEntityClass<TareaDao>,
     productoDao: UUIDEntityClass<ProductoDao>,
     userDao: UUIDEntityClass<UserDao>

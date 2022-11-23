@@ -20,15 +20,15 @@ class EncordadoService: BaseService<Encordado, UUID, EncordadoRepositoryImpl>(
     val tareaRepo = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
     val mapper = TareaMapper()
 
-    fun getAllEncordados(): List<EncordadoDTO> {
+    suspend fun getAllEncordados(): List<EncordadoDTO> {
         return mapper.toEncordadoDTO(this.findAll())
     }
 
-    fun getEncordadoById(id: UUID): EncordadoDTO? {
+    suspend fun getEncordadoById(id: UUID): EncordadoDTO? {
         return this.findById(id)?.let { mapper.toEncordadoDTO(it) }
     }
 
-    fun createEncordado(encordado: EncordadoDTO): EncordadoDTO {
+    suspend fun createEncordado(encordado: EncordadoDTO): EncordadoDTO {
         val tarea = Tarea(
             id = encordado.id,
             raqueta = encordado.raqueta,
@@ -40,20 +40,7 @@ class EncordadoService: BaseService<Encordado, UUID, EncordadoRepositoryImpl>(
         return mapper.toEncordadoDTO(this.insert(mapper.fromEncordadoDTO(encordado)))
     }
 
-    fun deleteEncordado(encordado: EncordadoDTO): Boolean {
+    suspend fun deleteEncordado(encordado: EncordadoDTO): Boolean {
         return this.delete(mapper.fromEncordadoDTO(encordado))
-    }
-
-
-    fun createEncordadoInit(encordado: EncordadoDTO): EncordadoDTO {
-        val tarea = Tarea(
-            id = encordado.id,
-            raqueta = encordado.raqueta,
-            precio = encordado.precio,
-            user = encordado.user,
-            tipoTarea = TipoTarea.ENCORDADO
-        )
-        tareaRepo.insert(tarea)
-        return mapper.toEncordadoDTO(repository.insert(mapper.fromEncordadoDTO(encordado)))
     }
 }

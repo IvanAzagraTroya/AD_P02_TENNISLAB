@@ -17,15 +17,15 @@ class EncordadoraService: BaseService<Encordadora, UUID, EncordadoraRepositoryIm
     val maquinaRepo = MaquinaRepositoryImpl(MaquinaDao)
     val mapper = MaquinaMapper()
 
-    fun getAllEncordadoras(): List<EncordadoraDTO> {
+    suspend fun getAllEncordadoras(): List<EncordadoraDTO> {
         return mapper.toEncordadoraDTO(this.findAll())
     }
 
-    fun getEncordadoraById(id: UUID): EncordadoraDTO? {
+    suspend fun getEncordadoraById(id: UUID): EncordadoraDTO? {
         return this.findById(id)?.let { mapper.toEncordadoraDTO(it) }
     }
 
-    fun createEncordadora(encordadora: EncordadoraDTO): EncordadoraDTO {
+    suspend fun createEncordadora(encordadora: EncordadoraDTO): EncordadoraDTO {
         val maquina = Maquina(
             id = encordadora.id,
             modelo = encordadora.modelo,
@@ -38,21 +38,7 @@ class EncordadoraService: BaseService<Encordadora, UUID, EncordadoraRepositoryIm
         return mapper.toEncordadoraDTO(this.insert(mapper.fromEncordadoraDTO(encordadora)))
     }
 
-    fun deleteEncordadora(encordadora: EncordadoraDTO): Boolean {
+    suspend fun deleteEncordadora(encordadora: EncordadoraDTO): Boolean {
         return this.delete(mapper.fromEncordadoraDTO(encordadora))
-    }
-
-
-    fun createEncordadoraInit(encordadora: EncordadoraDTO): EncordadoraDTO {
-        val maquina = Maquina(
-            id = encordadora.id,
-            modelo = encordadora.modelo,
-            marca = encordadora.marca,
-            fechaAdquisicion = encordadora.fechaAdquisicion,
-            numeroSerie = encordadora.numeroSerie,
-            tipoMaquina = TipoMaquina.ENCORDADORA
-        )
-        maquinaRepo.insert(maquina)
-        return mapper.toEncordadoraDTO(repository.insert(mapper.fromEncordadoraDTO(encordadora)))
     }
 }
