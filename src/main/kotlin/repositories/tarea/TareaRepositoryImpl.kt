@@ -27,12 +27,12 @@ class TareaRepositoryImpl(
     private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
     override suspend fun readAll(): Flow<Tarea> = newSuspendedTransaction(Dispatchers.IO) {
-        tareaDao.all().map { it.fromTareaDaoToTarea(tareaDao) }.asFlow()
+        tareaDao.all().map { it.fromTareaDaoToTarea(/*tareaDao*/) }.asFlow()
     }
 
     override suspend fun findById(id: UUID): Deferred<Tarea?> = suspendedTransactionAsync(Dispatchers.IO) {
         val tdao = tareaDao.findById(id)
-        tdao?.fromTareaDaoToTarea(tareaDao)
+        tdao?.fromTareaDaoToTarea(/*tareaDao*/)
     }
 
     override suspend fun create(entity: Tarea): Deferred<Tarea> = suspendedTransactionAsync(Dispatchers.IO) {

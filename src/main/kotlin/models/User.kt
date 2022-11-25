@@ -29,9 +29,4 @@ class User() {
         this.password = password
         this.perfil = perfil
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }

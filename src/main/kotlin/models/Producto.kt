@@ -35,9 +35,4 @@ class Producto() {
         this.precio = precio
         this.stock = stock ?: 0
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }

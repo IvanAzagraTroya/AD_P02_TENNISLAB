@@ -89,6 +89,7 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Encordadora {
     val maquina = maquinaDao.findById(id.value) ?: throw MapperException()
+    //val encordadora = EncordadoraDao.findById(id.value) ?: throw MapperException()
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,

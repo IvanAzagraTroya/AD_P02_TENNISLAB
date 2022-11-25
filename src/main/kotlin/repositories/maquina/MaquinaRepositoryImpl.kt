@@ -23,12 +23,12 @@ class MaquinaRepositoryImpl(
     private val maquinaDao: UUIDEntityClass<MaquinaDao>
 ): IMaquinaRepository {
     override suspend fun readAll(): Flow<Maquina> = newSuspendedTransaction(Dispatchers.IO) {
-        maquinaDao.all().map { it.fromMaquinaDaoToMaquina(maquinaDao) }.asFlow()
+        maquinaDao.all().map { it.fromMaquinaDaoToMaquina(/*maquinaDao*/) }.asFlow()
     }
 
     override suspend fun findById(id: UUID): Deferred<Maquina?> = suspendedTransactionAsync(Dispatchers.IO) {
         val mdao = maquinaDao.findById(id)
-        mdao?.fromMaquinaDaoToMaquina(maquinaDao)
+        mdao?.fromMaquinaDaoToMaquina(/*maquinaDao*/)
     }
 
     override suspend fun create(entity: Maquina): Deferred<Maquina> = suspendedTransactionAsync(Dispatchers.IO)  {

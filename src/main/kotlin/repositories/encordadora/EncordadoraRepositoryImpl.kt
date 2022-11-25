@@ -55,8 +55,8 @@ class EncordadoraRepositoryImpl(
         if (TipoMaquina.parseTipoMaquina(maquina.tipoMaquina) != TipoMaquina.ENCORDADORA)
             return@suspendedTransactionAsync false
         else {
-            maquina.delete()
             existe.delete()
+            maquina.delete()
             true
         }
     }

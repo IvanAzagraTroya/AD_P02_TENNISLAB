@@ -30,7 +30,7 @@ class UserRepositoryImpl(
     }
 
     override suspend fun findByPhone(phone: String): Deferred<User?> = suspendedTransactionAsync(Dispatchers.IO) {
-        clientesDao.find { UserTable.email eq phone }.firstOrNull()?.fromUserDaoToUser()
+        clientesDao.find { UserTable.telefono eq phone }.firstOrNull()?.fromUserDaoToUser()
     }
 
     override suspend fun create(entity: User): Deferred<User> = suspendedTransactionAsync(Dispatchers.IO) {

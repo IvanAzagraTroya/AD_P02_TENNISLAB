@@ -17,7 +17,7 @@ class DataLoader {
     val turMapper = TurnoMapper()
 
     val raqueta = ProductoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83ba"),
         tipoProducto = TipoProducto.RAQUETAS,
         marca = "MarcaRaqueta",
         modelo = "ModeloRaqueta",
@@ -26,7 +26,7 @@ class DataLoader {
     )
 
     val producto1 = ProductoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83ac"),
         tipoProducto = TipoProducto.ANTIVIBRADORES,
         marca = "MarcaX",
         modelo = "ModeloX",
@@ -35,7 +35,7 @@ class DataLoader {
     )
 
     val producto2 = ProductoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83ab"),
         tipoProducto = TipoProducto.GRIPS,
         marca = "MarcaY",
         modelo = "ModeloY",
@@ -44,7 +44,7 @@ class DataLoader {
     )
 
     val producto3 = ProductoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83aa"),
         tipoProducto = TipoProducto.FUNDAS,
         marca = "MarcaZ",
         modelo = "ModeloZ",
@@ -53,7 +53,7 @@ class DataLoader {
     )
 
     val cordaje = ProductoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea839b"),
         tipoProducto = TipoProducto.CORDAJES,
         marca = "CordajEx",
         modelo = "C945-Alpha",
@@ -62,7 +62,7 @@ class DataLoader {
     )
 
     val client = UserDTO(
-        id = UUID.randomUUID(),
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea839a"),
         nombre = "Maria",
         apellido = "Martinez",
         telefono = "632120281",
@@ -72,7 +72,7 @@ class DataLoader {
     )
 
     val worker = UserDTO(
-        id = UUID.randomUUID(),
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea839c"),
         nombre = "Luis",
         apellido = "Martinez",
         telefono = "632950281",
@@ -82,10 +82,10 @@ class DataLoader {
     )
 
     val personalizadora1 = PersonalizadoraDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83bb"),
         modelo = "RTX-3080TI",
         marca = "Nvidia",
-        fechaAdquisicion = null,
+        fechaAdquisicion = LocalDate.parse("2022-11-10"),
         numeroSerie = "123456789X",
         measuresRigidity = false,
         measuresBalance = true,
@@ -93,10 +93,10 @@ class DataLoader {
     )
 
     val encordadora1 = EncordadoraDTO(
-        id = UUID.randomUUID(),
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83bc"),
         modelo = "ENC-4070Turbo",
         marca = "Genericosas Marca Registrada",
-        fechaAdquisicion = LocalDate.now(),
+        fechaAdquisicion = LocalDate.parse("2021-10-01"),
         numeroSerie = "975318642Q",
         isManual = true,
         maxTension = 15.2,
@@ -104,28 +104,28 @@ class DataLoader {
     )
 
     val adquisicion1 = AdquisicionDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83ca"),
         raqueta = pMapper.fromDTO(raqueta),
         user = uMapper.fromDTO(client),
         productoAdquirido = pMapper.fromDTO(producto1)
     )
 
     val adquisicion2 = AdquisicionDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83cb"),
         raqueta = pMapper.fromDTO(raqueta),
         user = uMapper.fromDTO(client),
         productoAdquirido = pMapper.fromDTO(producto2)
     )
 
     val adquisicion3 = AdquisicionDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea83cc"),
         raqueta = pMapper.fromDTO(raqueta),
         user = uMapper.fromDTO(client),
         productoAdquirido = pMapper.fromDTO(producto3)
     )
 
     val encordado = EncordadoDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8aaa"),
         raqueta = pMapper.fromDTO(raqueta),
         user = uMapper.fromDTO(client),
         tensionHorizontal = 25.5,
@@ -136,7 +136,7 @@ class DataLoader {
     )
 
     val personalizacion = PersonalizacionDTO(
-        id = null,
+        id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8aab"),
         raqueta = pMapper.fromDTO(raqueta),
         user = uMapper.fromDTO(client),
         peso = 890,
@@ -148,7 +148,7 @@ class DataLoader {
         worker,
         client,
         UserDTO(
-            id = UUID.randomUUID(),
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8aac"),
             nombre = "Admin",
             apellido = "Administrador",
             telefono = "000000000",
@@ -161,20 +161,20 @@ class DataLoader {
     fun getMaquinas() = listOf(
         personalizadora1,
         PersonalizadoraDTO(
-            id = UUID.randomUUID(),
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8aba"),
             modelo = "RX-480",
             marca = "Sapphire Radeon",
-            fechaAdquisicion = LocalDate.now(),
+            fechaAdquisicion = LocalDate.parse("2020-01-01"),
             numeroSerie = "111111111A",
             measuresRigidity = true,
             measuresBalance = true,
             measuresManeuverability = true
         ),
         EncordadoraDTO(
-            id = null,
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8abb"),
             modelo = "ENC-2022XT",
             marca = "EncordadorasSL",
-            fechaAdquisicion = null,
+            fechaAdquisicion = LocalDate.parse("2011-11-11"),
             numeroSerie = "124356879W",
             isManual = false,
             maxTension = 25.5,
@@ -187,7 +187,7 @@ class DataLoader {
         raqueta, producto1, producto2, producto3, cordaje
     )
 
-    fun getTareas() = listOf<TareaDTO>(
+    fun getTareas() = listOf(
         adquisicion1,
         adquisicion2,
         adquisicion3,
@@ -195,48 +195,48 @@ class DataLoader {
         personalizacion
     )
 
-    fun getTurnos() = listOf<TurnoDTO>(
+    fun getTurnos() = listOf(
         TurnoDTO(
-            id = null,
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8abc"),
             worker = uMapper.fromDTO(worker),
             maquina = mMapper.fromDTO(personalizadora1),
-            horaInicio = LocalDateTime.now(),
+            horaInicio = LocalDateTime.of(2002,10,14,10,9),
             horaFin = null,
             tarea1 = tMapper.fromDTO(personalizacion),
             tarea2 = tMapper.fromDTO(adquisicion1)
         ),
         TurnoDTO(
-            id = null,
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8aca"),
             worker = uMapper.fromDTO(worker),
             maquina = mMapper.fromDTO(encordadora1),
-            horaInicio = LocalDateTime.now().minusDays(1L),
+            horaInicio = LocalDateTime.of(2022,1,10,1,0),
             horaFin = null,
             tarea1 = tMapper.fromDTO(encordado),
             tarea2 = tMapper.fromDTO(adquisicion2)
         ),
         TurnoDTO(
-            id = null,
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8acb"),
             worker = uMapper.fromDTO(worker),
             maquina = mMapper.fromDTO(personalizadora1),
-            horaInicio = LocalDateTime.now(),
+            horaInicio = LocalDateTime.of(2022,5,5,5,5),
             horaFin = null,
             tarea1 = tMapper.fromDTO(adquisicion3),
             tarea2 = null
         )
     )
 
-    fun getPedidos() = listOf<PedidoDTO>(
+    fun getPedidos() = listOf(
         PedidoDTO(
-            id = null,
+            id = UUID.fromString("93a98d69-6da6-48a7-b34f-05b596ea8acc"),
             tareas = tMapper.fromDTO(getTareas()),
             client = uMapper.fromDTO(client),
             turnos = turMapper.fromDTO(getTurnos()),
             state = PedidoEstado.PROCESO,
-            fechaEntrada = null,
+            fechaEntrada = LocalDate.parse("2013-10-10"),
             fechaProgramada = getTurnos().maxBy { it.horaFin }
-                .horaFin.toLocalDate() ?: LocalDate.now(),
+                .horaFin.toLocalDate() ?: LocalDate.parse("2023-12-12"),
             fechaSalida = getTurnos().maxBy { it.horaFin }
-                .horaFin.plusDays(5L).toLocalDate() ?: LocalDate.now(),
+                .horaFin.plusDays(5L).toLocalDate() ?: LocalDate.parse("2023-12-12"),
             fechaEntrega = null
         )
     )

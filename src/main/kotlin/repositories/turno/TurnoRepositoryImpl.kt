@@ -17,7 +17,6 @@ class TurnoRepositoryImpl(
     private val turnoDao: UUIDEntityClass<TurnoDao>,
     private val userDao: UUIDEntityClass<UserDao>,
     private val maquinaDao: UUIDEntityClass<MaquinaDao>,
-    private val productoDao: UUIDEntityClass<ProductoDao>,
     private val tareaDao: UUIDEntityClass<TareaDao>
 ): ITurnoRepository {
     override suspend fun readAll(): Flow<Turno> = newSuspendedTransaction(Dispatchers.IO) {

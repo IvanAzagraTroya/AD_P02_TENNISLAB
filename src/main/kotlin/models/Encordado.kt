@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import models.enums.TipoTarea
 import java.util.*
@@ -49,10 +50,5 @@ class Encordado():Tarea() {
         this.dosNudos = dosNudos
         this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
         this.tipoTarea = TipoTarea.ENCORDADO
-    }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
     }
 }

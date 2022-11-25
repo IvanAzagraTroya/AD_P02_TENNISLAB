@@ -42,9 +42,4 @@ class Personalizadora(): Maquina() {
         this.measuresManeuverability = measuresManeuverability
         this.tipoMaquina = TipoMaquina.PERSONALIZADORA
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }

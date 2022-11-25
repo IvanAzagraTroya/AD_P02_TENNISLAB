@@ -39,9 +39,4 @@ class Pedido() {
         this.fechaEntrega = fechaEntrega ?: fechaSalida
         this.precio = tareas.sumOf { it.precio }
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }
