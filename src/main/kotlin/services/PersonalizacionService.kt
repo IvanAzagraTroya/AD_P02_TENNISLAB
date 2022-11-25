@@ -1,10 +1,9 @@
 package services
 
 import dto.PersonalizacionDTO
-import entities.PersonalizacionDao
-import entities.ProductoDao
-import entities.TareaDao
-import entities.UserDao
+import dto.TareaDTO
+import entities.*
+import kotlinx.coroutines.flow.toList
 import mappers.TareaMapper
 import models.Personalizacion
 import models.Tarea
@@ -16,20 +15,20 @@ import java.util.UUID
 
 class PersonalizacionService: BaseService<Personalizacion, UUID, PersonalizacionRepositoryImpl>(
     PersonalizacionRepositoryImpl(
-    PersonalizacionDao, TareaDao, ProductoDao, UserDao
+    PersonalizacionDao, TareaDao
 )) {
     val tareaRepo = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
     val mapper = TareaMapper()
 
     suspend fun getAllPersonalizaciones(): List<PersonalizacionDTO> {
-        return mapper.toPersonalizacionDTO(this.findAll())
+        return mapper.toPersonalizacionDTO(this.findAll().toList())
     }
 
     suspend fun getPersonalizacionById(id: UUID): PersonalizacionDTO? {
-        return this.findById(id)?.let { mapper.toPersonalizacionDTO(it) }
+        return this.findById(id).await()?.let { mapper.toPersonalizacionDTO(it) }
     }
 
-    suspend fun createPersonalizacion(personalizacion: PersonalizacionDTO): PersonalizacionDTO {
+    suspend fun createPersonalizacion(personalizacion: PersonalizacionDTO): TareaDTO {
         val tarea = Tarea(
             id = personalizacion.id,
             raqueta = personalizacion.raqueta,
@@ -37,11 +36,11 @@ class PersonalizacionService: BaseService<Personalizacion, UUID, Personalizacion
             user = personalizacion.user,
             tipoTarea = TipoTarea.PERSONALIZACION
         )
-        tareaRepo.create(tarea)
-        return mapper.toPersonalizacionDTO(this.insert(mapper.fromPersonalizacionDTO(personalizacion)))
+        tareaRepo.create(tarea).await()
+        return mapper.toDTO(this.insert(mapper.fromPersonalizacionDTO(personalizacion)).await())
     }
 
     suspend fun deletePersonalizacion(personalizacion: PersonalizacionDTO): Boolean {
-        return this.delete(mapper.fromPersonalizacionDTO(personalizacion))
+        return this.delete(mapper.fromPersonalizacionDTO(personalizacion)).await()
     }
 }

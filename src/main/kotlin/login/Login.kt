@@ -71,14 +71,7 @@ suspend fun register(): UserDTO {
             )
             val result = suspendedTransactionAsync(Dispatchers.IO) { UserController.insertUser(newUser) }
             waitingText(result)
-            println("""
-                Registering $name $famName...
-                -------------------------------------
-                
-                ${result.await()}
-                
-                -------------------------------------
-            """.trimIndent())
+            println("Registering $name $famName...")
             return newUser
         }
         else {

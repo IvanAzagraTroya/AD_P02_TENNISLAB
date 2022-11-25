@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.*
@@ -26,5 +27,10 @@ open class Maquina() {
         this.fechaAdquisicion = fechaAdquisicion ?: LocalDate.now()
         this.numeroSerie = numeroSerie
         this.tipoMaquina = tipoMaquina
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

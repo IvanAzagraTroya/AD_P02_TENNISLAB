@@ -1,10 +1,10 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoTarea
 import java.util.*
 
 class Encordado():Tarea() {
-    override var id: UUID = super.id
     var tensionHorizontal: Double = 0.0
     lateinit var cordajeHorizontal: Producto
     var tensionVertical: Double = 0.0
@@ -49,5 +49,10 @@ class Encordado():Tarea() {
         this.dosNudos = dosNudos
         this.precio = (15.0+cordajeHorizontal.precio+cordajeVertical.precio)
         this.tipoTarea = TipoTarea.ENCORDADO
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

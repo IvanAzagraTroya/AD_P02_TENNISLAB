@@ -2,9 +2,13 @@ package mappers
 
 import dto.*
 import entities.*
+import exceptions.MapperException
 import models.*
 import models.enums.TipoTarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import repositories.adquisicion.AdquisicionRepositoryImpl
+import repositories.encordado.EncordadoRepositoryImpl
+import repositories.personalizacion.PersonalizacionRepositoryImpl
 import repositories.tarea.TareaRepositoryImpl
 
 
@@ -15,6 +19,14 @@ import repositories.tarea.TareaRepositoryImpl
  */
 
 // TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
+
+suspend fun TareaDao.fromTareaDaoToTarea(): Tarea {
+    return when (TipoTarea.parseTipoTarea(tipoTarea)) {
+        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion()
+        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado()
+        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion()
+    }
+}
 
 fun TareaDao.fromTareaDaoToTarea(
     raqueta: Producto,
@@ -27,16 +39,23 @@ fun TareaDao.fromTareaDaoToTarea(
     }
 }
 
-suspend fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
-    tareaDao: UUIDEntityClass<TareaDao>,
-    productoDao: UUIDEntityClass<ProductoDao>,
-    userDao: UUIDEntityClass<UserDao>): Personalizacion {
-    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
-    val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
+fun TareaDao.fromTareaDaoToTarea(
+    tareaDao: UUIDEntityClass<TareaDao>
+): Tarea {
+    return when (TipoTarea.parseTipoTarea(tipoTarea)) {
+        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(tareaDao)
+        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(tareaDao)
+        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(tareaDao)
+    }
+}
+
+fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
+    tareaDao: UUIDEntityClass<TareaDao>): Personalizacion {
+    val tarea = tareaDao.findById(id.value) ?: throw MapperException()
     return Personalizacion(
         id = id.value,
-        raqueta = tarea.raqueta,
-        user = tarea.user,
+        raqueta = tarea.raqueta.fromProductoDaoToProducto(),
+        user = tarea.user.fromUserDaoToUser(),
         peso = peso,
         balance = balance,
         rigidez = rigidez
@@ -57,22 +76,47 @@ fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(
     )
 }
 
-suspend fun EncordadoDao.fromEncordadoDaoToEncordado(
-    tareaDao: UUIDEntityClass<TareaDao>,
-    productoDao: UUIDEntityClass<ProductoDao>,
-    userDao: UUIDEntityClass<UserDao>
-): Encordado {
-    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
-    val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
-    return Encordado(
+suspend fun PersonalizacionDao.fromPersonalizacionDaoToPersonalizacion(): Personalizacion {
+    val tarea = PersonalizacionRepositoryImpl(PersonalizacionDao, TareaDao)
+        .findById(id.value).await() ?: throw MapperException()
+    return Personalizacion(
         id = id.value,
         raqueta = tarea.raqueta,
         user = tarea.user,
+        peso = tarea.peso,
+        balance = tarea.balance,
+        rigidez = tarea.rigidez
+    )
+}
+
+fun EncordadoDao.fromEncordadoDaoToEncordado(
+    tareaDao: UUIDEntityClass<TareaDao>
+): Encordado {
+    val tarea = tareaDao.findById(id.value) ?: throw MapperException()
+    return Encordado(
+        id = id.value,
+        raqueta = tarea.raqueta.fromProductoDaoToProducto(),
+        user = tarea.user.fromUserDaoToUser(),
         tensionHorizontal = tensionHorizontal,
         cordajeHorizontal = cordajeHorizontal.fromProductoDaoToProducto(),
         tensionVertical = tensionVertical,
         cordajeVertical = cordajeVertical.fromProductoDaoToProducto(),
         dosNudos = dosNudos
+    )
+}
+
+suspend fun EncordadoDao.fromEncordadoDaoToEncordado(): Encordado {
+    val tarea = EncordadoRepositoryImpl(TareaDao, ProductoDao, EncordadoDao)
+        .findById(id.value).await() ?: throw MapperException()
+    return Encordado(
+        id = id.value,
+        raqueta = tarea.raqueta,
+        user = tarea.user,
+        tensionHorizontal = tarea.tensionHorizontal,
+        cordajeHorizontal = tarea.cordajeHorizontal,
+        tensionVertical = tarea.tensionVertical,
+        cordajeVertical = tarea.cordajeVertical,
+        dosNudos = tarea.dosNudos
     )
 }
 
@@ -92,19 +136,28 @@ fun EncordadoDao.fromEncordadoDaoToEncordado(
     )
 }
 
-suspend fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
-    tareaDao: UUIDEntityClass<TareaDao>,
-    productoDao: UUIDEntityClass<ProductoDao>,
-    userDao: UUIDEntityClass<UserDao>
+fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
+    tareaDao: UUIDEntityClass<TareaDao>
 ): Adquisicion {
-    val repo = TareaRepositoryImpl(tareaDao, productoDao, userDao)
-    val tarea: Tarea = repo.findById(id.value) ?: throw Exception()
+    val tarea = tareaDao.findById(id.value) ?: throw Exception()
+    return Adquisicion(
+        id = id.value,
+        raqueta = tarea.raqueta.fromProductoDaoToProducto(),
+        user = tarea.user.fromUserDaoToUser(),
+        productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
+        precio = precio
+    )
+}
+
+suspend fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(): Adquisicion {
+    val tarea = AdquisicionRepositoryImpl(AdquisicionDao, TareaDao, ProductoDao)
+        .findById(id.value).await() ?: throw MapperException()
     return Adquisicion(
         id = id.value,
         raqueta = tarea.raqueta,
         user = tarea.user,
-        productoAdquirido = productoAdquirido.fromProductoDaoToProducto(),
-        precio = precio
+        productoAdquirido = tarea.productoAdquirido,
+        precio = tarea.precio
     )
 }
 

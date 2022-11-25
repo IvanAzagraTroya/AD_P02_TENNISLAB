@@ -14,7 +14,7 @@ object PersonalizadoraTable: UUIDTable("PERSONALIZADORAS") {
 
 class PersonalizadoraDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<PersonalizadoraDao>(PersonalizadoraTable)
-    var measuresManeuverability: Boolean by PersonalizadoraTable.measuresManeuverability
-    var measuresBalance: Boolean by PersonalizadoraTable.measuresBalance
-    var measuresRigidity: Boolean by PersonalizadoraTable.measuresRigidity
+    var measuresManeuverability by PersonalizadoraTable.measuresManeuverability
+    var measuresBalance by PersonalizadoraTable.measuresBalance
+    var measuresRigidity by PersonalizadoraTable.measuresRigidity
 }

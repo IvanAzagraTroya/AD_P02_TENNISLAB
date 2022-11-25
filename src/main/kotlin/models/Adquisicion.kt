@@ -1,10 +1,10 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoTarea
 import java.util.*
 
 class Adquisicion(): Tarea() {
-    override var id: UUID = super.id
     lateinit var productoAdquirido: Producto
 
     constructor(
@@ -31,5 +31,10 @@ class Adquisicion(): Tarea() {
         this.productoAdquirido = productoAdquirido
         this.precio = precio
         this.tipoTarea = TipoTarea.ADQUISICION
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

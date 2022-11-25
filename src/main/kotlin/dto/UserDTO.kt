@@ -7,6 +7,7 @@ import models.enums.Profile
 import java.util.UUID
 
 class UserDTO() {
+    @Expose
     lateinit var id: UUID
     @Expose
     lateinit var nombre: String
@@ -42,10 +43,14 @@ class UserDTO() {
     }
 
     fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create().toJson(this)
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create().toJson(this)
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

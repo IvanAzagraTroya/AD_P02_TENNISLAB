@@ -2,34 +2,38 @@ package repositories.clientes
 
 import entities.UserDao
 import entities.UserTable
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import mappers.fromUserDaoToUser
 import models.User
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class UserRepositoryImpl(
     private val clientesDao: UUIDEntityClass<UserDao>,
 ): IUserRepository {
-    override suspend fun readAll(): List<User> = newSuspendedTransaction(Dispatchers.IO) {
-        clientesDao.all().map { it.fromUserDaoToUser() }
+    override suspend fun readAll(): Flow<User> = newSuspendedTransaction(Dispatchers.IO) {
+        clientesDao.all().map { it.fromUserDaoToUser() }.asFlow()
     }
 
-    override suspend fun findById(id: UUID): User? = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun findById(id: UUID): Deferred<User?> = suspendedTransactionAsync(Dispatchers.IO) {
         clientesDao.findById(id)?.fromUserDaoToUser()
     }
 
-    override suspend fun findByEmail(email: String): User? = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun findByEmail(email: String): Deferred<User?> = suspendedTransactionAsync(Dispatchers.IO) {
         clientesDao.find { UserTable.email eq email }.firstOrNull()?.fromUserDaoToUser()
     }
 
-    override suspend fun findByPhone(phone: String): User? = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun findByPhone(phone: String): Deferred<User?> = suspendedTransactionAsync(Dispatchers.IO) {
         clientesDao.find { UserTable.email eq phone }.firstOrNull()?.fromUserDaoToUser()
     }
 
-    override suspend fun create(entity: User): User = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun create(entity: User): Deferred<User> = suspendedTransactionAsync(Dispatchers.IO) {
         val existe = clientesDao.findById(entity.id)
         existe?.let {
             update(entity, existe)
@@ -59,8 +63,8 @@ class UserRepositoryImpl(
         }.fromUserDaoToUser()
     }
 
-    override suspend fun delete(entity: User): Boolean = newSuspendedTransaction(Dispatchers.IO) {
-        val existe = clientesDao.findById(entity.id) ?: return@newSuspendedTransaction false
+    override suspend fun delete(entity: User): Deferred<Boolean> = suspendedTransactionAsync(Dispatchers.IO) {
+        val existe = clientesDao.findById(entity.id) ?: return@suspendedTransactionAsync false
         existe.delete()
         true
     }

@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.GsonBuilder
 import java.util.UUID
 
 class User() {
@@ -27,5 +28,10 @@ class User() {
         this.email = email
         this.password = password
         this.perfil = perfil
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

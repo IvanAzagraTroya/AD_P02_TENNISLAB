@@ -1,16 +1,24 @@
 package repositories.tarea
 
-import entities.ProductoDao
-import entities.TareaDao
-import entities.UserDao
+import entities.*
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import mappers.fromProductoDaoToProducto
 import mappers.fromTareaDaoToTarea
 import mappers.fromUserDaoToUser
+import models.Adquisicion
+import models.Encordado
+import models.Personalizacion
 import models.Tarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
+import repositories.adquisicion.AdquisicionRepositoryImpl
+import repositories.encordado.EncordadoRepositoryImpl
+import repositories.personalizacion.PersonalizacionRepositoryImpl
 import java.util.*
 
 class TareaRepositoryImpl(
@@ -18,22 +26,16 @@ class TareaRepositoryImpl(
     private val productoDao: UUIDEntityClass<ProductoDao>,
     private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
-    override suspend fun readAll(): List<Tarea> = newSuspendedTransaction(Dispatchers.IO) {
-        tareaDao.all().map { it.fromTareaDaoToTarea(
-            it.raqueta.fromProductoDaoToProducto(),
-            it.user.fromUserDaoToUser())
-        }
+    override suspend fun readAll(): Flow<Tarea> = newSuspendedTransaction(Dispatchers.IO) {
+        tareaDao.all().map { it.fromTareaDaoToTarea(tareaDao) }.asFlow()
     }
 
-    override suspend fun findById(id: UUID): Tarea? = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun findById(id: UUID): Deferred<Tarea?> = suspendedTransactionAsync(Dispatchers.IO) {
         val tdao = tareaDao.findById(id)
-        tdao?.fromTareaDaoToTarea(
-            tdao.raqueta.fromProductoDaoToProducto(),
-            tdao.user.fromUserDaoToUser()
-        )
+        tdao?.fromTareaDaoToTarea(tareaDao)
     }
 
-    override suspend fun create(entity: Tarea): Tarea = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun create(entity: Tarea): Deferred<Tarea> = suspendedTransactionAsync(Dispatchers.IO) {
         val existe = tareaDao.findById(entity.id)
         existe?.let {
             update(entity, existe)
@@ -43,25 +45,48 @@ class TareaRepositoryImpl(
     }
 
     private fun update(entity: Tarea, existe: TareaDao): Tarea {
-        return existe.apply {
+        existe.apply {
             raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
-        }.fromTareaDaoToTarea(entity.raqueta, entity.user)
+        }
+        /*
+        when (entity) {
+            is Adquisicion -> aRepo.create(entity).await()
+            is Encordado -> eRepo.create(entity).await()
+            is Personalizacion -> pRepo.create(entity).await()
+        }
+        return tarea.fromTareaDaoToTarea(
+            tareaDao, adquisicionDao, personalizacionDao, encordadoDao, productoDao, userDao
+        )
+        */
+        return entity
     }
 
     fun insert(entity: Tarea): Tarea {
-        return tareaDao.new(entity.id) {
+        tareaDao.new(entity.id) {
             raqueta = productoDao.findById(entity.raqueta.id) ?: throw Exception()
             precio = entity.precio
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
-        }.fromTareaDaoToTarea(entity.raqueta, entity.user)
+        }
+        /*
+        when (entity) {
+            is Adquisicion -> aRepo.create(entity).await()
+            is Encordado -> eRepo.create(entity).await()
+            is Personalizacion -> pRepo.create(entity).await()
+        }
+        return tarea.fromTareaDaoToTarea(
+            tareaDao, adquisicionDao, personalizacionDao, encordadoDao, productoDao, userDao
+        )
+
+         */
+        return entity
     }
 
-    override suspend fun delete(entity: Tarea): Boolean = newSuspendedTransaction(Dispatchers.IO) {
-        val existe = tareaDao.findById(entity.id) ?: return@newSuspendedTransaction false
+    override suspend fun delete(entity: Tarea): Deferred<Boolean> = suspendedTransactionAsync(Dispatchers.IO) {
+        val existe = tareaDao.findById(entity.id) ?: return@suspendedTransactionAsync false
         existe.delete()
         true
     }

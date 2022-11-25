@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.PedidoEstado
 import java.time.LocalDate
 import java.util.*
@@ -37,5 +38,10 @@ class Pedido() {
         this.fechaSalida = fechaSalida
         this.fechaEntrega = fechaEntrega ?: fechaSalida
         this.precio = tareas.sumOf { it.precio }
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

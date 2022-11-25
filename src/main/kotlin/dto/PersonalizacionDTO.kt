@@ -2,19 +2,20 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.Producto
 import models.User
 import util.toLocalMoney
 import java.util.*
 
 class PersonalizacionDTO(): TareaDTO {
-    lateinit var id: UUID
-    lateinit var raqueta: Producto
-    lateinit var user: User
-    var peso: Int = 0
-    var balance: Double = 0.0
-    var rigidez: Int = 0
-    val precio: Double = 60.0
+    @Expose lateinit var id: UUID
+    @Expose lateinit var raqueta: Producto
+    @Expose lateinit var user: User
+    @Expose var peso: Int = 0
+    @Expose var balance: Double = 0.0
+    @Expose var rigidez: Int = 0
+    @Expose val precio: Double = 60.0
 
     constructor(
         id: UUID?,
@@ -36,18 +37,15 @@ class PersonalizacionDTO(): TareaDTO {
         return Gson().fromJson(json, PersonalizacionDTO::class.java)
     }
 
-    fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    override fun toJSON(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Tarea(id=$id, " +
-                "tipo=Personalizacion, " +
-                "raqueta=$raqueta, " +
-                "user=$user, " +
-                "peso=$peso g, " +
-                "balance=$balance, " +
-                "rigidez=$rigidez, " +
-                "precio=${precio.toLocalMoney(Locale("es", "ES"))})"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

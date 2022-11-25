@@ -2,17 +2,18 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.enums.TipoProducto
 import util.toLocalMoney
 import java.util.*
 
 class ProductoDTO() {
-    lateinit var id: UUID
-    lateinit var tipoProducto: TipoProducto
-    lateinit var marca: String
-    lateinit var modelo: String
-    var precio: Double = 0.0
-    var stock: Int = 0
+    @Expose lateinit var id: UUID
+    @Expose lateinit var tipoProducto: TipoProducto
+    @Expose lateinit var marca: String
+    @Expose lateinit var modelo: String
+    @Expose var precio: Double = 0.0
+    @Expose var stock: Int = 0
 
     constructor(
         id: UUID?,
@@ -35,15 +36,14 @@ class ProductoDTO() {
     }
 
     fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Producto(id=$id, " +
-                "tipo=$tipoProducto, " +
-                "marca=$marca, " +
-                "modelo=$modelo, " +
-                "precio=${precio.toLocalMoney(Locale("es", "ES"))}, " +
-                "stock=$stock)"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }
