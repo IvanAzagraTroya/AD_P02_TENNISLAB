@@ -2,18 +2,27 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import util.toLocalDate
 import java.time.LocalDate
 import java.util.*
 
 class PersonalizadoraDTO(): MaquinaDTO {
+    @Expose
     lateinit var id: UUID
+    @Expose
     lateinit var modelo: String
+    @Expose
     lateinit var marca: String
     lateinit var fechaAdquisicion: LocalDate
+    @Expose lateinit var fechaAdquisicionString: String
+    @Expose
     lateinit var numeroSerie: String
+    @Expose
     var measuresManeuverability: Boolean = true
+    @Expose
     var measuresBalance: Boolean = true
+    @Expose
     var measuresRigidity: Boolean = true
 
     constructor(
@@ -30,6 +39,7 @@ class PersonalizadoraDTO(): MaquinaDTO {
         this.modelo = modelo
         this.marca = marca
         this.fechaAdquisicion = fechaAdquisicion ?: LocalDate.now()
+        this.fechaAdquisicionString = this.fechaAdquisicion.toString()
         this.numeroSerie = numeroSerie
         this.measuresManeuverability = measuresManeuverability
         this.measuresBalance = measuresBalance
@@ -40,19 +50,15 @@ class PersonalizadoraDTO(): MaquinaDTO {
         return Gson().fromJson(json, PersonalizadoraDTO::class.java)
     }
 
-    fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    override fun toJSON(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Maquina(id=$id, " +
-                "tipo=Personalizadora, " +
-                "modelo=$modelo, " +
-                "marca=$marca, " +
-                "fechaAdquisicion=${fechaAdquisicion.toLocalDate(Locale("es", "ES"))}, " +
-                "numeroSerie=$numeroSerie, " +
-                "measuresManeuverability=$measuresManeuverability, " +
-                "measuresBalance=$measuresBalance, " +
-                "measuresRigidity=$measuresRigidity)"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

@@ -2,8 +2,11 @@ package repositories.encordadora
 
 import entities.EncordadoraDao
 import entities.MaquinaDao
+import entities.PersonalizadoraDao
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import mappers.fromEncordadoraDaoToEncordadora
 import models.Encordadora
 import models.enums.TipoMaquina
@@ -17,15 +20,15 @@ class EncordadoraRepositoryImpl(
     private val encordadoraDao: UUIDEntityClass<EncordadoraDao>,
     private val maquinaDao: UUIDEntityClass<MaquinaDao>
 ): IEncordadoraRepository {
-    override suspend fun readAll(): List<Encordadora> = newSuspendedTransaction(Dispatchers.IO) {
-        encordadoraDao.all().map { it.fromEncordadoraDaoToEncordadora(maquinaDao)}
+    override suspend fun readAll(): Flow<Encordadora> = newSuspendedTransaction(Dispatchers.IO) {
+        encordadoraDao.all().map { it.fromEncordadoraDaoToEncordadora(maquinaDao)}.asFlow()
     }
 
-    override suspend fun findById(id: UUID): Encordadora? = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun findById(id: UUID): Deferred<Encordadora?> = suspendedTransactionAsync(Dispatchers.IO) {
         encordadoraDao.findById(id)?.fromEncordadoraDaoToEncordadora(maquinaDao)
     }
 
-    override suspend fun create(entity: Encordadora): Encordadora = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun create(entity: Encordadora): Deferred<Encordadora> = suspendedTransactionAsync(Dispatchers.IO) {
         val existe = encordadoraDao.findById(entity.id)
         existe?.let { update(entity, it) } ?: run { insert(entity) }
     }
@@ -46,11 +49,11 @@ class EncordadoraRepositoryImpl(
         }.fromEncordadoraDaoToEncordadora(entity.modelo, entity.marca, entity.fechaAdquisicion, entity.numeroSerie)
     }
 
-    override suspend fun delete(entity: Encordadora): Boolean = newSuspendedTransaction(Dispatchers.IO) {
-        val existe = encordadoraDao.findById(entity.id) ?: return@newSuspendedTransaction false
-        val maquina = maquinaDao.findById(entity.id) ?: return@newSuspendedTransaction false
+    override suspend fun delete(entity: Encordadora): Deferred<Boolean> = suspendedTransactionAsync(Dispatchers.IO) {
+        val existe = encordadoraDao.findById(entity.id) ?: return@suspendedTransactionAsync false
+        val maquina = maquinaDao.findById(entity.id) ?: return@suspendedTransactionAsync false
         if (TipoMaquina.parseTipoMaquina(maquina.tipoMaquina) != TipoMaquina.ENCORDADORA)
-            return@newSuspendedTransaction false
+            return@suspendedTransactionAsync false
         else {
             maquina.delete()
             existe.delete()

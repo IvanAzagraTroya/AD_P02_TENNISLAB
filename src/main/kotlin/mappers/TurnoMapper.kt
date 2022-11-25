@@ -5,29 +5,15 @@ import entities.*
 import models.Turno
 import org.jetbrains.exposed.dao.UUIDEntityClass
 
-fun TurnoDao.fromTurnoDaoToTurno(
-    tareaDao: UUIDEntityClass<TareaDao>,
-    productoDao: UUIDEntityClass<ProductoDao>,
-    userDao: UUIDEntityClass<UserDao>,
-): Turno {
+suspend fun TurnoDao.fromTurnoDaoToTurno(): Turno {
     return Turno(
         id = id.value,
         worker = worker.fromUserDaoToUser(),
-        maquina = maquina.fromMaquinaDaoToMaquina(
-            maquina.modelo,
-            maquina.marca,
-            maquina.fechaAdquisicion,
-            maquina.numeroSerie
-        ),
+        maquina = maquina.fromMaquinaDaoToMaquina(),
         horaInicio = horaInicio,
         horaFin = horaFin,
-        tarea1 = tarea1?.fromTareaDaoToTarea(
-            tarea1!!.raqueta.fromProductoDaoToProducto(),
-            tarea1!!.user.fromUserDaoToUser()
-        ),
-        tarea2 = tarea2?.fromTareaDaoToTarea(
-            tarea2!!.raqueta.fromProductoDaoToProducto(),
-            tarea2!!.user.fromUserDaoToUser())
+        tarea1 = tarea1.fromTareaDaoToTarea(),
+        tarea2 = tarea2?.fromTareaDaoToTarea()
     )
 }
 

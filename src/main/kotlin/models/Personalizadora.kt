@@ -1,11 +1,11 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.UUID
 
 class Personalizadora(): Maquina() {
-    override var id = super.id
     var measuresManeuverability: Boolean = false
     var measuresBalance: Boolean = false
     var measuresRigidity: Boolean = false
@@ -41,5 +41,10 @@ class Personalizadora(): Maquina() {
         this.measuresBalance = measuresBalance
         this.measuresManeuverability = measuresManeuverability
         this.tipoMaquina = TipoMaquina.PERSONALIZADORA
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

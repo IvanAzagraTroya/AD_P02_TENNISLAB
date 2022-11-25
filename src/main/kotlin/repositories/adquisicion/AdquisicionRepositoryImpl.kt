@@ -1,24 +1,24 @@
 package repositories.adquisicion
 
-import entities.AdquisicionDao
-import entities.ProductoDao
-import entities.TareaDao
-import entities.UserDao
+import entities.*
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import mappers.fromAdquisicionDaoToAdquisicion
 import models.Adquisicion
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class AdquisicionRepositoryImpl(
     private val adquisicionDao: UUIDEntityClass<AdquisicionDao>,
     private val tareaDao: UUIDEntityClass<TareaDao>,
-    private val productoDao: UUIDEntityClass<ProductoDao>,
-    private val userDao: UUIDEntityClass<UserDao>
+    private val productoDao: UUIDEntityClass<ProductoDao>
 ): IAdquisicionRepository {
-    override suspend fun create(entity: Adquisicion): Adquisicion = newSuspendedTransaction(Dispatchers.IO) {
+    override suspend fun create(entity: Adquisicion): Deferred<Adquisicion> = suspendedTransactionAsync(Dispatchers.IO) {
         val existe = adquisicionDao.findById(entity.id)
         existe?.let {
             update(entity, existe)
@@ -41,16 +41,16 @@ class AdquisicionRepositoryImpl(
         }.fromAdquisicionDaoToAdquisicion(entity.raqueta, entity.user)
     }
 
-    override suspend fun readAll(): List<Adquisicion> = newSuspendedTransaction(Dispatchers.IO) {
-        adquisicionDao.all().map { it.fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao) }
+    override suspend fun readAll(): Flow<Adquisicion> = newSuspendedTransaction(Dispatchers.IO) {
+        adquisicionDao.all().map { it.fromAdquisicionDaoToAdquisicion(tareaDao) }.asFlow()
     }
 
-    override suspend fun findById(id: UUID): Adquisicion? = newSuspendedTransaction(Dispatchers.IO) {
-        adquisicionDao.findById(id)?.fromAdquisicionDaoToAdquisicion(tareaDao, productoDao, userDao)
+    override suspend fun findById(id: UUID): Deferred<Adquisicion?> = suspendedTransactionAsync(Dispatchers.IO) {
+        adquisicionDao.findById(id)?.fromAdquisicionDaoToAdquisicion(tareaDao)
     }
 
-    override suspend fun delete(entity: Adquisicion): Boolean = newSuspendedTransaction(Dispatchers.IO) {
-        val existe = adquisicionDao.findById(entity.id) ?: return@newSuspendedTransaction false
+    override suspend fun delete(entity: Adquisicion): Deferred<Boolean> = suspendedTransactionAsync(Dispatchers.IO) {
+        val existe = adquisicionDao.findById(entity.id) ?: return@suspendedTransactionAsync false
         existe.delete()
         true
     }

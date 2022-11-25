@@ -7,6 +7,7 @@ import login.register
 import menu.menu
 import org.jetbrains.exposed.sql.Database
 import java.io.File
+import java.util.UUID
 
 fun main(args: Array<String>) {
     // esto está puesto así en vez de como
@@ -20,23 +21,24 @@ fun main(args: Array<String>) {
 
         println("Cargando datos iniciales...")
         val job1 = launch(Dispatchers.IO) {
-            dataLoader.getUsers().forEach { println(UserController.insertUser(it)) }
+            dataLoader.getUsers().forEach { UserController.insertUser(it) }
             println("Users loaded.")
         }
 
-        /*
         val job2 = launch(Dispatchers.IO) {
-            dataLoader.getMaquinas().forEach { println(MaquinaController.insertMaquina(it)) }
+            dataLoader.getMaquinas().forEach { MaquinaController.insertMaquina(it) }
             println("Maquinas loaded.")
         }
+
         val job3 = launch(Dispatchers.IO) {
-            dataLoader.getProductos().forEach { println(ProductoController.insertProducto(it)) }
+            dataLoader.getProductos().forEach { ProductoController.insertProducto(it) }
             println("Productos loaded.")
         }
-        lateinit var job4: Job
 
+        lateinit var job4: Job
+        println()
         while (!job1.isCompleted || !job2.isCompleted ||
-            !job3.isCompleted || !job4.isCompleted) {
+            !job3.isCompleted) {
             for (i in 1..3) {
                 print(".")
                 delay(500)
@@ -44,28 +46,46 @@ fun main(args: Array<String>) {
             println()
         }
 
+        joinAll(job1,job2,job3)
 
-         */
-        job1.join()
-        println(UserController.findAllUsers())
         /*
-        job2.join()
-        job3.join()
+        println("////////////////////// TODAS ///////////////////////")
+        println(MaquinaController.findAllMaquinas())
+        println("//////////////// PERSONALIZADORAS //////////////////")
+        println(PersonalizadoraController.findAllPersonalizadoras())
+        println("////////////////// ENCORDADORAS ////////////////////")
+        println(EncordadoraController.findAllEncordadoras())
+        println("////////////////// FIN ////////////////////")
+        */
 
         job4 = launch(Dispatchers.IO) {
-            dataLoader.getTareas().forEach { println(TareaController.insertTarea(it)) }
+            dataLoader.getTareas().forEach { TareaController.insertTarea(it) }
             println("Tareas loaded.")
-            dataLoader.getTurnos().forEach { println(TurnoController.insertTurno(it)) }
+            dataLoader.getTurnos().forEach { TurnoController.insertTurno(it) }
+            println(TurnoController.findAllTurnos())
             println("Turnos loaded.")
-            dataLoader.getPedidos().forEach { println(PedidoController.insertPedido(it)) }
+            dataLoader.getPedidos().forEach { PedidoController.insertPedido(it) }
             println("Pedidos loaded.")
+        }
+        println()
+        while (!job4.isCompleted) {
+            for (i in 1..3) {
+                print(".")
+                delay(500)
+            }
+            println()
         }
 
         job4.join()
 
-
-         */
         println("Data successfully loaded.")
+        val prt1 = launch(Dispatchers.IO) { println("USERS: ${UserController.findAllUsers()}") }
+        val prt2 = launch(Dispatchers.IO) { println("MAQUINAS: ${MaquinaController.findAllMaquinas()}") }
+        val prt3 = launch(Dispatchers.IO) { println("PRODUCTOS: ${ProductoController.findAllProductos()}") }
+        val prt4 = launch(Dispatchers.IO) { println("TAREAS: ${TareaController.findAllTareas()}") }
+        val prt5 = launch(Dispatchers.IO) { println("TURNOS: ${TurnoController.findAllTurnos()}") }
+        val prt6 = launch(Dispatchers.IO) { println("PEDIDOS: ${PedidoController.findAllPedidos()}") }
+        joinAll(prt1,prt2,prt3,prt4,prt5,prt6)
 
         var loginEnter = ""
         println(" - Welcome. Do you want to log in or register? [login/register]")

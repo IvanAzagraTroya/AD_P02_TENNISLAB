@@ -13,8 +13,9 @@ object TurnoTable: UUIDTable("TURNOS") {
     val horaInicio = datetime("hora_inicio")
     val horaFin = datetime("hora_fin")
     val numPedidosActivos = integer("numero_pedidos_activos")
-    val tarea1 = reference("tarea1_id", TareaTable).nullable()
+    val tarea1 = reference("tarea1_id", TareaTable)
     val tarea2 = reference("tarea2_id", TareaTable).nullable()
+    //val pedido = reference("pedido_id", PedidoTable)
 }
 
 class TurnoDao(id: EntityID<UUID>): UUIDEntity(id) {
@@ -24,6 +25,7 @@ class TurnoDao(id: EntityID<UUID>): UUIDEntity(id) {
     var horaInicio by TurnoTable.horaInicio
     var horaFin by TurnoTable.horaFin
     var numPedidosActivos by TurnoTable.numPedidosActivos
-    var tarea1 by TareaDao optionalReferencedOn TurnoTable.tarea1
+    var tarea1 by TareaDao referencedOn TurnoTable.tarea1
     var tarea2 by TareaDao optionalReferencedOn TurnoTable.tarea2
+    //var pedido by PedidoDao referencedOn TurnoTable.pedido
 }

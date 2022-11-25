@@ -2,6 +2,7 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.Maquina
 import models.Tarea
 import models.Turno
@@ -13,16 +14,21 @@ import java.time.LocalDate
 import java.util.*
 
 class PedidoDTO() {
+    @Expose
     lateinit var id: UUID
-    lateinit var tareas: List<Tarea>
-    lateinit var client: User
+    @Expose lateinit var tareas: List<Tarea>
+    @Expose lateinit var client: User
     lateinit var turnos: List<Turno>
-    lateinit var state: PedidoEstado
+    @Expose lateinit var state: PedidoEstado
     lateinit var fechaEntrada: LocalDate
     lateinit var fechaProgramada: LocalDate
     lateinit var fechaSalida: LocalDate
     lateinit var fechaEntrega: LocalDate
-    var precio: Double = 0.0
+    @Expose lateinit var fechaEntradaString: String
+    @Expose lateinit var fechaProgramadaString: String
+    @Expose lateinit var fechaSalidaString: String
+    @Expose lateinit var fechaEntregaString: String
+    @Expose var precio: Double = 0.0
 
     constructor(
         id: UUID?,
@@ -44,6 +50,10 @@ class PedidoDTO() {
         this.fechaProgramada = fechaProgramada
         this.fechaSalida = fechaSalida
         this.fechaEntrega = fechaEntrega ?: fechaSalida
+        this.fechaEntradaString = this.fechaEntrada.toString()
+        this.fechaProgramadaString = this.fechaProgramada.toString()
+        this.fechaSalidaString = this.fechaSalida.toString()
+        this.fechaEntregaString = this.fechaEntrega.toString()
         this.precio = this.tareas.sumOf { it.precio }
     }
 
@@ -52,19 +62,14 @@ class PedidoDTO() {
     }
 
     fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Pedido(id=$id, " +
-                "tareas=$tareas, " +
-                "client=${client.nombre}, " +
-                "turnos=$turnos, " +
-                "state=$state, " +
-                "fechaEntrada=${fechaEntrada.toLocalDate(Locale("es", "ES"))}, " +
-                "fechaProgramada=${fechaProgramada.toLocalDate(Locale("es", "ES"))}, " +
-                "fechaSalida=${fechaSalida.toLocalDate(Locale("es", "ES"))}, " +
-                "fechaEntrega=${fechaEntrega.toLocalDate(Locale("es", "ES"))}, " +
-                "precio=${precio.toLocalMoney(Locale("es", "ES"))})"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

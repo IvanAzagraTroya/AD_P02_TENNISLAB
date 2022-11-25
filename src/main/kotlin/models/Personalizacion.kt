@@ -1,10 +1,10 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoTarea
 import java.util.*
 
 class Personalizacion(): Tarea() {
-    override var id: UUID = super.id
     var peso: Int = 0
     var balance: Double = 0.0
     var rigidez: Int = 0
@@ -39,5 +39,10 @@ class Personalizacion(): Tarea() {
         this.rigidez = rigidez
         this.precio = 60.0
         this.tipoTarea = TipoTarea.PERSONALIZACION
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

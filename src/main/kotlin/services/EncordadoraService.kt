@@ -1,8 +1,11 @@
 package services
 
 import dto.EncordadoraDTO
+import dto.MaquinaDTO
 import entities.EncordadoraDao
 import entities.MaquinaDao
+import entities.PersonalizadoraDao
+import kotlinx.coroutines.flow.toList
 import mappers.MaquinaMapper
 import models.Encordadora
 import models.Maquina
@@ -18,14 +21,14 @@ class EncordadoraService: BaseService<Encordadora, UUID, EncordadoraRepositoryIm
     val mapper = MaquinaMapper()
 
     suspend fun getAllEncordadoras(): List<EncordadoraDTO> {
-        return mapper.toEncordadoraDTO(this.findAll())
+        return mapper.toEncordadoraDTO(this.findAll().toList())
     }
 
     suspend fun getEncordadoraById(id: UUID): EncordadoraDTO? {
-        return this.findById(id)?.let { mapper.toEncordadoraDTO(it) }
+        return this.findById(id).await()?.let { mapper.toEncordadoraDTO(it) }
     }
 
-    suspend fun createEncordadora(encordadora: EncordadoraDTO): EncordadoraDTO {
+    suspend fun createEncordadora(encordadora: EncordadoraDTO): MaquinaDTO {
         val maquina = Maquina(
             id = encordadora.id,
             modelo = encordadora.modelo,
@@ -34,11 +37,11 @@ class EncordadoraService: BaseService<Encordadora, UUID, EncordadoraRepositoryIm
             numeroSerie = encordadora.numeroSerie,
             tipoMaquina = TipoMaquina.ENCORDADORA
         )
-        maquinaRepo.create(maquina)
-        return mapper.toEncordadoraDTO(this.insert(mapper.fromEncordadoraDTO(encordadora)))
+        maquinaRepo.create(maquina).await()
+        return mapper.toDTO(this.insert(mapper.fromEncordadoraDTO(encordadora)).await())
     }
 
     suspend fun deleteEncordadora(encordadora: EncordadoraDTO): Boolean {
-        return this.delete(mapper.fromEncordadoraDTO(encordadora))
+        return this.delete(mapper.fromEncordadoraDTO(encordadora)).await()
     }
 }

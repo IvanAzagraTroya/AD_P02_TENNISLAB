@@ -14,15 +14,17 @@ suspend fun menu(user: UserDTO) {
                 1. Pedidos
                 2. Productos
                 3. Back
+                4. Modo Presentacion [Recomendado - CRUD DE TODO]
                 """.trimIndent())
                 var res = ""
-                while (!betweenXandY(res, 1, 3)) {
+                while (!betweenXandY(res, 1, 4)) {
                     res = readln()
                 }
                 when (res.toInt()) {
                     1 -> menuPedidos(Profile.CLIENT)
                     2 -> menuProductos(Profile.CLIENT)
                     3 -> back = true
+                    4 -> modoPresentacion()
                 }
             }
             Profile.WORKER -> {
@@ -32,9 +34,10 @@ suspend fun menu(user: UserDTO) {
                 3. Turnos
                 4. Maquinas
                 5. Back
+                6. Modo Presentacion [Recomendado - CRUD DE TODO]
                 """.trimIndent())
                 var res = ""
-                while (!betweenXandY(res, 1, 5)) {
+                while (!betweenXandY(res, 1, 6)) {
                     res = readln()
                 }
                 when (res.toInt()) {
@@ -43,20 +46,22 @@ suspend fun menu(user: UserDTO) {
                     3 -> menuTurnos(Profile.WORKER)
                     4 -> menuMaquinas(Profile.WORKER)
                     5 -> back = true
+                    6 -> modoPresentacion()
                 }
             }
             Profile.ADMIN -> {
                 println("""
                 1. Users
-                2. Pedidos
-                3. Tareas
-                4. Turnos
-                5. Productos
+                2. Pedidos [menu sin implementar]
+                3. Tareas [menu sin implementar]
+                4. Turnos [menu sin implementar]
+                5. Productos [menu sin implementar]
                 6. Maquinas
                 7. Back
+                8. Modo presentacion [recomendado - CRUD DE TODO]
                 """.trimIndent())
                 var res = ""
-                while (!betweenXandY(res, 1, 7)) {
+                while (!betweenXandY(res, 1, 8)) {
                     res = readln()
                 }
                 when (res.toInt()) {
@@ -67,6 +72,7 @@ suspend fun menu(user: UserDTO) {
                     5 -> menuProductos(Profile.ADMIN)
                     6 -> menuMaquinas(Profile.ADMIN)
                     7 -> back = true
+                    8 -> modoPresentacion()
                 }
             }
         }

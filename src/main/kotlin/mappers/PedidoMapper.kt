@@ -8,20 +8,17 @@ import models.Turno
 import models.enums.PedidoEstado
 import org.jetbrains.exposed.dao.UUIDEntityClass
 
-fun PedidoDao.fromPedidoDaoToPedido(
-    tareaDao: UUIDEntityClass<TareaDao>,
-    productoDao: UUIDEntityClass<ProductoDao>,
-    userDao: UUIDEntityClass<UserDao>,
-    maquinaDao: UUIDEntityClass<MaquinaDao>
-): Pedido {
+suspend fun PedidoDao.fromPedidoDaoToPedido(): Pedido {
     val listTareas = mutableListOf<Tarea>()
+    /*
     tareas.forEach { listTareas.add(it.fromTareaDaoToTarea(
         it.raqueta.fromProductoDaoToProducto(),
         it.user.fromUserDaoToUser()
     ))
     }
+     */
     val listTurnos = mutableListOf<Turno>()
-    turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno(tareaDao, productoDao, userDao)) }
+    //turnos.forEach { listTurnos.add(it.fromTurnoDaoToTurno()) }
     return Pedido(
         id = id.value,
         tareas = listTareas.toList(),

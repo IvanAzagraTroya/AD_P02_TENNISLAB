@@ -158,7 +158,7 @@ class DataLoader {
         )
     )
 
-    fun getMaquinas() = listOf<MaquinaDTO>(
+    fun getMaquinas() = listOf(
         personalizadora1,
         PersonalizadoraDTO(
             id = UUID.randomUUID(),
@@ -184,7 +184,7 @@ class DataLoader {
     )
 
     fun getProductos() = listOf(
-        raqueta, producto1, producto2, producto3
+        raqueta, producto1, producto2, producto3, cordaje
     )
 
     fun getTareas() = listOf<TareaDTO>(

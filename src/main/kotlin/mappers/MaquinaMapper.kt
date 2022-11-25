@@ -10,7 +10,9 @@ import exceptions.MapperException
 import models.*
 import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import repositories.encordadora.EncordadoraRepositoryImpl
 import repositories.maquina.MaquinaRepositoryImpl
+import repositories.personalizadora.PersonalizadoraRepositoryImpl
 import java.time.LocalDate
 
 /**
@@ -22,6 +24,13 @@ import java.time.LocalDate
 // No se puede hacer un fromMaquinasDaoToMaquinas porque la clase
 // Maquina es abstracta, por lo que no puede instanciar un objeto de la misma
 
+suspend fun MaquinaDao.fromMaquinaDaoToMaquina() :Maquina {
+    return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
+        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora()
+        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora()
+    }
+}
+
 fun MaquinaDao.fromMaquinaDaoToMaquina(
     modelo: String,
     marca: String,
@@ -31,6 +40,15 @@ fun MaquinaDao.fromMaquinaDaoToMaquina(
     return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
         TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(modelo, marca, fechaAdquisicion, numeroSerie)
         TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(modelo, marca, fechaAdquisicion, numeroSerie)
+    }
+}
+
+fun MaquinaDao.fromMaquinaDaoToMaquina(
+    maquinaDao: UUIDEntityClass<MaquinaDao>
+): Maquina {
+    return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
+        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(maquinaDao)
+        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
     }
 }
 
@@ -52,11 +70,25 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     )
 }
 
-suspend fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
+suspend fun EncordadoraDao.fromEncordadoraDaoToEncordadora(): Encordadora {
+    val maquina = EncordadoraRepositoryImpl(EncordadoraDao, MaquinaDao)
+        .findById(id.value).await() ?: throw MapperException()
+    return Encordadora(
+        id = id.value,
+        modelo = maquina.modelo,
+        marca = maquina.marca,
+        fechaAdquisicion = maquina.fechaAdquisicion,
+        numeroSerie = maquina.numeroSerie,
+        isManual = maquina.isManual,
+        maxTension = maquina.maxTension,
+        minTension = maquina.minTension
+    )
+}
+
+fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Encordadora {
-    val repo = MaquinaRepositoryImpl(maquinaDao)
-    val maquina: Maquina = repo.findById(id.value) ?: throw MapperException()
+    val maquina = maquinaDao.findById(id.value) ?: throw MapperException()
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,
@@ -87,11 +119,25 @@ fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
     )
 }
 
-suspend fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
+suspend fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(): Personalizadora{
+    val maquina = PersonalizadoraRepositoryImpl(PersonalizadoraDao, MaquinaDao)
+        .findById(id.value).await() ?: throw MapperException()
+    return Personalizadora(
+        id = id.value,
+        modelo = maquina.modelo,
+        marca = maquina.marca,
+        fechaAdquisicion = maquina.fechaAdquisicion,
+        numeroSerie = maquina.numeroSerie,
+        measuresManeuverability = maquina.measuresManeuverability,
+        measuresBalance = maquina.measuresBalance,
+        measuresRigidity = maquina.measuresRigidity
+    )
+}
+
+fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Personalizadora{
-    val repo = MaquinaRepositoryImpl(maquinaDao)
-    val maquina: Maquina = repo.findById(id.value) ?: throw Exception()
+    val maquina = maquinaDao.findById(id.value) ?: throw MapperException()
     return Personalizadora(
         id = id.value,
         modelo = maquina.modelo,

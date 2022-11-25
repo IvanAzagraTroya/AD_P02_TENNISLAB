@@ -1,23 +1,25 @@
 package services
 
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.flow.Flow
 import repositories.ICRUDRepository
 
 abstract class BaseService<T, ID, R : ICRUDRepository<T, ID>>(rep: R) {
     val repository = rep
 
-    suspend fun findAll(): List<T> {
+    suspend fun findAll(): Flow<T> {
         return repository.readAll()
     }
 
-    suspend fun findById(id: ID): T? {
+    suspend fun findById(id: ID): Deferred<T?> {
         return repository.findById(id)
     }
 
-    suspend fun insert(t: T): T {
+    suspend fun insert(t: T): Deferred<T> {
         return repository.create(t)
     }
 
-    suspend fun delete(t: T): Boolean {
+    suspend fun delete(t: T): Deferred<Boolean> {
         return repository.delete(t)
     }
 }

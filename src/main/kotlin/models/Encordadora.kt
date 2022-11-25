@@ -1,11 +1,11 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.*
 
 class Encordadora():Maquina() {
-    override var id = super.id
     var isManual: Boolean = false
     var maxTension: Double = 0.0
     var minTension: Double = 0.0
@@ -41,5 +41,10 @@ class Encordadora():Maquina() {
         this.maxTension = maxTension
         this.minTension = minTension
         this.tipoMaquina = TipoMaquina.ENCORDADORA
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }

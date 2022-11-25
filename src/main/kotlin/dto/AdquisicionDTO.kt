@@ -2,17 +2,17 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.Producto
 import models.User
-import util.toLocalMoney
 import java.util.*
 
 class AdquisicionDTO(): TareaDTO {
-    lateinit var id: UUID
-    lateinit var raqueta: Producto
-    lateinit var user: User
-    lateinit var productoAdquirido: Producto
-    var precio: Double = 0.0
+    @Expose lateinit var id: UUID
+    @Expose lateinit var raqueta: Producto
+    @Expose lateinit var user: User
+    @Expose lateinit var productoAdquirido: Producto
+    @Expose var precio: Double = 0.0
 
     constructor(
         id: UUID?,
@@ -31,16 +31,15 @@ class AdquisicionDTO(): TareaDTO {
         return Gson().fromJson(json, AdquisicionDTO::class.java)
     }
 
-    fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    override fun toJSON(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Tarea(id=$id, " +
-                "tipo=Adquisicion, " +
-                "raqueta=$raqueta, " +
-                "user=$user, " +
-                "productoAdquirido=$productoAdquirido, " +
-                "precio=${precio.toLocalMoney(Locale("es", "ES"))})"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

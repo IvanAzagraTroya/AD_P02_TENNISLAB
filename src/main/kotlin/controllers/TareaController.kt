@@ -24,10 +24,14 @@ object TareaController {
         adquisiciones.forEach { tareas.add(it) }
         encordados.forEach { tareas.add(it) }
         personalizaciones.forEach { tareas.add(it) }
+        return tareas.toList().toString()
+        /*
         val result = GsonBuilder().setPrettyPrinting().create()
             .toJson(tareas.toList())
             ?: "Error at TareaController.findAllTareas"
         return "prueba"//generateRespuesta(result, "Error at TareaController.findAllTareas")
+
+         */
     }
 
     suspend fun getTareaById(id: UUID): String {
@@ -46,7 +50,7 @@ object TareaController {
                     PersonalizacionController.getPersonalizacionById(id)
                 }
                 else {
-                    "prueba"/*
+                    "Tarea with id $id not found."/*
                     generateRespuesta(
                         "Tarea with id $id not found.",
                         "Tarea with id $id not found."
@@ -63,7 +67,8 @@ object TareaController {
             is EncordadoDTO -> EncordadoController.insertEncordado(dto)
             is PersonalizacionDTO -> PersonalizacionController.insertPersonalizacion(dto)
             else -> {
-                "prueba"/*generateRespuesta(
+                "Error at TareaController.insertTarea: DTO not supported."
+            /*generateRespuesta(
                 "Error at TareaController.insertTarea: DTO not supported.",
                 "Error at TareaController.insertTarea: DTO not supported."
             )
@@ -78,7 +83,8 @@ object TareaController {
             is EncordadoDTO -> EncordadoController.deleteEncordado(dto)
             is PersonalizacionDTO -> PersonalizacionController.deletePersonalizacion(dto)
             else -> {
-                "prueba"/*generateRespuesta(
+                "Error at TareaController.deleteTarea: DTO not supported."
+            /*generateRespuesta(
                 "Error at TareaController.deleteTarea: DTO not supported.",
                 "Error at TareaController.deleteTarea: DTO not supported."
             )

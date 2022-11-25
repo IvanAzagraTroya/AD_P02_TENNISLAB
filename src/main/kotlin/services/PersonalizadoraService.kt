@@ -1,8 +1,11 @@
 package services
 
+import dto.MaquinaDTO
 import dto.PersonalizadoraDTO
+import entities.EncordadoraDao
 import entities.MaquinaDao
 import entities.PersonalizadoraDao
+import kotlinx.coroutines.flow.toList
 import mappers.MaquinaMapper
 import models.Maquina
 import models.Personalizadora
@@ -19,14 +22,14 @@ class PersonalizadoraService: BaseService<Personalizadora, UUID, Personalizadora
     val mapper = MaquinaMapper()
 
     suspend fun getAllPersonalizadoras(): List<PersonalizadoraDTO> {
-        return mapper.toPersonalizadoraDTO(this.findAll())
+        return mapper.toPersonalizadoraDTO(this.findAll().toList())
     }
 
     suspend fun getPersonalizadoraById(id: UUID): PersonalizadoraDTO? {
-        return this.findById(id)?.let { mapper.toPersonalizadoraDTO(it) }
+        return this.findById(id).await()?.let { mapper.toPersonalizadoraDTO(it) }
     }
 
-    suspend fun createPersonalizadora(personalizadora: PersonalizadoraDTO): PersonalizadoraDTO {
+    suspend fun createPersonalizadora(personalizadora: PersonalizadoraDTO): MaquinaDTO {
         val maquina = Maquina(
             id = personalizadora.id,
             modelo = personalizadora.modelo,
@@ -35,11 +38,11 @@ class PersonalizadoraService: BaseService<Personalizadora, UUID, Personalizadora
             numeroSerie = personalizadora.numeroSerie,
             tipoMaquina = TipoMaquina.PERSONALIZADORA
         )
-        maquinaRepo.create(maquina)
-        return mapper.toPersonalizadoraDTO(this.insert(mapper.fromPersonalizadoraDTO(personalizadora)))
+        maquinaRepo.create(maquina).await()
+        return mapper.toDTO(this.insert(mapper.fromPersonalizadoraDTO(personalizadora)).await())
     }
 
     suspend fun deletePersonalizadora(personalizadora: PersonalizadoraDTO): Boolean {
-        return this.delete(mapper.fromPersonalizadoraDTO(personalizadora))
+        return this.delete(mapper.fromPersonalizadoraDTO(personalizadora)).await()
     }
 }

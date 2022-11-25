@@ -2,21 +2,23 @@ package dto
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.Producto
 import models.User
 import util.toLocalMoney
 import java.util.*
 
 class EncordadoDTO(): TareaDTO {
+    @Expose
     lateinit var id: UUID
-    lateinit var raqueta: Producto
-    lateinit var user: User
-    var tensionHorizontal: Double = 0.0
-    lateinit var cordajeHorizontal: Producto
-    var tensionVertical: Double = 0.0
-    lateinit var cordajeVertical: Producto
-    var dosNudos: Boolean = true
-    var precio: Double = 0.0
+    @Expose lateinit var raqueta: Producto
+    @Expose lateinit var user: User
+    @Expose var tensionHorizontal: Double = 0.0
+    @Expose lateinit var cordajeHorizontal: Producto
+    @Expose var tensionVertical: Double = 0.0
+    @Expose lateinit var cordajeVertical: Producto
+    @Expose var dosNudos: Boolean = true
+    @Expose var precio: Double = 0.0
 
     constructor(
         id: UUID?,
@@ -43,20 +45,15 @@ class EncordadoDTO(): TareaDTO {
         return Gson().fromJson(json, EncordadoDTO::class.java)
     }
 
-    fun toJSON(): String {
-        return GsonBuilder().setPrettyPrinting().create().toJson(this)
+    override fun toJSON(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 
     override fun toString(): String {
-        return "Tarea(id=$id, " +
-                "tipo=Encordado, " +
-                "raqueta=$raqueta, " +
-                "user=$user, " +
-                "tensionHorizontal=$tensionHorizontal, " +
-                "cordajeHorizontal=$cordajeHorizontal, " +
-                "tensionVertical=$tensionVertical, " +
-                "cordajeVertical=$cordajeVertical, " +
-                "dosNudos=$dosNudos, " +
-                "precio=${precio.toLocalMoney(Locale("es", "ES"))})"
+        return GsonBuilder().setPrettyPrinting()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create().toJson(this)
     }
 }

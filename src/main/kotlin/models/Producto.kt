@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.GsonBuilder
 import models.enums.TipoProducto
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -33,5 +34,10 @@ class Producto() {
         this.modelo = modelo
         this.precio = precio
         this.stock = stock ?: 0
+    }
+
+    override fun toString(): String {
+        return GsonBuilder().setPrettyPrinting()
+            .create().toJson(this)
     }
 }
