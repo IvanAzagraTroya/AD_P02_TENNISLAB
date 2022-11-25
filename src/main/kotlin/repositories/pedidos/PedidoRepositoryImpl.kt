@@ -16,10 +16,7 @@ import java.util.*
 
 class PedidoRepositoryImpl(
     private val pedidoDao: UUIDEntityClass<PedidoDao>,
-    private val userDao: UUIDEntityClass<UserDao>,
-    private val maquinaDao: UUIDEntityClass<MaquinaDao>,
-    private val productoDao: UUIDEntityClass<ProductoDao>,
-    private val tareaDao: UUIDEntityClass<TareaDao>
+    private val userDao: UUIDEntityClass<UserDao>
 ): IPedidoRepository {
     override suspend fun create(entity: Pedido): Deferred<Pedido> = suspendedTransactionAsync(Dispatchers.IO) {
         val existe = pedidoDao.findById(entity.id)
@@ -35,6 +32,8 @@ class PedidoRepositoryImpl(
         //como la lista de tareas y turnos esta definida como val, ya que si no no dejaba meter el referrersOn, no la podemos cambiar ahora
         return pedidoDao.new(entity.id) {
             client = userDao.findById(entity.client.id) ?: throw Exception()
+            tareas = entity.tareas.toString()
+            turnos = entity.turnos.toString()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada
             fechaProgramada = entity.fechaProgramada
@@ -46,6 +45,8 @@ class PedidoRepositoryImpl(
     private suspend fun update(entity: Pedido, existe: PedidoDao): Pedido {
         return existe.apply {
             client = userDao.findById(entity.client.id) ?: throw Exception()
+            tareas = entity.tareas.toString()
+            turnos = entity.turnos.toString()
             state = entity.state.toString()
             fechaEntrada = entity.fechaEntrada
             fechaProgramada = entity.fechaProgramada

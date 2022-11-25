@@ -1,5 +1,6 @@
 package models
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.time.LocalDateTime
 import java.util.*
@@ -34,10 +35,5 @@ class Turno() {
         if (this.tarea2 != null) {
             numPedidosActivos++
         }
-    }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
     }
 }

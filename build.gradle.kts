@@ -13,8 +13,9 @@ repositories {
 }
 
 dependencies {
+    //implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
-    testImplementation("org.mockito:mockito-core:4.8.0")
+    testImplementation("org.mockito:mockito-core:4.9.0")
     implementation("org.jetbrains.exposed:exposed-core:0.40.1")
     implementation("org.jetbrains.exposed:exposed-dao:0.40.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.40.1")
@@ -33,6 +34,9 @@ dependencies {
     // Para hacer el logging
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
     implementation("ch.qos.logback:logback-classic:1.4.1")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.test {
@@ -40,7 +44,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 application {

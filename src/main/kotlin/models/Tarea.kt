@@ -1,6 +1,8 @@
 package models
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.enums.TipoTarea
 import java.util.*
 
@@ -29,10 +31,5 @@ open class Tarea(){
         this.precio = precio ?: 0.0
         this.user = user
         this.tipoTarea = tipoTarea
-    }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
     }
 }

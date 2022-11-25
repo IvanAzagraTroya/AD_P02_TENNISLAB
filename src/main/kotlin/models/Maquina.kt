@@ -28,9 +28,4 @@ open class Maquina() {
         this.numeroSerie = numeroSerie
         this.tipoMaquina = tipoMaquina
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }

@@ -251,10 +251,4 @@ suspend fun modoPresentacion() {
     println(PedidoController.deletePedido(newPedido2))
     println(TurnoController.deleteTurno(newTurno2))
     println(TareaController.deleteTarea(newTarea2))
-    /*
-    println(ProductoController.deleteProducto(newProducto2))
-    println(MaquinaController.deleteMaquina(newMaquina2))
-    println(UserController.deleteUser(newUser2))
-
-     */
 }

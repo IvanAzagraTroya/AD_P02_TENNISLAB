@@ -1,10 +1,13 @@
 package models
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.Expose
 import models.enums.TipoTarea
 import java.util.*
 
 class Adquisicion(): Tarea() {
+    @Expose
     lateinit var productoAdquirido: Producto
 
     constructor(
@@ -31,10 +34,5 @@ class Adquisicion(): Tarea() {
         this.productoAdquirido = productoAdquirido
         this.precio = precio
         this.tipoTarea = TipoTarea.ADQUISICION
-    }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
     }
 }

@@ -35,7 +35,6 @@ fun main(args: Array<String>) {
             println("Productos loaded.")
         }
 
-        lateinit var job4: Job
         println()
         while (!job1.isCompleted || !job2.isCompleted ||
             !job3.isCompleted) {
@@ -58,7 +57,7 @@ fun main(args: Array<String>) {
         println("////////////////// FIN ////////////////////")
         */
 
-        job4 = launch(Dispatchers.IO) {
+        val job4 = launch(Dispatchers.IO) {
             dataLoader.getTareas().forEach { TareaController.insertTarea(it) }
             println("Tareas loaded.")
             dataLoader.getTurnos().forEach { TurnoController.insertTurno(it) }

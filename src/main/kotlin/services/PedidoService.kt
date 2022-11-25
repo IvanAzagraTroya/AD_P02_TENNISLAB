@@ -9,7 +9,7 @@ import repositories.pedidos.PedidoRepositoryImpl
 import java.util.UUID
 
 class PedidoService : BaseService<Pedido, UUID, PedidoRepositoryImpl>(PedidoRepositoryImpl(
-    PedidoDao, UserDao, MaquinaDao, ProductoDao, TareaDao
+    PedidoDao, UserDao
 )) {
     val mapper = PedidoMapper()
 

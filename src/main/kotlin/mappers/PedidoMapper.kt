@@ -8,7 +8,7 @@ import models.Turno
 import models.enums.PedidoEstado
 import org.jetbrains.exposed.dao.UUIDEntityClass
 
-suspend fun PedidoDao.fromPedidoDaoToPedido(): Pedido {
+fun PedidoDao.fromPedidoDaoToPedido(): Pedido {
     val listTareas = mutableListOf<Tarea>()
     /*
     tareas.forEach { listTareas.add(it.fromTareaDaoToTarea(

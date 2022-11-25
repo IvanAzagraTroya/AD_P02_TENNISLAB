@@ -10,7 +10,7 @@ import java.util.UUID
 
 class TurnoService: BaseService<Turno, UUID, TurnoRepositoryImpl>(
     TurnoRepositoryImpl(
-    TurnoDao, UserDao, MaquinaDao, ProductoDao, TareaDao
+    TurnoDao, UserDao, MaquinaDao, TareaDao
 )) {
     val mapper = TurnoMapper()
 

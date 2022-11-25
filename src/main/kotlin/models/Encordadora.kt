@@ -42,9 +42,4 @@ class Encordadora():Maquina() {
         this.minTension = minTension
         this.tipoMaquina = TipoMaquina.ENCORDADORA
     }
-
-    override fun toString(): String {
-        return GsonBuilder().setPrettyPrinting()
-            .create().toJson(this)
-    }
 }

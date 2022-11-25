@@ -56,8 +56,8 @@ class PersonalizadoraRepositoryImpl(
         if (TipoMaquina.parseTipoMaquina(maquina.tipoMaquina) != TipoMaquina.PERSONALIZADORA)
             return@suspendedTransactionAsync false
         else {
-            maquina.delete()
             existe.delete()
+            maquina.delete()
             true
         }
     }
