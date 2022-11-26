@@ -5,7 +5,7 @@ import services.AdquisicionService
 import java.util.*
 
 object AdquisicionController {
-    private val service = AdquisicionService()
+    var service = AdquisicionService()
 
     suspend fun findAllAdquisiciones(): String {
         return service.getAllAdquisiciones().toString()

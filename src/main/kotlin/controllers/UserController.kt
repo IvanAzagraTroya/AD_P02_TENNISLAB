@@ -8,7 +8,7 @@ import util.generateRespuesta
 import java.util.*
 
 object UserController {
-    private val service = UserService()
+    var service = UserService()
 
     suspend fun findAllUsers(): String {
         //return generateRespuesta(service.getAllUsers())

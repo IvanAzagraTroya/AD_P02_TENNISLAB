@@ -15,7 +15,8 @@ repositories {
 dependencies {
     //implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
-    testImplementation("org.mockito:mockito-core:4.9.0")
+    implementation("io.mockk:mockk:1.13.2")
+    //testImplementation("org.mockito:mockito-core:4.9.0")
     implementation("org.jetbrains.exposed:exposed-core:0.40.1")
     implementation("org.jetbrains.exposed:exposed-dao:0.40.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.40.1")

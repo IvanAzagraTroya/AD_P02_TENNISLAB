@@ -9,7 +9,7 @@ import util.generateRespuesta
 import java.util.*
 
 object PedidoController {
-    private val service = PedidoService()
+    var service = PedidoService()
 
     suspend fun findAllPedidos(): String {
         return service.getAllPedidos().toString()

@@ -7,7 +7,7 @@ import util.generateRespuesta
 import java.util.*
 
 object EncordadoController {
-    private val service = EncordadoService()
+    var service = EncordadoService()
 
     suspend fun findAllEncordados(): String {
         return service.getAllEncordados().toString()

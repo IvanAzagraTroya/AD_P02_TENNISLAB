@@ -12,9 +12,9 @@ import util.generateRespuesta
 import java.util.UUID
 
 object TareaController {
-    val aService = AdquisicionService()
-    val eService = EncordadoService()
-    val pService = PersonalizacionService()
+    var aService = AdquisicionService()
+    var eService = EncordadoService()
+    var pService = PersonalizacionService()
 
     suspend fun findAllTareas(): String {
         val adquisiciones = aService.getAllAdquisiciones()

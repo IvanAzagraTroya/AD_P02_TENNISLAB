@@ -11,8 +11,8 @@ import java.time.LocalDate
 import java.util.*
 
 object MaquinaController {
-    val pService = PersonalizadoraService()
-    val eService = EncordadoraService()
+    var pService = PersonalizadoraService()
+    var eService = EncordadoraService()
 
     suspend fun findAllMaquinas(): String {
         val personalizadoras = pService.getAllPersonalizadoras()
