@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.toList
 import mappers.TareaMapper
 import models.Personalizacion
 import models.Tarea
-import models.enums.TipoMaquina
 import models.enums.TipoTarea
 import repositories.personalizacion.PersonalizacionRepositoryImpl
 import repositories.tarea.TareaRepositoryImpl

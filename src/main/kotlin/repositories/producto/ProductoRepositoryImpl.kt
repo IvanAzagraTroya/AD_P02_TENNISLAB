@@ -10,7 +10,6 @@ import models.Producto
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class ProductoRepositoryImpl(

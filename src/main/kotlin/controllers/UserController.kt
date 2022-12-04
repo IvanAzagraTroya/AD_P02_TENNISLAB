@@ -1,10 +1,8 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.UserDTO
 import models.enums.Profile
 import services.UserService
-import util.generateRespuesta
 import java.util.*
 
 object UserController {

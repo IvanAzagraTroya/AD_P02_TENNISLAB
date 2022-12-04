@@ -11,7 +11,6 @@ import models.*
 import models.enums.TipoMaquina
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.encordadora.EncordadoraRepositoryImpl
-import repositories.maquina.MaquinaRepositoryImpl
 import repositories.personalizadora.PersonalizadoraRepositoryImpl
 import java.time.LocalDate
 
@@ -20,35 +19,10 @@ import java.time.LocalDate
  * Este Kotlin.file crea las funciones que recogen las entidades DAO
  * de las diferentes máquinas para devolver la clase Maquina POKO
  */
-
-// No se puede hacer un fromMaquinasDaoToMaquinas porque la clase
-// Maquina es abstracta, por lo que no puede instanciar un objeto de la misma
-
 suspend fun MaquinaDao.fromMaquinaDaoToMaquina() :Maquina {
     return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
         TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora()
         TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora()
-    }
-}
-
-fun MaquinaDao.fromMaquinaDaoToMaquina(
-    modelo: String,
-    marca: String,
-    fechaAdquisicion: LocalDate,
-    numeroSerie: String
-): Maquina {
-    return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
-        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(modelo, marca, fechaAdquisicion, numeroSerie)
-        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(modelo, marca, fechaAdquisicion, numeroSerie)
-    }
-}
-
-fun MaquinaDao.fromMaquinaDaoToMaquina(
-    maquinaDao: UUIDEntityClass<MaquinaDao>
-): Maquina {
-    return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
-        TipoMaquina.ENCORDADORA -> EncordadoraDao(id).fromEncordadoraDaoToEncordadora(maquinaDao)
-        TipoMaquina.PERSONALIZADORA -> PersonalizadoraDao(id).fromPersonalizadoraDaoToPersonalizadora(maquinaDao)
     }
 }
 
@@ -89,7 +63,6 @@ fun EncordadoraDao.fromEncordadoraDaoToEncordadora(
     maquinaDao: UUIDEntityClass<MaquinaDao>
 ): Encordadora {
     val maquina = maquinaDao.findById(id.value) ?: throw MapperException()
-    //val encordadora = EncordadoraDao.findById(id.value) ?: throw MapperException()
     return Encordadora(
         id = id.value,
         modelo = maquina.modelo,
@@ -156,7 +129,7 @@ class MaquinaMapper: BaseMapper<Maquina,MaquinaDTO>() {
         return when (item) {
             is EncordadoraDTO -> fromEncordadoraDTO(item)
             is PersonalizadoraDTO -> fromPersonalizadoraDTO(item)
-            else -> throw Exception()
+            else -> throw MapperException()
         }
     }
 
@@ -191,7 +164,7 @@ class MaquinaMapper: BaseMapper<Maquina,MaquinaDTO>() {
         return when (item) {
             is Personalizadora -> toPersonalizadoraDTO(item)
             is Encordadora -> toEncordadoraDTO(item)
-            else -> throw Exception()
+            else -> throw MapperException()
         }
     }
 

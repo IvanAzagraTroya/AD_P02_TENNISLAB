@@ -11,7 +11,6 @@ import models.enums.TipoTarea
 import repositories.adquisicion.AdquisicionRepositoryImpl
 import repositories.tarea.TareaRepositoryImpl
 import java.util.UUID
-import java.util.stream.Collectors
 
 class AdquisicionService: BaseService<Adquisicion, UUID, AdquisicionRepositoryImpl>(
     AdquisicionRepositoryImpl(

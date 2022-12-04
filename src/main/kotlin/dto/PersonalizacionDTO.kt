@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.annotations.Expose
 import models.Producto
 import models.User
-import util.toLocalMoney
 import java.util.*
 
 class PersonalizacionDTO(): TareaDTO {

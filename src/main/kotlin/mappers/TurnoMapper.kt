@@ -3,7 +3,6 @@ package mappers
 import dto.TurnoDTO
 import entities.*
 import models.Turno
-import org.jetbrains.exposed.dao.UUIDEntityClass
 
 suspend fun TurnoDao.fromTurnoDaoToTurno(): Turno {
     return Turno(

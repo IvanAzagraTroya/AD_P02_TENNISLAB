@@ -5,15 +5,9 @@ import kotlinx.coroutines.*
 import login.login
 import login.register
 import menu.menu
-import org.jetbrains.exposed.sql.Database
 import java.io.File
-import java.util.UUID
 
 fun main(args: Array<String>) {
-    // esto está puesto así en vez de como
-    // fun main(args: Array<String) = runBlocking { ... }
-    // porque si no, no detectaba el main, ni idea de por qué,
-    // literalmente hace 5 minutos lo detectaba sin problemas.
     runBlocking {
         initDB()
 
@@ -46,16 +40,6 @@ fun main(args: Array<String>) {
         }
 
         joinAll(job1,job2,job3)
-
-        /*
-        println("////////////////////// TODAS ///////////////////////")
-        println(MaquinaController.findAllMaquinas())
-        println("//////////////// PERSONALIZADORAS //////////////////")
-        println(PersonalizadoraController.findAllPersonalizadoras())
-        println("////////////////// ENCORDADORAS ////////////////////")
-        println(EncordadoraController.findAllEncordadoras())
-        println("////////////////// FIN ////////////////////")
-        */
 
         val job4 = launch(Dispatchers.IO) {
             dataLoader.getTareas().forEach { TareaController.insertTarea(it) }

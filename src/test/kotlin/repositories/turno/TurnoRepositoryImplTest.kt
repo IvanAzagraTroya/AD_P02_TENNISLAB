@@ -85,26 +85,15 @@ class TurnoRepositoryImplTest {
         tarea1 = tarea1,
         tarea2 = null)
 
-    /**
-     * esto para inicializar los datos, ya que si intentas insertar un turno y,
-     * por ejemplo, no está insertado el usuario que tiene ese turno, suelta excepcion,
-     * pero eso ya depende de como tengais hecho el repositorio.
-     *
-     * Lo que si es imprtante de aqui es inicializar la base de datos.
-     */
     companion object {
         @JvmStatic
         @BeforeAll
-        // los runBlocking son necesarios si lo haceis con corrutinas,
-        // ya que los tests no pueden ser funciones suspendidas.
         fun initialize() = runBlocking {
-            // esta es la parte importante de inicializar la DB.
             val appConfig = AppConfig.fromPropertiesFile("${System.getProperty("user.dir")}${File.separator}" +
                     "src${File.separator}test${File.separator}resources${File.separator}config.properties")
             println("Configuration: $appConfig")
             DataBaseManager.init(appConfig)
 
-            // y esto es cargado de datos.
             val dataLoader = DataLoader()
             println("Cargando datos iniciales...")
             val job1 = launch(Dispatchers.IO) { dataLoader.getUsers().forEach { UserController.insertUser(it) } }
@@ -118,12 +107,8 @@ class TurnoRepositoryImplTest {
     }
 
     @BeforeEach
-    // importante que lo que necesite lanzar una corrutina este dentro del runBlocking
     fun setUp() = runBlocking {
         repository.create(turno).await()
-        // esto termina en un println porque si no considera que
-        // queremos devolver el resultado de la funcion anterior,
-        // lo cual no es el caso, no puede devolver nada.
         println("set up completed.")
     }
 
@@ -137,8 +122,6 @@ class TurnoRepositoryImplTest {
     @DisplayName("find by id")
     fun findById() = runBlocking {
         val res = repository.findById(turno.id).await()
-        // comparamos los ids porque los objetos, aunque iguales en contenido,
-        // no son el mismo objeto, por lo que si los comparamos directamente, el test falla.
         assertEquals(turno.id, res?.id)
     }
 

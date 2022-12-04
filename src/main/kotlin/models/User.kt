@@ -1,6 +1,5 @@
 package models
 
-import com.google.gson.GsonBuilder
 import java.util.UUID
 
 class User() {

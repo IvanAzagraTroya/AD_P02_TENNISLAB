@@ -4,7 +4,6 @@ import dto.EncordadoraDTO
 import dto.MaquinaDTO
 import entities.EncordadoraDao
 import entities.MaquinaDao
-import entities.PersonalizadoraDao
 import kotlinx.coroutines.flow.toList
 import mappers.MaquinaMapper
 import models.Encordadora

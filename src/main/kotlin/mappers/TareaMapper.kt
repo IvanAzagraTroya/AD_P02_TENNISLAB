@@ -9,43 +9,17 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import repositories.adquisicion.AdquisicionRepositoryImpl
 import repositories.encordado.EncordadoRepositoryImpl
 import repositories.personalizacion.PersonalizacionRepositoryImpl
-import repositories.tarea.TareaRepositoryImpl
-
 
 /**
  * @author Iván Azagra Troya
  * Este Kotlin.file crea las funciones que recogen las entidades DAO de las diferentes tareas
  * para devolver la clase
  */
-
-// TODO al pasarle por parámetro el atributo puede dar error al tener que ser introducido desde otro punto de la app
-
 suspend fun TareaDao.fromTareaDaoToTarea(): Tarea {
     return when (TipoTarea.parseTipoTarea(tipoTarea)) {
         TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion()
         TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado()
         TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion()
-    }
-}
-
-fun TareaDao.fromTareaDaoToTarea(
-    raqueta: Producto,
-    user: User
-): Tarea {
-    return when (TipoTarea.parseTipoTarea(tipoTarea)) {
-        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(raqueta, user)
-        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(raqueta, user)
-        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(raqueta, user)
-    }
-}
-
-fun TareaDao.fromTareaDaoToTarea(
-    tareaDao: UUIDEntityClass<TareaDao>
-): Tarea {
-    return when (TipoTarea.parseTipoTarea(tipoTarea)) {
-        TipoTarea.PERSONALIZACION -> PersonalizacionDao(id).fromPersonalizacionDaoToPersonalizacion(tareaDao)
-        TipoTarea.ENCORDADO -> EncordadoDao(id).fromEncordadoDaoToEncordado(tareaDao)
-        TipoTarea.ADQUISICION -> AdquisicionDao(id).fromAdquisicionDaoToAdquisicion(tareaDao)
     }
 }
 
@@ -181,7 +155,7 @@ class TareaMapper:BaseMapper<Tarea, TareaDTO>() {
             is PersonalizacionDTO -> fromPersonalizacionDTO(item)
             is EncordadoDTO -> fromEncordadoDTO(item)
             is AdquisicionDTO -> fromAdquisicionDTO(item)
-            else -> throw Exception()
+            else -> throw MapperException()
         }
     }
 
@@ -224,7 +198,7 @@ class TareaMapper:BaseMapper<Tarea, TareaDTO>() {
             is Personalizacion -> toPersonalizacionDTO(item)
             is Encordado -> toEncordadoDTO(item)
             is Adquisicion -> toAdquisicionDTO(item)
-            else -> throw Exception()
+            else -> throw MapperException()
         }
     }
 
