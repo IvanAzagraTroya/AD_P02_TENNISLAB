@@ -8,7 +8,7 @@ import util.generateRespuesta
 import java.util.*
 
 object TurnoController {
-    private val service = TurnoService()
+    var service = TurnoService()
 
     suspend fun findAllTurnos(): String {
         return service.getAllTurnos().toString()

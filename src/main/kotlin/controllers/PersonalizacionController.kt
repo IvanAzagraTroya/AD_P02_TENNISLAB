@@ -7,7 +7,7 @@ import util.generateRespuesta
 import java.util.*
 
 object PersonalizacionController {
-    private val service = PersonalizacionService()
+    var service = PersonalizacionService()
 
     suspend fun findAllPersonalizaciones(): String {
         return service.getAllPersonalizaciones().toString()

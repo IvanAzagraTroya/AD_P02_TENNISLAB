@@ -8,7 +8,7 @@ import util.generateRespuesta
 import java.util.*
 
 object ProductoController {
-    private val service = ProductoService()
+    var service = ProductoService()
 
     suspend fun findAllProductos(): String {
         return service.getAllProductos().toString()

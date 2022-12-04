@@ -1,5 +1,3 @@
 package exceptions
 
-class MapperException: Exception() {
-
-}
+class MapperException : Exception("Error en el mapper.")
