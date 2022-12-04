@@ -21,13 +21,6 @@ object MaquinaController {
         personalizadoras.forEach { maquinas.add(it) }
         encordadoras.forEach { maquinas.add(it) }
         return maquinas.toList().toString()
-        /*
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(maquinas.toList())
-            ?: "Error at MaquinaController.findAllMaquinas"
-        return "prueba"//generateRespuesta(result, "Error at MaquinaController.findAllMaquinas")
-
-         */
     }
 
     suspend fun getMaquinaById(id: UUID): String {
@@ -40,12 +33,6 @@ object MaquinaController {
                 EncordadoraController.getEncordadoraById(id)
             } else {
                 "Maquina with id $id not found."
-                /*
-                generateRespuesta(
-                    "Maquina with id $id not found.",
-                    "Maquina with id $id not found."
-                )
-                 */
             }
         }
     }
@@ -57,13 +44,6 @@ object MaquinaController {
         personalizadoras.forEach { maquinas.add(it) }
         encordadoras.forEach { maquinas.add(it) }
         return maquinas.toList().firstOrNull()?.toString() ?: "Maquina with serial number $sNum not found."
-        /*
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(maquinas.toList().firstOrNull())
-            ?: "Maquina with serial number $sNum not found."
-        return "prueba"//generateRespuesta(result, "Maquina with serial number $sNum not found.")
-
-         */
     }
 
     suspend fun getMaquinaBySerialNumberForCreation(sNum: String): MaquinaDTO? {
@@ -82,13 +62,6 @@ object MaquinaController {
         personalizadoras.forEach { maquinas.add(it) }
         encordadoras.forEach { maquinas.add(it) }
         return maquinas.toList().toString()
-        /*
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(maquinas.toList())
-            ?: "Maquina with model $model not found."
-        return "prueba"//generateRespuesta(result, "Maquina with model $model not found.")
-
-         */
     }
 
     suspend fun getMaquinaByBrand(brand: String): String {
@@ -98,13 +71,6 @@ object MaquinaController {
         personalizadoras.forEach { maquinas.add(it) }
         encordadoras.forEach { maquinas.add(it) }
         return maquinas.toList().toString()
-        /*
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(maquinas.toList())
-            ?: "Maquina with marca $brand not found."
-        return "prueba"//generateRespuesta(result, "Maquina with marca $brand not found.")
-
-         */
     }
 
     suspend fun findAllMaquinasByAcquisitionDate(date: LocalDate, operador: String): String {
@@ -128,27 +94,13 @@ object MaquinaController {
         personalizadoras.forEach { maquinas.add(it) }
         encordadoras.forEach { maquinas.add(it) }
         return maquinas.toList().toString()
-        /*
-        val result = GsonBuilder().setPrettyPrinting().create()
-            .toJson(maquinas.toList())
-            ?: "Error at MaquinaController.findAllMaquinasByAquisitionDate"
-        return "prueba"//generateRespuesta(result, "Error at MaquinaController.findAllMaquinasByAquisitionDate")
-
-         */
     }
 
     suspend fun insertMaquina(dto: MaquinaDTO): String {
         return when (dto) {
             is PersonalizadoraDTO -> PersonalizadoraController.insertPersonalizadora(dto)
             is EncordadoraDTO -> EncordadoraController.insertEncordadora(dto)
-            else -> {
-                /*
-                generateRespuesta(
-                "Error at MaquinaController.insertMaquina: DTO not supported.",
-                "Error at MaquinaController.insertMaquina: DTO not supported."
-            )*/
-                "Error at MaquinaController.insertMaquina: DTO not supported."
-            }
+            else -> "Error at MaquinaController.insertMaquina: DTO not supported."
         }
     }
 
@@ -158,12 +110,6 @@ object MaquinaController {
             is EncordadoraDTO -> EncordadoraController.deleteEncordadora(dto)
             else -> {
                 "Error at MaquinaController.deleteMaquina: DTO not supported."
-                /*
-                generateRespuesta(
-                    "Error at MaquinaController.deleteMaquina: DTO not supported.",
-                    "Error at MaquinaController.deleteMaquina: DTO not supported."
-                )
-                 */
             }
         }
     }
