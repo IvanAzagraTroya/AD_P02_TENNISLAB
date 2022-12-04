@@ -2,7 +2,6 @@ package services
 
 import dto.MaquinaDTO
 import dto.PersonalizadoraDTO
-import entities.EncordadoraDao
 import entities.MaquinaDao
 import entities.PersonalizadoraDao
 import kotlinx.coroutines.flow.toList

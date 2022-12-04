@@ -1,9 +1,7 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.EncordadoDTO
 import services.EncordadoService
-import util.generateRespuesta
 import java.util.*
 
 object EncordadoController {

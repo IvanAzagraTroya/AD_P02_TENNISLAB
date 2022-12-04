@@ -1,9 +1,7 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.PersonalizacionDTO
 import services.PersonalizacionService
-import util.generateRespuesta
 import java.util.*
 
 object PersonalizacionController {

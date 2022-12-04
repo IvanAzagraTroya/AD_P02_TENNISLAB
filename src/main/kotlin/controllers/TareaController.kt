@@ -1,6 +1,5 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.AdquisicionDTO
 import dto.EncordadoDTO
 import dto.PersonalizacionDTO
@@ -8,7 +7,6 @@ import dto.TareaDTO
 import services.AdquisicionService
 import services.EncordadoService
 import services.PersonalizacionService
-import util.generateRespuesta
 import java.util.UUID
 
 object TareaController {

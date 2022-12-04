@@ -1,12 +1,10 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.EncordadoraDTO
 import dto.MaquinaDTO
 import dto.PersonalizadoraDTO
 import services.EncordadoraService
 import services.PersonalizadoraService
-import util.generateRespuesta
 import java.time.LocalDate
 import java.util.*
 

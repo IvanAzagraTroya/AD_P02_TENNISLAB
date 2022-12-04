@@ -18,7 +18,6 @@ object DataBaseManager {
     fun init(appConfig: AppConfig) {
         this.appConfig = appConfig
         logger.debug("Initializing database")
-        // Aplicamos Hiraki para la conexión a la base de datos
         val hikariConfig = HikariConfig().apply {
             jdbcUrl = appConfig.jdbcUrl
             driverClassName = appConfig.jdbcDriverClassName
@@ -41,7 +40,7 @@ object DataBaseManager {
         logger.debug("Creating tables")
 
         if (appConfig.jdbcshowSQL)
-            addLogger(StdOutSqlLogger) // Para que se vea el log de consulas a la base de datos
+            addLogger(StdOutSqlLogger)
 
         SchemaUtils.create(
             UserTable, MaquinaTable, EncordadoraTable, PersonalizadoraTable,

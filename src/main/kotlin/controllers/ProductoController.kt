@@ -1,10 +1,8 @@
 package controllers
 
-import com.google.gson.GsonBuilder
 import dto.ProductoDTO
 import models.enums.TipoProducto
 import services.ProductoService
-import util.generateRespuesta
 import java.util.*
 
 object ProductoController {

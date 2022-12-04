@@ -8,10 +8,8 @@ import kotlinx.coroutines.flow.asFlow
 import mappers.fromPedidoDaoToPedido
 import models.Pedido
 import org.jetbrains.exposed.dao.UUIDEntityClass
-import org.jetbrains.exposed.sql.SizedCollection
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class PedidoRepositoryImpl(
@@ -28,8 +26,6 @@ class PedidoRepositoryImpl(
     }
 
     fun insert(entity: Pedido): Pedido {
-        // creamos el pedido
-        //como la lista de tareas y turnos esta definida como val, ya que si no no dejaba meter el referrersOn, no la podemos cambiar ahora
         return pedidoDao.new(entity.id) {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             tareas = entity.tareas.toString()

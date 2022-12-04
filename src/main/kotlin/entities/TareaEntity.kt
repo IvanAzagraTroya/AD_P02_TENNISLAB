@@ -11,7 +11,6 @@ object TareaTable: UUIDTable("TAREAS") {
     val precio = double("precio")
     val user = reference("user_id", UserTable)
     val tipoTarea = varchar("tipo_tarea", 255)
-    //val pedido = reference("pedido_id", PedidoTable)
 }
 
 class TareaDao(id: EntityID<UUID>): UUIDEntity(id) {
@@ -20,5 +19,4 @@ class TareaDao(id: EntityID<UUID>): UUIDEntity(id) {
     var precio by TareaTable.precio
     var user by UserDao referencedOn TareaTable.user
     var tipoTarea by TareaTable.tipoTarea
-    //var pedido by PedidoDao referencedOn TareaTable.pedido
 }

@@ -5,20 +5,11 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
-import mappers.fromProductoDaoToProducto
 import mappers.fromTareaDaoToTarea
-import mappers.fromUserDaoToUser
-import models.Adquisicion
-import models.Encordado
-import models.Personalizacion
 import models.Tarea
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
-import org.jetbrains.exposed.sql.transactions.transaction
-import repositories.adquisicion.AdquisicionRepositoryImpl
-import repositories.encordado.EncordadoRepositoryImpl
-import repositories.personalizacion.PersonalizacionRepositoryImpl
 import java.util.*
 
 class TareaRepositoryImpl(
@@ -27,12 +18,12 @@ class TareaRepositoryImpl(
     private val userDao: UUIDEntityClass<UserDao>
 ): ITareaRepository {
     override suspend fun readAll(): Flow<Tarea> = newSuspendedTransaction(Dispatchers.IO) {
-        tareaDao.all().map { it.fromTareaDaoToTarea(/*tareaDao*/) }.asFlow()
+        tareaDao.all().map { it.fromTareaDaoToTarea() }.asFlow()
     }
 
     override suspend fun findById(id: UUID): Deferred<Tarea?> = suspendedTransactionAsync(Dispatchers.IO) {
         val tdao = tareaDao.findById(id)
-        tdao?.fromTareaDaoToTarea(/*tareaDao*/)
+        tdao?.fromTareaDaoToTarea()
     }
 
     override suspend fun create(entity: Tarea): Deferred<Tarea> = suspendedTransactionAsync(Dispatchers.IO) {
@@ -51,16 +42,6 @@ class TareaRepositoryImpl(
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
         }
-        /*
-        when (entity) {
-            is Adquisicion -> aRepo.create(entity).await()
-            is Encordado -> eRepo.create(entity).await()
-            is Personalizacion -> pRepo.create(entity).await()
-        }
-        return tarea.fromTareaDaoToTarea(
-            tareaDao, adquisicionDao, personalizacionDao, encordadoDao, productoDao, userDao
-        )
-        */
         return entity
     }
 
@@ -71,17 +52,6 @@ class TareaRepositoryImpl(
             user = userDao.findById(entity.user.id) ?: throw Exception()
             tipoTarea = entity.tipoTarea.toString()
         }
-        /*
-        when (entity) {
-            is Adquisicion -> aRepo.create(entity).await()
-            is Encordado -> eRepo.create(entity).await()
-            is Personalizacion -> pRepo.create(entity).await()
-        }
-        return tarea.fromTareaDaoToTarea(
-            tareaDao, adquisicionDao, personalizacionDao, encordadoDao, productoDao, userDao
-        )
-
-         */
         return entity
     }
 
