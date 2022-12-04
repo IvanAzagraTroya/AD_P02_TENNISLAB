@@ -1,8 +1,5 @@
 package util
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import dto.Respuesta
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
 import java.math.BigInteger

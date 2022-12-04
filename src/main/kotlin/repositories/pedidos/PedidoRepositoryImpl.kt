@@ -27,7 +27,7 @@ class PedidoRepositoryImpl(
         }
     }
 
-    suspend fun insert(entity: Pedido): Pedido {
+    fun insert(entity: Pedido): Pedido {
         // creamos el pedido
         //como la lista de tareas y turnos esta definida como val, ya que si no no dejaba meter el referrersOn, no la podemos cambiar ahora
         return pedidoDao.new(entity.id) {
@@ -42,7 +42,7 @@ class PedidoRepositoryImpl(
         }.fromPedidoDaoToPedido()
     }
 
-    private suspend fun update(entity: Pedido, existe: PedidoDao): Pedido {
+    private fun update(entity: Pedido, existe: PedidoDao): Pedido {
         return existe.apply {
             client = userDao.findById(entity.client.id) ?: throw Exception()
             tareas = entity.tareas.toString()
