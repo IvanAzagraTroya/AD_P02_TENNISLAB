@@ -4,6 +4,12 @@ import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de Encordadora, que será
+ * traducida a un Dao.
+ */
 class Encordadora():Maquina() {
     var isManual: Boolean = false
     var maxTension: Double = 0.0

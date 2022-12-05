@@ -6,6 +6,11 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Tabla de Tarea.
+ */
 object TareaTable: UUIDTable("TAREAS") {
     val raqueta = reference("raqueta_id", ProductoTable)
     val precio = double("precio")
@@ -13,6 +18,11 @@ object TareaTable: UUIDTable("TAREAS") {
     val tipoTarea = varchar("tipo_tarea", 255)
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Dao de Tarea.
+ */
 class TareaDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<TareaDao>(TareaTable)
     var raqueta by ProductoDao referencedOn TareaTable.raqueta

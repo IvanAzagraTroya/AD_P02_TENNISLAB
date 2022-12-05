@@ -8,6 +8,13 @@ import models.Producto
 import repositories.producto.ProductoRepositoryImpl
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase encargada de llamar a las operaciones del repositorio correspondientes y
+ * pasar el resultado de las mismas a DTO usando para ello
+ * el mapper y el repositorio de Producto.
+ */
 class ProductoService: BaseService<Producto, UUID, ProductoRepositoryImpl>(ProductoRepositoryImpl(ProductoDao)) {
     val mapper = ProductoMapper()
 

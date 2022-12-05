@@ -18,6 +18,11 @@ import services.EncordadoService
 import java.util.*
 import kotlin.test.assertEquals
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo unitario de EncordadoController con MockK.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class)
 class EncordadoControllerMockTest {

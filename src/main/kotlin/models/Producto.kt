@@ -4,8 +4,10 @@ import models.enums.TipoProducto
 import java.util.*
 
 /**
- * @author Iván Azagra Troya
- * Clase POKO de la entidad producto
+ * @author Ivan Azagra Troya
+ *
+ * Clase POKO de Producto, que será
+ * traducida a un Dao.
  */
 class Producto() {
     lateinit var id: UUID

@@ -6,6 +6,11 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Tabla de User.
+ */
 object UserTable: UUIDTable("USERS") {
     val nombre = varchar("nombre", 255)
     val apellido = varchar("apellido", 255)
@@ -15,6 +20,11 @@ object UserTable: UUIDTable("USERS") {
     val perfil = varchar("perfil", 255)
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Dao de User.
+ */
 class UserDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<UserDao>(UserTable)
     var nombre: String by UserTable.nombre

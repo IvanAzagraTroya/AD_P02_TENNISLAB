@@ -8,10 +8,10 @@ import util.encode
 
 /**
  * @author Iván Azagra Troya
- * Este Kotlin.file crea la función que recoge las entidades DAO
- * para devolver la entidades de la clase User
+ *
+ * Función que recoge las entidades DAO
+ * para devolver las entidades de la clase User
  */
-
 fun UserDao.fromUserDaoToUser(): User {
     return User(
         id = id.value,
@@ -24,6 +24,14 @@ fun UserDao.fromUserDaoToUser(): User {
     )
 }
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase que hereda de BaseMapper y se encarga de pasar de
+ * DTO a Modelo y de Modelo a DTO.
+ * Tambien codifica la contraseña del usuario al pasarlo de
+ * DTO a Modelo.
+ */
 class UserMapper: BaseMapper<User, UserDTO>() {
     override fun fromDTO(item: UserDTO): User {
         return User(

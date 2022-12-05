@@ -18,6 +18,11 @@ import services.AdquisicionService
 import java.util.*
 import kotlin.test.assertEquals
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo unitario de AdquisicionController con MockK.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class)
 class AdquisicionControllerMockTest {

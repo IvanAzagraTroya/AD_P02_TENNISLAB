@@ -23,6 +23,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo de integracion de PedidoRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PedidoRepositoryImplTest {
     private val repository = PedidoRepositoryImpl(PedidoDao, UserDao)
@@ -95,6 +100,9 @@ class PedidoRepositoryImplTest {
         fechaEntrega = null
     )
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

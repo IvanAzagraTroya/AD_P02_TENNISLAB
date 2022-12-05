@@ -18,6 +18,11 @@ import services.PersonalizacionService
 import java.util.*
 import kotlin.test.assertEquals
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo unitario de PersonalizacionController con MockK.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class)
 class PersonalizacionControllerMockTest {

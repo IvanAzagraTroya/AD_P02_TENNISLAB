@@ -7,6 +7,11 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Tabla de Turno.
+ */
 object TurnoTable: UUIDTable("TURNOS") {
     val worker = reference("worker_id", UserTable)
     val maquina = reference("maquina_id", MaquinaTable)
@@ -17,6 +22,11 @@ object TurnoTable: UUIDTable("TURNOS") {
     val tarea2 = reference("tarea2_id", TareaTable).nullable()
 }
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Dao de Turno.
+ */
 class TurnoDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<TurnoDao>(TurnoTable)
     var worker by UserDao referencedOn TurnoTable.worker

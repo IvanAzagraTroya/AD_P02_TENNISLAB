@@ -7,6 +7,11 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.date
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Tabla de Pedido.
+ */
 object PedidoTable: UUIDTable("PEDIDOS") {
     val tareas = text("tareas_ids")
     val client = reference("client_id", UserTable)
@@ -19,6 +24,11 @@ object PedidoTable: UUIDTable("PEDIDOS") {
     val precio = double("precio").default(0.0)
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Dao de Pedido.
+ */
 class PedidoDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<PedidoDao>(PedidoTable)
     var tareas by PedidoTable.tareas

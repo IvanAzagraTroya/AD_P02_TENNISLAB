@@ -28,6 +28,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de PersonalizacionRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonalizacionRepositoryImplTest {
     private val repository = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
@@ -55,6 +60,9 @@ class PersonalizacionRepositoryImplTest {
         balance = 15.4,
         rigidez = 4)
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

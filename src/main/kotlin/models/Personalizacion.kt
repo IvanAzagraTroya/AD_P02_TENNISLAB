@@ -3,6 +3,12 @@ package models
 import models.enums.TipoTarea
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase POKO de Personalizacion, que será
+ * traducida a un Dao.
+ */
 class Personalizacion(): Tarea() {
     var peso: Int = 0
     var balance: Double = 0.0

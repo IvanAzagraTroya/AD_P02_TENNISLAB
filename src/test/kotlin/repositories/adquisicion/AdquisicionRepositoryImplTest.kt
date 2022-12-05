@@ -28,6 +28,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de AdquisicionRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AdquisicionRepositoryImplTest {
     private val repository = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
@@ -63,6 +68,9 @@ class AdquisicionRepositoryImplTest {
         precio = producto3.precio
     )
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

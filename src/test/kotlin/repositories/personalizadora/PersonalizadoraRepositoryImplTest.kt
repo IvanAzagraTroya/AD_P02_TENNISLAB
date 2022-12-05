@@ -16,6 +16,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo de integracion de PersonalizadoraRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonalizadoraRepositoryImplTest {
     private val repository = MaquinaRepositoryImpl(MaquinaDao)
@@ -31,6 +36,9 @@ class PersonalizadoraRepositoryImplTest {
         measuresManeuverability = true
     )
 
+    /**
+     * Inicializacion de la base de datos para testing.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

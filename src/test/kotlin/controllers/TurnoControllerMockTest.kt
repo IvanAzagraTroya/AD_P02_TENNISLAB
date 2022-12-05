@@ -24,6 +24,11 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.assertEquals
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo unitario de TurnoController con MockK.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class)
 class TurnoControllerMockTest {

@@ -28,6 +28,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de TurnoRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TurnoRepositoryImplTest {
     private val repository = TurnoRepositoryImpl(TurnoDao, UserDao, MaquinaDao, TareaDao)
@@ -85,6 +90,9 @@ class TurnoRepositoryImplTest {
         tarea1 = tarea1,
         tarea2 = null)
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

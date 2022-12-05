@@ -12,6 +12,13 @@ import repositories.personalizacion.PersonalizacionRepositoryImpl
 import repositories.tarea.TareaRepositoryImpl
 import java.util.UUID
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase encargada de llamar a las operaciones del repositorio correspondientes y
+ * pasar el resultado de las mismas a DTO usando para ello
+ * el mapper y el repositorio de Personalizacion.
+ */
 class PersonalizacionService: BaseService<Personalizacion, UUID, PersonalizacionRepositoryImpl>(
     PersonalizacionRepositoryImpl(
     PersonalizacionDao, TareaDao

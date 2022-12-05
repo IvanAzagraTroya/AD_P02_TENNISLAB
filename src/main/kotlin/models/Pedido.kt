@@ -4,6 +4,12 @@ import models.enums.PedidoEstado
 import java.time.LocalDate
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de Pedido, que será
+ * traducida a un Dao.
+ */
 class Pedido() {
     lateinit var id: UUID
     lateinit var tareas: List<Tarea>

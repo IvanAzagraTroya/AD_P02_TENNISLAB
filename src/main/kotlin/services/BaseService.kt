@@ -4,6 +4,11 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 import repositories.ICRUDRepository
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase abstracta que actua como base de los servicios.
+ */
 abstract class BaseService<T, ID, R : ICRUDRepository<T, ID>>(rep: R) {
     val repository = rep
 

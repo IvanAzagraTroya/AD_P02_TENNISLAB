@@ -15,6 +15,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de MaquinaRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MaquinaRepositoryImplTest {
     private val repository = MaquinaRepositoryImpl(MaquinaDao)
@@ -29,6 +34,9 @@ class MaquinaRepositoryImplTest {
         maxTension = 15.2,
         minTension = 5.1)
 
+    /**
+     * Inicializacion de la base de datos para testing.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

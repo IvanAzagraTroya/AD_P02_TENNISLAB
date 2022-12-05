@@ -28,6 +28,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de EncordadoRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EncordadoRepositoryImplTest {
     private val repository = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
@@ -66,6 +71,9 @@ class EncordadoRepositoryImplTest {
         dosNudos = true
     )
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

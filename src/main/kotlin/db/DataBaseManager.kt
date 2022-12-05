@@ -13,6 +13,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Controlador de la Base de Datos que usa Hikari.
+ */
 object DataBaseManager {
     lateinit var appConfig: AppConfig
     fun init(appConfig: AppConfig) {

@@ -13,6 +13,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de ProductoRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProductoRepositoryImplTest {
     private val repository = ProductoRepositoryImpl(ProductoDao)
@@ -26,6 +31,9 @@ class ProductoRepositoryImplTest {
         stock = 8
     )
 
+    /**
+     * Inicializacion de la base de datos para testing.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

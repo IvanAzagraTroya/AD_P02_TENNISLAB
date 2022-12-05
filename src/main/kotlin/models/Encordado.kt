@@ -3,6 +3,12 @@ package models
 import models.enums.TipoTarea
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase POKO de Encordado, que será
+ * traducida a un Dao.
+ */
 class Encordado():Tarea() {
     var tensionHorizontal: Double = 0.0
     lateinit var cordajeHorizontal: Producto
