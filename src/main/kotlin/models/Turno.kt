@@ -3,6 +3,12 @@ package models
 import java.time.LocalDateTime
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase POKO de Turno, que será
+ * traducida a un Dao.
+ */
 class Turno() {
     lateinit var id: UUID
     lateinit var worker: User

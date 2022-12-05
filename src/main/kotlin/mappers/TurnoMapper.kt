@@ -4,6 +4,12 @@ import dto.TurnoDTO
 import entities.*
 import models.Turno
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Función que recoge las entidades DAO
+ * para devolver las entidades de la clase User
+ */
 suspend fun TurnoDao.fromTurnoDaoToTurno(): Turno {
     return Turno(
         id = id.value,
@@ -16,6 +22,12 @@ suspend fun TurnoDao.fromTurnoDaoToTurno(): Turno {
     )
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase que hereda de BaseMapper y se encarga de pasar de
+ * DTO a Modelo y de Modelo a DTO.
+ */
 class TurnoMapper: BaseMapper<Turno, TurnoDTO>() {
     override fun fromDTO(item: TurnoDTO): Turno {
         return Turno(

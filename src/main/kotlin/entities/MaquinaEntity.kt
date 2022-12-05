@@ -7,6 +7,11 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.javatime.date
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Tabla de Maquina.
+ */
 object MaquinaTable: UUIDTable("MAQUINAS") {
     val modelo = varchar("modelo", 255)
     val marca = varchar("marca", 255)
@@ -15,6 +20,11 @@ object MaquinaTable: UUIDTable("MAQUINAS") {
     val tipoMaquina = varchar("tipo_maquina", 255)
 }
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Dao de Maquina.
+ */
 class MaquinaDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object : UUIDEntityClass<MaquinaDao>(MaquinaTable)
 

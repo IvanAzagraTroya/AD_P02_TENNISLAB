@@ -27,6 +27,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo de integracion de TareaRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TareaRepositoryImplTest {
     private val repository = TareaRepositoryImpl(TareaDao, ProductoDao, UserDao)
@@ -60,6 +65,9 @@ class TareaRepositoryImplTest {
         productoAdquirido = producto1,
         precio = producto1.precio)
 
+    /**
+     * Inicializacion de la base de datos para testing y carga de datos necesarios.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

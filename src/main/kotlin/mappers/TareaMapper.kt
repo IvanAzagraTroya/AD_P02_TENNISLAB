@@ -12,8 +12,9 @@ import repositories.personalizacion.PersonalizacionRepositoryImpl
 
 /**
  * @author Iván Azagra Troya
- * Este Kotlin.file crea las funciones que recogen las entidades DAO de las diferentes tareas
- * para devolver la clase
+ *
+ * Función que recoge las entidades DAO
+ * para devolver las entidades de la clase User
  */
 suspend fun TareaDao.fromTareaDaoToTarea(): Tarea {
     return when (TipoTarea.parseTipoTarea(tipoTarea)) {
@@ -148,7 +149,12 @@ fun AdquisicionDao.fromAdquisicionDaoToAdquisicion(
     )
 }
 
-
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase que hereda de BaseMapper y se encarga de pasar de
+ * DTO a Modelo y de Modelo a DTO.
+ */
 class TareaMapper:BaseMapper<Tarea, TareaDTO>() {
     override fun fromDTO(item: TareaDTO): Tarea {
         return when (item) {

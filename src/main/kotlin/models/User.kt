@@ -2,6 +2,12 @@ package models
 
 import java.util.UUID
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de User, que será
+ * traducida a un Dao.
+ */
 class User() {
     lateinit var id:UUID
     lateinit var nombre: String

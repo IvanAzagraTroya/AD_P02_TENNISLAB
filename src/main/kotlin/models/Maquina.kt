@@ -4,6 +4,12 @@ import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase POKO de Maquina, que será
+ * traducida a un Dao.
+ */
 open class Maquina() {
     open lateinit var id: UUID
     lateinit var modelo: String

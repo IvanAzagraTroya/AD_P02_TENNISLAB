@@ -16,6 +16,12 @@ import util.waitingText
 import java.time.LocalDate
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Menu de las maquinas. En funcion del tipo de perfil del usuario muestra
+ * un menú u otro.
+ */
 suspend fun menuMaquinas(profile: Profile) {
     var back = false
     while (!back) {

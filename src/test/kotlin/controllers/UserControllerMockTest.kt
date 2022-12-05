@@ -14,6 +14,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo unitario de UserController con MockK.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class)
 class UserControllerMockTest {

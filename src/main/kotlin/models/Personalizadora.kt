@@ -4,6 +4,12 @@ import models.enums.TipoMaquina
 import java.time.LocalDate
 import java.util.UUID
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de Personalizadora, que será
+ * traducida a un Dao.
+ */
 class Personalizadora(): Maquina() {
     var measuresManeuverability: Boolean = false
     var measuresBalance: Boolean = false

@@ -16,6 +16,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase de testeo de integracion de EncordadoraRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EncordadoraRepositoryImplTest {
     private val repository = MaquinaRepositoryImpl(MaquinaDao)
@@ -30,6 +35,9 @@ class EncordadoraRepositoryImplTest {
         maxTension = 15.2,
         minTension = 5.1)
 
+    /**
+     * Inicializacion de la base de datos para testing.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

@@ -6,6 +6,11 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.UUID
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Tabla de Encordado.
+ */
 object EncordadoTable: UUIDTable("ENCORDADOS") {
     val tensionHorizontal = double("tension_horizontal")
     val tensionVertical = double("tension_vertical")
@@ -15,6 +20,11 @@ object EncordadoTable: UUIDTable("ENCORDADOS") {
     val precio = double("precio")
 }
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Dao de Encordado.
+ */
 class EncordadoDao(id: EntityID<UUID>): UUIDEntity(id) {
     companion object: UUIDEntityClass<EncordadoDao>(EncordadoTable)
 

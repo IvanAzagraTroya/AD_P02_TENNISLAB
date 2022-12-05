@@ -13,6 +13,11 @@ import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase de testeo de integracion de UserRepository
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserRepositoryImplTest {
     private val repository = UserRepositoryImpl(UserDao)
@@ -26,6 +31,9 @@ class UserRepositoryImplTest {
         password = "lolitest",
         perfil = Profile.ADMIN.name)
 
+    /**
+     * Inicializacion de la base de datos para testing.
+     */
     companion object {
         @JvmStatic
         @BeforeAll

@@ -5,6 +5,12 @@ import entities.ProductoDao
 import models.Producto
 import models.enums.TipoProducto
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Función que recoge las entidades DAO
+ * para devolver las entidades de la clase User
+ */
 fun ProductoDao.fromProductoDaoToProducto(): Producto{
     return Producto(
         id = id.value,
@@ -16,6 +22,12 @@ fun ProductoDao.fromProductoDaoToProducto(): Producto{
     )
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase que hereda de BaseMapper y se encarga de pasar de
+ * DTO a Modelo y de Modelo a DTO.
+ */
 class ProductoMapper: BaseMapper<Producto,ProductoDTO>() {
     override fun fromDTO(item: ProductoDTO): Producto {
         return Producto(

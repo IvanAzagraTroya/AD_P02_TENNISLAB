@@ -6,6 +6,11 @@ import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase que lee y carga el fichero config.properties
+ */
 class AppConfig(
     val nombre: String,
     val version: String,

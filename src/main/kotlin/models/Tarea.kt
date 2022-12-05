@@ -4,9 +4,10 @@ import models.enums.TipoTarea
 import java.util.*
 
 /**
- * @author Iván Azagra Troya
- * Clase abstracta de la entidad tarea con un identificador
- * y el producto que se pasará
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de Tarea, que será
+ * traducida a un Dao.
  */
 open class Tarea(){
     open lateinit var id: UUID

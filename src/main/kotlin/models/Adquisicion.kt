@@ -4,6 +4,12 @@ import com.google.gson.annotations.Expose
 import models.enums.TipoTarea
 import java.util.*
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Clase POKO de Adquisicion, que será
+ * traducida a un Dao.
+ */
 class Adquisicion(): Tarea() {
     @Expose
     lateinit var productoAdquirido: Producto

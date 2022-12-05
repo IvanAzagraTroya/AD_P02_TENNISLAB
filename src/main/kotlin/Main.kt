@@ -7,6 +7,11 @@ import login.register
 import menu.menu
 import java.io.File
 
+/**
+ * @author Daniel Rodriguez Muñoz
+ *
+ * La funcion principal del programa.
+ */
 fun main(args: Array<String>) {
     runBlocking {
         initDB()
@@ -81,6 +86,11 @@ fun main(args: Array<String>) {
     }
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Funcion de inicializacion de la Base de Datos
+ */
 fun initDB() {
     val appConfig = AppConfig.fromPropertiesFile("${System.getProperty("user.dir")}${File.separator}" +
             "src${File.separator}main${File.separator}resources${File.separator}config.properties")

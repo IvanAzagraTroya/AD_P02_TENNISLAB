@@ -15,9 +15,10 @@ import repositories.personalizadora.PersonalizadoraRepositoryImpl
 import java.time.LocalDate
 
 /**
- * @author Iván Azagra Troya
- * Este Kotlin.file crea las funciones que recogen las entidades DAO
- * de las diferentes máquinas para devolver la clase Maquina POKO
+ * @author Daniel Rodriguez Muñoz
+ *
+ * Funciones que recogen las entidades DAO
+ * para devolver las entidades de la clase User
  */
 suspend fun MaquinaDao.fromMaquinaDaoToMaquina() :Maquina {
     return when (TipoMaquina.parseTipoMaquina(tipoMaquina)) {
@@ -124,6 +125,12 @@ fun PersonalizadoraDao.fromPersonalizadoraDaoToPersonalizadora(
     )
 }
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase que hereda de BaseMapper y se encarga de pasar de
+ * DTO a Modelo y de Modelo a DTO.
+ */
 class MaquinaMapper: BaseMapper<Maquina,MaquinaDTO>() {
     override fun fromDTO(item: MaquinaDTO): Maquina {
         return when (item) {

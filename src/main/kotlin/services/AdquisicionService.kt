@@ -12,6 +12,13 @@ import repositories.adquisicion.AdquisicionRepositoryImpl
 import repositories.tarea.TareaRepositoryImpl
 import java.util.UUID
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase encargada de llamar a las operaciones del repositorio correspondientes y
+ * pasar el resultado de las mismas a DTO usando para ello
+ * el mapper y el repositorio de Adquisicion.
+ */
 class AdquisicionService: BaseService<Adquisicion, UUID, AdquisicionRepositoryImpl>(
     AdquisicionRepositoryImpl(
         AdquisicionDao, TareaDao, ProductoDao

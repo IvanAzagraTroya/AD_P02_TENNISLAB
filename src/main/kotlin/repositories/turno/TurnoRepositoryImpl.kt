@@ -12,6 +12,12 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionAsync
 import java.util.*
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase encargada de hacer las operaciones CRUD en la base de datos.
+ * Implementa ICRUDRepository.
+ */
 class TurnoRepositoryImpl(
     private val turnoDao: UUIDEntityClass<TurnoDao>,
     private val userDao: UUIDEntityClass<UserDao>,

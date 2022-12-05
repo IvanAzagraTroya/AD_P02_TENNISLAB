@@ -13,6 +13,13 @@ import repositories.maquina.MaquinaRepositoryImpl
 import repositories.personalizadora.PersonalizadoraRepositoryImpl
 import java.util.UUID
 
+/**
+ * @author Ivan Azagra Troya
+ *
+ * Clase encargada de llamar a las operaciones del repositorio correspondientes y
+ * pasar el resultado de las mismas a DTO usando para ello
+ * el mapper y el repositorio de Personalizadora.
+ */
 class PersonalizadoraService: BaseService<Personalizadora, UUID, PersonalizadoraRepositoryImpl>(
     PersonalizadoraRepositoryImpl(
     PersonalizadoraDao, MaquinaDao
