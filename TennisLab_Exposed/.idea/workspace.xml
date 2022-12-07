@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="305390ec-2e0e-4a51-8a71-4398430cd13b" name="Changes" comment="repo pedidos, corregir required y found">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Data Class" />
+        <option value="Kotlin Object" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2H3AH7IzZTt5M5nAddGPght4GuL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/BlobTheVod/Downloads/AccesoDatos-03-2022-2023-master/06-Encordados-Exposed-Kotlin&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="enums" />
+      <recent name="repositories.pedidos" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainKt" />
+      <module name="TennisLab.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="305390ec-2e0e-4a51-8a71-4398430cd13b" name="Changes" comment="" />
+      <created>1667503306591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667503306591</updated>
+      <workItem from="1667503309597" duration="6038000" />
+      <workItem from="1667547068485" duration="10392000" />
+      <workItem from="1667650347111" duration="4643000" />
+      <workItem from="1668016806326" duration="5239000" />
+      <workItem from="1668445361391" duration="11819000" />
+      <workItem from="1668499698653" duration="1894000" />
+      <workItem from="1668538866799" duration="45000" />
+      <workItem from="1668584162042" duration="335000" />
+      <workItem from="1668627174871" duration="4258000" />
+      <workItem from="1668670760761" duration="175000" />
+      <workItem from="1668973198612" duration="867000" />
+      <workItem from="1668976189201" duration="1643000" />
+      <workItem from="1669016214953" duration="2484000" />
+      <workItem from="1669109080360" duration="19000" />
+      <workItem from="1669199161843" duration="815000" />
+      <workItem from="1670015469147" duration="623000" />
+      <workItem from="1670175399470" duration="734000" />
+      <workItem from="1670417464266" duration="138000" />
+    </task>
+    <task id="LOCAL-00001" summary="First commit">
+      <created>1667503491822</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667503491822</updated>
+    </task>
+    <task id="LOCAL-00002" summary="empesamó">
+      <created>1667510539464</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667510539464</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Comienzo implementación Exposed con algún error">
+      <created>1667558752267</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667558752267</updated>
+    </task>
+    <task id="LOCAL-00004" summary=".">
+      <created>1667655055549</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1667655055549</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Refactorización de clases para organizar el código">
+      <created>1667656910111</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1667656910111</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Datos de prueba sin terminar">
+      <created>1668022682823</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668022682823</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Entities">
+      <created>1668451406775</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668451406775</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Entities">
+      <created>1668451438405</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668451438405</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Parser de estados de pedido">
+      <created>1668452872559</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668452872559</updated>
+    </task>
+    <task id="LOCAL-00010" summary="dependencia mock">
+      <created>1668456210933</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1668456210933</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Interfaces">
+      <created>1668456611264</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668456611264</updated>
+    </task>
+    <task id="LOCAL-00012" summary="mappers">
+      <created>1668538880570</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1668538880570</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Eliminación archivo duplicado">
+      <created>1668628714957</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1668628714957</updated>
+    </task>
+    <task id="LOCAL-00014" summary="repo clientes">
+      <created>1668629515905</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1668629515905</updated>
+    </task>
+    <task id="LOCAL-00015" summary="repo pedidos, corregir required y found">
+      <created>1668631962497</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1668631962497</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit" />
+    <MESSAGE value="empesamó" />
+    <MESSAGE value="Comienzo implementación Exposed con algún error" />
+    <MESSAGE value="." />
+    <MESSAGE value="Refactorización de clases para organizar el código" />
+    <MESSAGE value="Datos de prueba sin terminar" />
+    <MESSAGE value="Entities" />
+    <MESSAGE value="Parser de estados de pedido" />
+    <MESSAGE value="dependencia mock" />
+    <MESSAGE value="Interfaces" />
+    <MESSAGE value="mappers" />
+    <MESSAGE value="Eliminación archivo duplicado" />
+    <MESSAGE value="repo clientes" />
+    <MESSAGE value="repo pedidos, corregir required y found" />
+    <option name="LAST_COMMIT_MESSAGE" value="repo pedidos, corregir required y found" />
+  </component>
+</project>

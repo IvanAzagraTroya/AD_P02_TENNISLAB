@@ -1,0 +1,93 @@
+Index: src/main/kotlin/Main.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import config.AppConfig\r\nimport controllers.*\r\nimport db.*\r\nimport kotlinx.coroutines.*\r\nimport login.login\r\nimport login.register\r\nimport menu.menu\r\nimport org.jetbrains.exposed.sql.Database\r\nimport java.io.File\r\nimport java.util.UUID\r\n\r\nfun main(args: Array<String>) {\r\n    // esto está puesto así en vez de como\r\n    // fun main(args: Array<String) = runBlocking { ... }\r\n    // porque si no, no detectaba el main, ni idea de por qué,\r\n    // literalmente hace 5 minutos lo detectaba sin problemas.\r\n    runBlocking {\r\n        initDB()\r\n\r\n        val dataLoader = DataLoader()\r\n\r\n        println(\"Cargando datos iniciales...\")\r\n        val job1 = launch(Dispatchers.IO) {\r\n            dataLoader.getUsers().forEach { UserController.insertUser(it) }\r\n            println(\"Users loaded.\")\r\n        }\r\n\r\n        val job2 = launch(Dispatchers.IO) {\r\n            dataLoader.getMaquinas().forEach { MaquinaController.insertMaquina(it) }\r\n            println(\"Maquinas loaded.\")\r\n        }\r\n\r\n        val job3 = launch(Dispatchers.IO) {\r\n            dataLoader.getProductos().forEach { ProductoController.insertProducto(it) }\r\n            println(\"Productos loaded.\")\r\n        }\r\n\r\n        println()\r\n        while (!job1.isCompleted || !job2.isCompleted ||\r\n            !job3.isCompleted) {\r\n            for (i in 1..3) {\r\n                print(\".\")\r\n                delay(500)\r\n            }\r\n            println()\r\n        }\r\n\r\n        joinAll(job1,job2,job3)\r\n\r\n        /*\r\n        println(\"////////////////////// TODAS ///////////////////////\")\r\n        println(MaquinaController.findAllMaquinas())\r\n        println(\"//////////////// PERSONALIZADORAS //////////////////\")\r\n        println(PersonalizadoraController.findAllPersonalizadoras())\r\n        println(\"////////////////// ENCORDADORAS ////////////////////\")\r\n        println(EncordadoraController.findAllEncordadoras())\r\n        println(\"////////////////// FIN ////////////////////\")\r\n        */\r\n\r\n        val job4 = launch(Dispatchers.IO) {\r\n            dataLoader.getTareas().forEach { TareaController.insertTarea(it) }\r\n            println(\"Tareas loaded.\")\r\n            dataLoader.getTurnos().forEach { TurnoController.insertTurno(it) }\r\n            println(TurnoController.findAllTurnos())\r\n            println(\"Turnos loaded.\")\r\n            dataLoader.getPedidos().forEach { PedidoController.insertPedido(it) }\r\n            println(\"Pedidos loaded.\")\r\n        }\r\n        println()\r\n        while (!job4.isCompleted) {\r\n            for (i in 1..3) {\r\n                print(\".\")\r\n                delay(500)\r\n            }\r\n            println()\r\n        }\r\n\r\n        job4.join()\r\n\r\n        println(\"Data successfully loaded.\")\r\n        val prt1 = launch(Dispatchers.IO) { println(\"USERS: ${UserController.findAllUsers()}\") }\r\n        val prt2 = launch(Dispatchers.IO) { println(\"MAQUINAS: ${MaquinaController.findAllMaquinas()}\") }\r\n        val prt3 = launch(Dispatchers.IO) { println(\"PRODUCTOS: ${ProductoController.findAllProductos()}\") }\r\n        val prt4 = launch(Dispatchers.IO) { println(\"TAREAS: ${TareaController.findAllTareas()}\") }\r\n        val prt5 = launch(Dispatchers.IO) { println(\"TURNOS: ${TurnoController.findAllTurnos()}\") }\r\n        val prt6 = launch(Dispatchers.IO) { println(\"PEDIDOS: ${PedidoController.findAllPedidos()}\") }\r\n        joinAll(prt1,prt2,prt3,prt4,prt5,prt6)\r\n\r\n        var loginEnter = \"\"\r\n        println(\" - Welcome. Do you want to log in or register? [login/register]\")\r\n        while (!loginEnter.contentEquals(\"login\") && ! loginEnter.contentEquals(\"register\")) {\r\n            loginEnter = readln()\r\n        }\r\n        val user = if (loginEnter.contentEquals(\"login\")) login() else register()\r\n\r\n        launch { menu(user) }\r\n    }\r\n}\r\n\r\nfun initDB() {\r\n    val appConfig = AppConfig.fromPropertiesFile(\"${System.getProperty(\"user.dir\")}${File.separator}\" +\r\n            \"src${File.separator}main${File.separator}resources${File.separator}config.properties\")\r\n    println(\"Configuration: $appConfig\")\r\n    DataBaseManager.init(appConfig)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/Main.kt b/src/main/kotlin/Main.kt
+--- a/src/main/kotlin/Main.kt	(revision be682905921a7d29681d9272e3ec361ae7b5ea95)
++++ b/src/main/kotlin/Main.kt	(date 1670015845400)
+@@ -5,16 +5,9 @@
+ import login.login
+ import login.register
+ import menu.menu
+-import org.jetbrains.exposed.sql.Database
+ import java.io.File
+-import java.util.UUID
+ 
+-fun main(args: Array<String>) {
+-    // esto está puesto así en vez de como
+-    // fun main(args: Array<String) = runBlocking { ... }
+-    // porque si no, no detectaba el main, ni idea de por qué,
+-    // literalmente hace 5 minutos lo detectaba sin problemas.
+-    runBlocking {
++fun main(): Unit = runBlocking {
+         initDB()
+ 
+         val dataLoader = DataLoader()
+@@ -47,16 +40,6 @@
+ 
+         joinAll(job1,job2,job3)
+ 
+-        /*
+-        println("////////////////////// TODAS ///////////////////////")
+-        println(MaquinaController.findAllMaquinas())
+-        println("//////////////// PERSONALIZADORAS //////////////////")
+-        println(PersonalizadoraController.findAllPersonalizadoras())
+-        println("////////////////// ENCORDADORAS ////////////////////")
+-        println(EncordadoraController.findAllEncordadoras())
+-        println("////////////////// FIN ////////////////////")
+-        */
+-
+         val job4 = launch(Dispatchers.IO) {
+             dataLoader.getTareas().forEach { TareaController.insertTarea(it) }
+             println("Tareas loaded.")
+@@ -94,7 +77,6 @@
+         val user = if (loginEnter.contentEquals("login")) login() else register()
+ 
+         launch { menu(user) }
+-    }
+ }
+ 
+ fun initDB() {
+Index: build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import org.jetbrains.kotlin.gradle.tasks.KotlinCompile\r\n\r\nplugins {\r\n    kotlin(\"jvm\") version \"1.7.20\"\r\n    application\r\n}\r\n\r\ngroup = \"org.example\"\r\nversion = \"1.0-SNAPSHOT\"\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\ndependencies {\r\n    //implementation(\"org.junit.jupiter:junit-jupiter:5.8.1\")\r\n    testImplementation(kotlin(\"test\"))\r\n    testImplementation(\"org.mockito:mockito-core:4.9.0\")\r\n    implementation(\"org.jetbrains.exposed:exposed-core:0.40.1\")\r\n    implementation(\"org.jetbrains.exposed:exposed-dao:0.40.1\")\r\n    implementation(\"org.jetbrains.exposed:exposed-jdbc:0.40.1\")\r\n    implementation(\"org.jetbrains.exposed:exposed-java-time:0.40.1\")\r\n    implementation(\"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4\")\r\n\r\n    implementation(\"com.h2database:h2:2.1.214\")\r\n\r\n    // gson\r\n    implementation(\"com.google.code.gson:gson:2.10\")\r\n\r\n    //encriptar - AL FINAL NO LO HEMOS USADO PORQUE DABA PROBLEMAS\r\n    //implementation(\"org.abstractj.kalium:kalium:0.8.0\")\r\n\r\n    implementation(\"com.zaxxer:HikariCP:5.0.1\")\r\n    // Para hacer el logging\r\n    implementation(\"io.github.microutils:kotlin-logging-jvm:3.0.0\")\r\n    implementation(\"ch.qos.logback:logback-classic:1.4.1\")\r\n\r\n    testImplementation(\"org.junit.jupiter:junit-jupiter-api:5.9.0\")\r\n    testRuntimeOnly(\"org.junit.jupiter:junit-jupiter-engine\")\r\n}\r\n\r\ntasks.test {\r\n    useJUnitPlatform()\r\n}\r\n\r\ntasks.withType<KotlinCompile> {\r\n    kotlinOptions.jvmTarget = \"11\"\r\n}\r\n\r\napplication {\r\n    mainClass.set(\"MainKt\")\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle.kts b/build.gradle.kts
+--- a/build.gradle.kts	(revision be682905921a7d29681d9272e3ec361ae7b5ea95)
++++ b/build.gradle.kts	(date 1670015930760)
+@@ -27,9 +27,6 @@
+     // gson
+     implementation("com.google.code.gson:gson:2.10")
+ 
+-    //encriptar - AL FINAL NO LO HEMOS USADO PORQUE DABA PROBLEMAS
+-    //implementation("org.abstractj.kalium:kalium:0.8.0")
+-
+     implementation("com.zaxxer:HikariCP:5.0.1")
+     // Para hacer el logging
+     implementation("io.github.microutils:kotlin-logging-jvm:3.0.0")
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"FrameworkDetectionExcludesConfiguration\">\r\n    <file type=\"web\" url=\"file://$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_17\" default=\"true\" project-jdk-name=\"Liberica 17 LTS Full\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision be682905921a7d29681d9272e3ec361ae7b5ea95)
++++ b/.idea/misc.xml	(date 1668973213942)
+@@ -4,7 +4,7 @@
+   <component name="FrameworkDetectionExcludesConfiguration">
+     <file type="web" url="file://$PROJECT_DIR$" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="Liberica 17 LTS Full" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="liberica-17" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
